@@ -11,9 +11,9 @@ const DashboardUsers = async ({
   const data = await getUsers({
     page: Number(searchParams?.page || 1),
     perPage: Number(searchParams?.perPage || 10),
-    search: String(searchParams?.search),
+    search: String(searchParams?.search || ""),
   });
-  console.log(data);
+  //console.log(data);
   return <DashboardUsersModule data={data} />;
 };
 

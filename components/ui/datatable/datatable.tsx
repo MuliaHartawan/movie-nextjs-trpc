@@ -95,6 +95,21 @@ export const Pagination: FC<TPagination> = (props): ReactElement => {
     </div>
   );
 };
+
+export const Search: FC<TPagination> = (props): ReactElement => {
+  const [search, setSearch] = useQueryState("search");
+
+  return (
+    <input
+      className="w-full border rounded-lg p-2 outline-none"
+      type="text"
+      name="search"
+      placeholder="Cari data..."
+      onChange={(e) => setSearch(e?.target?.value)}
+    />
+  );
+}
+
 export const DataTable = <T extends Record<string, any>>(props: TTable<T>): ReactElement => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const searchParams = useSearchParams();
@@ -120,13 +135,7 @@ export const DataTable = <T extends Record<string, any>>(props: TTable<T>): Reac
     <section className="shadow-md bg-grey-50 h-fit overflow-y-hidden border p-4 rounded-lg w-full gap-y-4 flex flex-col overflow-x-auto">
       <div className="flex md:flex-row flex-col md:gap-x-3 gap-y-4 md:items-center sticky z-10 w-full">
         <div className="w-fit">
-          <input
-            className="w-full border rounded-lg p-2 outline-none"
-            type="text"
-            name="search"
-            placeholder="Cari data..."
-            onChange={props.handleSearch}
-          />
+          <Search {...props} />
         </div>
         {props.createLink && (
           <div>
