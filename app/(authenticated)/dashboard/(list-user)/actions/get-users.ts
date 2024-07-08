@@ -4,7 +4,7 @@ import { users } from "@/libs/drizzle/schema";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { asc } from "drizzle-orm";
+import { asc, like, sql } from "drizzle-orm";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
 
 const selectUserSchema = createSelectSchema(users);
@@ -15,10 +15,17 @@ export const getUsers = async (meta: TMetaItem): Promise<TMetaResponse<User[]>> 
   const page = meta?.page || 1;
   const perPage = meta?.perPage || 8;
   const offset = (page - 1) * perPage;
+  const search = meta?.search;
 
-  const data = await db
+  const query = db
     .select()
-    .from(users)
+    .from(users);
+
+  if (search) {
+    query.where(sql`lower(${users.fullname}) like lower('%' || ${search} || '%')`);
+  }
+
+  const data = await query
     .limit(perPage)
     .offset(offset)
     .orderBy(users.createdAt, asc(users.createdAt));
