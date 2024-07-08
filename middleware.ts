@@ -12,7 +12,6 @@ export async function middleware(req: NextRequest, _event: NextFetchEvent) {
         ? "__Secure-authjs.session-token"
         : "authjs.session-token",
   });
-  console.log("This Session from Middleware", session);
   const url = req.nextUrl;
   const loginUrl = new URL("/auth/login", url.origin);
   const dashboardUrl = new URL("/dashboard", url.origin);
