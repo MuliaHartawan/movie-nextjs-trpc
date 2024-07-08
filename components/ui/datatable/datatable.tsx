@@ -35,6 +35,7 @@ export type TPagination = {
 export const Pagination: FC<TPagination> = (props): ReactElement => {
   const { meta } = props;
   const [page, setPage] = useQueryState("page", parseAsInteger);
+  const [perPage, setPerPage] = useQueryState("perPage", parseAsInteger);
 
   const totalPage = Number(meta?.totalPage) || 0;
   const currentPage = Number(meta?.page) || 1;
@@ -49,35 +50,48 @@ export const Pagination: FC<TPagination> = (props): ReactElement => {
   }
 
   return (
-    <div className="flex justify-start gap-x-2">
-      <Button onClick={() => setPage(1)} variant="secondary">
-        {"<<"}
-      </Button>
-
-      <Button onClick={() => Number(page) > 1 && setPage(Number(page) - 1)} variant="secondary">
-        Prev
-      </Button>
-
-      {Array.from({ length: Math.min(maxButtons, totalPage) }, (_, i) => (
-        <Button
-          onClick={() => setPage(startPage + i)}
-          key={startPage + i}
-          variant={startPage + i === currentPage ? "primary" : "secondary"}
-        >
-          {startPage + i}
+    <div className="flex justify-between">
+      <div className="flex gap-x-2">
+        <Button onClick={() => setPage(1)} variant="secondary">
+          {"<<"}
         </Button>
-      ))}
 
-      <Button
-        onClick={() => Number(page) < Number(meta?.totalPage) && setPage(Number(page) + 1)}
-        variant="secondary"
+        <Button onClick={() => Number(page) > 1 && setPage(Number(page) - 1)} variant="secondary">
+          Prev
+        </Button>
+
+        {Array.from({ length: Math.min(maxButtons, totalPage) }, (_, i) => (
+          <Button
+            onClick={() => setPage(startPage + i)}
+            key={startPage + i}
+            variant={startPage + i === currentPage ? "primary" : "secondary"}
+          >
+            {startPage + i}
+          </Button>
+        ))}
+
+        <Button
+          onClick={() => Number(page) < Number(meta?.totalPage) && setPage(Number(page) + 1)}
+          variant="secondary"
+        >
+          Next
+        </Button>
+
+        <Button onClick={() => setPage(Number(meta?.totalPage))} variant="secondary">
+          {">>"}
+        </Button>
+      </div>
+      <select
+        className="w-20 h-10 bg-white border rounded-lg"
+        onChange={(e) => setPerPage(Number(e.target.value))}
+        value={perPage || 10}
+        name="page"
       >
-        Next
-      </Button>
-
-      <Button onClick={() => setPage(Number(meta?.totalPage))} variant="secondary">
-        {">>"}
-      </Button>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
     </div>
   );
 };
