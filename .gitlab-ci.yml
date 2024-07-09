@@ -26,7 +26,7 @@ deploy:update_service:
     rules:
         - if: $CI_COMMIT_BRANCH == "main"
     variables:
-        STACK_NAME: 'nextjs-fullstack'
+        STACK_NAME: 'boilerplate_nextjs_fullstack'
         SERVICE_NAME: 'landing-page'
         URL_APP: 'https://nextjs-fullstack-blrplt.dot.co.id'
         CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
