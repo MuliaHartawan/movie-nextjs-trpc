@@ -1,0 +1,17 @@
+build:docker_image:
+  stage: build
+  image: docker:20.10
+  tags: [dot-2highcpu]
+  allow_failure: false
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - cp $DOTENV .env
+    - docker build
+      --progress plain
+      --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
+      --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}
+      --file Dockerfile
+      .
+    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
+    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}

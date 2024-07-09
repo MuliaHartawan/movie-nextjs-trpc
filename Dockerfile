@@ -5,29 +5,23 @@ RUN apt-get -y update && \
   apt-get install -yq openssl git ca-certificates tzdata && \
   ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
   dpkg-reconfigure -f noninteractive tzdata
+
 WORKDIR /app
 
 COPY package.json bun.lockb ./
 RUN bun install --frozen-lockfile
 
 FROM deps AS builder
+
 WORKDIR /app
-COPY . .
+COPY --chown=node:node . .
+
+ENV NODE_ENV=production
 
 RUN bun run build
 
-FROM node:18-slim AS runner
-WORKDIR /app
+ENV PORT=3000
+EXPOSE 3000
+USER node
 
-ARG CONFIG_FILE
-COPY $CONFIG_FILE /app/.env
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
-
-COPY --from=builder  /app/.next/ ./
-
-EXPOSE 3001
-
-ENV PORT 3001
-
-CMD ["node", "server.js"]
+CMD [ "bun", "run", "start" ]
