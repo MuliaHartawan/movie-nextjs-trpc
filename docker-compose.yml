@@ -1,0 +1,20 @@
+version: "3.5"
+services:
+    landing-page:
+        image: registry.gitlab.dot.co.id/playground/boilerplates/nextjs-fullstack:main
+        deploy:
+            placement:
+                constraints: [node.hostname == sandbox]
+            resources:
+                limits:
+                    cpus: "0.5"
+                    memory: 1G
+            restart_policy:
+                condition: on-failure
+        ports:
+        - 51858:3000
+
+networks:
+    default:
+        name: docker-swarm-deployment-network
+        external: true
