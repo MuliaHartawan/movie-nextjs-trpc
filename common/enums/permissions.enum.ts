@@ -1,0 +1,18 @@
+export enum PERMISSIONS {
+    DASHBOARD = "Dashboard",
+    SNACK_CREATE = "Create Snack",
+    SNACK_READ = "Read Snack",
+    SNACK_UPDATE = "Update Snack",
+    SNACK_DELETE = "Delete Snack",
+    SNACK_DETAIL = "Detail Snack",
+    USER_CREATE = "Create User",
+    USER_READ = "Read User",
+    USER_UPDATE = "Update User",
+    USER_DELETE = "Delete User",
+    USER_DETAIL = "Detail User",
+    ROLE_CREATE = "Create Role",
+    ROLE_UPDATE = "Update Role",
+    ROLE_DELETE = "Delete Role",
+    ROLE_DETAIL = "Detail Role",
+    ROLE_READ = "Read Role",
+}
