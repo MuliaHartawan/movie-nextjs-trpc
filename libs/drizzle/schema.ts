@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { timestamp, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 export const defaultImage =
@@ -24,6 +25,17 @@ export const users = pgTable("app_user", {
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });
+
+export const rolesToUserRelations = relations(roles, ({ many }) => ({
+  users: many(users),
+}));
+
+export const usersToRolesRelations = relations(users, ({ one }) => ({
+  roles: one(roles, {
+    fields: [users.roleId],
+    references: [roles.id],
+  }),
+}));
 
 const now = new Date();
 const defaultExpiryDate = new Date(now.setDate(now.getDate() + 1));
