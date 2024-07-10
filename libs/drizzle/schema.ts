@@ -1,6 +1,6 @@
 import { timestamp, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
-const defaultImage =
+export const defaultImage =
   "https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png";
 
 export const users = pgTable("app_user", {
