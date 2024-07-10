@@ -9,7 +9,7 @@ const { v4: uuidv4 } = uuid;
 export const seedUsers = async (db: PostgresJsDatabase<Record<string, never>>) => {
     console.log("Seeding users...");
     const dummyUsers: User[] = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1000; i++) {
         const dummyUser: User = {
             id: uuidv4(),
             otp: null,
