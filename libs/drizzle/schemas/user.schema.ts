@@ -1,5 +1,6 @@
-export type User = {
-    id?: string;
+import { Base } from "./base.schema";
+
+export type User = Base & {
     otp: string | null;
     fullname: string;
     email: string;
@@ -8,6 +9,4 @@ export type User = {
     image: string;
     emailVerified: Date;
     roleId?: string | null;
-    createdAt?: Date;
-    updatedAt?: Date;
 };
