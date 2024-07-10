@@ -15,6 +15,13 @@
       "when": 1720581323670,
       "tag": "0001_long_vulture",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1720603017977,
+      "tag": "0002_fuzzy_the_professor",
+      "breakpoints": true
     }
   ]
 }
