@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { config } from "../config";
 
-const connectionString = process.env.AUTH_DRIZZLE_URL || "";
-const pool = postgres(connectionString, { max: 1 });
+const pool = postgres(config.dbUrl, { max: 1 });
 
 export const db = drizzle(pool);
