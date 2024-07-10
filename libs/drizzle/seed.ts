@@ -1,10 +1,12 @@
 import { config } from "../config";
 import { seedUsers } from "./seeders/dummy-user";
 import { db } from "./connection"
+import { seedRoles } from "./seeders/dummy-role";
 
 // Seed the database
 const main = async () => {
     try {
+        await seedRoles(db);
         await seedUsers(db);
         console.log('Seed done!');
     } catch (error) {
