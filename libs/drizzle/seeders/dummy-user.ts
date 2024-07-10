@@ -27,12 +27,8 @@ export const seedUsers = async (db: PostgresJsDatabase<Record<string, never>>) =
     }
 
     try {
-        //console.log(dummyUsers);
-        console.log(db.select().from(users))
-
-        const data = await db.select().from(users);
-        console.log(data);
-        console.log("Seeding users done!");   
+        await db.insert(users).values(dummyUsers).execute();
+        console.log("Seeding users done!");
     } catch (error) {
         console.log("Seeding users failed!", error);
     }
