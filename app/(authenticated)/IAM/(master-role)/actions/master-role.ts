@@ -3,7 +3,9 @@
 import { db } from "@/libs/drizzle/connection";
 import { roles } from "@/libs/drizzle/schema";
 import { TCreateOrUpdateRoleForm } from "../entities/schema";
-import { eq } from "drizzle-orm/sql";
+import { eq, sql } from "drizzle-orm/sql";
+import { TMetaItem } from "@/types/meta";
+import { Role } from "@/app/(authenticated)/dashboard/(list-role)/actions/get-roles";
 
 export const createRoleAction = async (value: TCreateOrUpdateRoleForm) => {
     try {
@@ -89,6 +91,26 @@ export const getRoleAction = async (from: string) => {
             error: {
                 message: error as string,
             },
+        };
+    }
+}
+
+// Get all roles (for dropdown at form user)
+export const getRolesAction = async (search: string): Promise<Role[] | TMetaItem> => {
+    try {
+        const query = db
+            .select()
+            .from(roles);
+
+        if (search) {
+            query.where(sql`lower(${roles.name}) like lower('%' || ${search} || '%')`);
+        }
+
+        return await query;
+    } catch (error) {
+        return {
+            code: 500,
+            message: "Terjadi kesalahan",
         };
     }
 }
