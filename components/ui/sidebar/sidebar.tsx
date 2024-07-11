@@ -73,6 +73,17 @@ export const Sidebar: FC = (): ReactElement => {
           <span className={extend ? "block font-semibold text-sm" : "hidden"}>Users</span>
         </Link>
         <Link
+          href="/dashboard/roles"
+          className={`w-full flex items-center ${isActive("/dashboard/roles") ? "bg-green-700 text-white" : "text-green-700"} ${extend ? "justify-start" : "justify-center"}  gap-x-2 p-2 rounded-xl border border-white hover:border-green-600 transition-all duration-300`}
+        >
+          <Icon
+            icon="carbon:user"
+            width={extend ? 20 : 30}
+            className={isActive("/dashboard/roles") ? "text-white" : "text-green-700"}
+          />
+          <span className={extend ? "block font-semibold text-sm" : "hidden"}>Roles</span>
+        </Link>
+        <Link
           href="/dashboard/snacks"
           className={`w-full flex items-center ${isActive("/dashboard/snacks") ? "bg-green-700 text-white" : "text-green-700"} ${extend ? "justify-start" : "justify-center"}  gap-x-2 p-2 rounded-xl border border-white hover:border-green-600 transition-all duration-300`}
         >
