@@ -1,7 +1,7 @@
 "use server";
 import type { ReactElement } from "react";
 import { DashboardUsersModule } from "../_modules";
-import { getUsers } from "../actions/get-users";
+import { getUsers } from "../_actions/get-users";
 
 const DashboardUsers = async ({
   searchParams,
