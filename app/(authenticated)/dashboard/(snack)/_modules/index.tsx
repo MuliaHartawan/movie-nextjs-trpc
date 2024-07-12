@@ -1,7 +1,7 @@
 "use client";
 import { DataTable } from "@/components/ui/datatable";
 import { ColumnDef } from "@tanstack/react-table";
-import { Snack } from "../actions/get-snacks";
+import { Snack } from "../_actions/get-snacks";
 import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
 

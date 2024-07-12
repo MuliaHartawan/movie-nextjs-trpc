@@ -3,7 +3,7 @@ import { DataTable } from "@/components/ui/datatable";
 import { ColumnDef } from "@tanstack/react-table";
 import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
-import { Role } from "../actions/get-roles";
+import { Role } from "../_actions/get-roles";
 
 export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
   const columns: ColumnDef<Role>[] = [

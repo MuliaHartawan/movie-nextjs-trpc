@@ -72,3 +72,23 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
     return errorResponse;
   }
 };
+
+// Get all roles (for dropdown at form user)
+export const getRolesWithSearch = async (search: string): Promise<Role[] | TMetaItem> => {
+  try {
+      const query = db
+          .select()
+          .from(roles);
+
+      if (search) {
+          query.where(sql`lower(${roles.name}) like lower('%' || ${search} || '%')`);
+      }
+
+      return await query;
+  } catch (error) {
+      return {
+          code: 500,
+          message: "Terjadi kesalahan",
+      };
+  }
+}
