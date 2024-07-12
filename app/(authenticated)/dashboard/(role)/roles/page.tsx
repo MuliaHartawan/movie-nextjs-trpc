@@ -1,7 +1,7 @@
 "use server";
 import type { ReactElement } from "react";
 import { DashboardRolesModule } from "../_modules";
-import { getRoles } from "../actions/get-roles";
+import { getRoles } from "../_actions/get-roles";
 
 const DashboardRoles = async ({
   searchParams,
