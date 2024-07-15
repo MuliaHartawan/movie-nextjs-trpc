@@ -22,6 +22,20 @@
       "when": 1720603017977,
       "tag": "0002_fuzzy_the_professor",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1721012030183,
+      "tag": "0003_long_northstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1721013464216,
+      "tag": "0004_fine_korvac",
+      "breakpoints": true
     }
   ]
 }
