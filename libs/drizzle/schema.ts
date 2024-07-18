@@ -8,8 +8,8 @@ export const roles = pgTable("app_role", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   permissions: text("permissions").notNull().array(),
-  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  updatedAt: timestamp("updated_At", { mode: "date" }).defaultNow(),
 });
 
 export const users = pgTable("app_user", {
@@ -17,13 +17,13 @@ export const users = pgTable("app_user", {
   otp: text("otp"),
   email: text("email").notNull().unique(),
   image: text("image").default(defaultImage),
-  roleId: uuid("roleId").references(() => roles.id, { onDelete: "cascade" }),
+  roleId: uuid("role_id").references(() => roles.id, { onDelete: "cascade" }),
   address: text("address"),
   fullname: text("fullname"),
   password: text("password"),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+  emailVerifiedAt: timestamp("email_verified_at", { mode: "date" }),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 });
 
 export const rolesToUserRelations = relations(roles, ({ many }) => ({
@@ -44,7 +44,7 @@ export const snacks = pgTable("snacks", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   cost: integer("cost").notNull().default(0),
-  expiryDate: timestamp("expiryDate", { mode: "date" }).default(defaultExpiryDate),
-  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+  expiryDate: timestamp("expiry_date", { mode: "date" }).default(defaultExpiryDate),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 });
