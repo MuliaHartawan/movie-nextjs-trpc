@@ -31,7 +31,7 @@ const DashboardCreateSnacksClient = ({ data, snackId }: { data: Snack; snackId: 
   };
   return (
     <Page
-      title="CreateSnacks"
+      title={snackId ? "Edit Snack" : "Add Snack"}
       breadcrumbs={[
         {
           label: "Dashboard",
