@@ -1,40 +1,12 @@
 {
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "6",
-      "when": 1720362211394,
-      "tag": "0000_heavy_ben_grimm",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1720581323670,
-      "tag": "0001_long_vulture",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1720603017977,
-      "tag": "0002_fuzzy_the_professor",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1721012030183,
-      "tag": "0003_long_northstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1721013464216,
-      "tag": "0004_fine_korvac",
+      "version": "7",
+      "when": 1721275783761,
+      "tag": "0000_init_db",
       "breakpoints": true
     }
   ]
