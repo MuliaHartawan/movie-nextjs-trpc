@@ -3,6 +3,7 @@ import { db } from "@/libs/drizzle/connection";
 import { snacks } from "@/libs/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { TCreateOrUpdateSnackForm } from "../_entities/schema";
+import dayjs from "dayjs";
 
 // Param from is id of snack
 export const updateSnackAction = async ({ value, id }: { value: TCreateOrUpdateSnackForm, id: string }) => {
@@ -14,6 +15,7 @@ export const updateSnackAction = async ({ value, id }: { value: TCreateOrUpdateS
 
         snack.name = value.name;
         snack.cost = value.cost;
+        snack.expiryDate = new Date(value.expiryDate);
 
         await db.update(snacks).set(snack).where(eq(snacks.id, id));
 
