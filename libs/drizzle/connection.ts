@@ -1,7 +1,14 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import { config } from "../config";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 
-const pool = postgres(config.dbUrl, { max: 1 });
+const pool = new Pool({
+  host: config.database.host,
+  port: config.database.port,
+  user: config.database.user,
+  password: config.database.password,
+  database: config.database.name,
+  ssl: false,
+});
 
 export const db = drizzle(pool);
