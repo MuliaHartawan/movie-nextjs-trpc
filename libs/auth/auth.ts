@@ -27,7 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
         if (isUserExist) {
           const getUser = await getUserData(user?.email);
-          const isEmailVerified = getUser?.emailVerified;
+          const isEmailVerified = getUser?.emailVerifiedAt;
           if (!isEmailVerified) {
             return `/auth/register?email=${user?.email}&fullname=${user?.name}&from=google`;
           }
@@ -59,7 +59,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           fullname: userData?.fullname,
           image: userData?.image,
           email: String(userData?.email),
-          emailVerified: userData?.emailVerified as Date,
+          emailVerified: userData?.emailVerifiedAt as Date,
           address: userData?.address,
           createdAt: userData?.createdAt,
           updatedAt: userData?.updatedAt,

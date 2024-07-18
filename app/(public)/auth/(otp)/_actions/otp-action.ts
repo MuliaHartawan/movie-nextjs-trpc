@@ -24,7 +24,10 @@ export const otpVerification = async (value: TOTPForm) => {
     });
     if (otpHash) {
       await db.update(users).set({ otp: null }).where(eq(users.email, value.email));
-      await db.update(users).set({ emailVerified: new Date() }).where(eq(users.email, value.email));
+      await db
+        .update(users)
+        .set({ emailVerifiedAt: new Date() })
+        .where(eq(users.email, value.email));
       return {
         success: {
           message: "Berhasil memverifikasi akun",
