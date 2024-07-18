@@ -4,6 +4,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export const config = {
-    randUuidV4: uuidv4(),
-    dbUrl: process.env.AUTH_DRIZZLE_URL as string || "",
-}
+  randUuidV4: uuidv4(),
+  database: {
+    host: (process.env.DB_HOST as string) || "",
+    port: +(process.env.DB_PORT as string) || 5432,
+    user: (process.env.DB_USER as string) || "",
+    password: (process.env.DB_PASSWORD as string) || "",
+    name: (process.env.DB_NAME as string) || "",
+  },
+};
