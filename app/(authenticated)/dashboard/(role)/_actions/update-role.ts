@@ -5,9 +5,9 @@ import { roles } from "@/libs/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 // Param from is id of role
-export const updateRoleAction = async (value: TCreateOrUpdateRoleForm, from: string) => {
+export const updateRoleAction = async ({ value, id }: { value: TCreateOrUpdateRoleForm, id: string }) => {
     try {
-        const role = (await db.select().from(roles).where(eq(roles.id, from))).at(0);
+        const role = (await db.select().from(roles).where(eq(roles.id, id))).at(0);
         if (!role) {
             throw "Role tidak ditemukan";
         }
@@ -15,7 +15,7 @@ export const updateRoleAction = async (value: TCreateOrUpdateRoleForm, from: str
         role.name = value.name;
         role.permissions = value.permissions;
 
-        await db.update(roles).set(role).where(eq(roles.id, from));
+        await db.update(roles).set(role).where(eq(roles.id, id));
 
         return {
             success: {
