@@ -3,7 +3,7 @@ import { z } from "zod";
 export const createOrUpdateSnackSchema = z
     .object({
         name: z
-            .string({ required_error: "Nama Wajib Diisi", message: "Nama harus berupa string"})
+            .string({ required_error: "Nama Wajib Diisi", message: "Nama harus berupa string" })
             .min(1, { message: "Nama wajib diisi" }),
         cost: z
             .number({ required_error: "Biaya Wajib Diisi", message: "Biaya harus berupa andka" })
