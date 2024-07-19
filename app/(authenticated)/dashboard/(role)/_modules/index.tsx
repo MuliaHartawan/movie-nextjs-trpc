@@ -41,7 +41,7 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
               onClick={() => {
                 deleteRoleAction(cell.row?.original?.id as string);
                 router.refresh();
-                message.success("Snack berhasil dihapus");
+                message.success("Role berhasil dihapus");
               }}
             />
             <Button
