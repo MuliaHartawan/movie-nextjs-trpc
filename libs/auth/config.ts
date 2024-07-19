@@ -33,7 +33,7 @@ export const authConfig = {
 
         const user = await getUserData(data?.email);
 
-        const isEmailVerified = user?.emailVerified;
+        const isEmailVerified = user?.emailVerifiedAt;
 
         if (!isEmailVerified) {
           throw "Email belum terverifikasi";
