@@ -1,17 +1,19 @@
 "use client";
 
 import { Page } from "admiral";
-import { Button, Col, DatePicker, Form, Input, Row } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, message } from "antd";
 import { Snack } from "../../_actions/get-snacks";
 import { useSnackAction } from "../../_hooks";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 const DashboardCreateSnacksClient = ({ data, snackId }: { data: Snack; snackId: string }) => {
   const { updateSnackMutation, addSnackMutation } = useSnackAction();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
   const handleAddProduct = async (values: Snack) => {
-    // TODO : WIP Update with real data
-    console.log("values", values);
+    setLoading(true);
     if (snackId) {
       await updateSnackMutation.mutateAsync({
         value: {
@@ -20,15 +22,17 @@ const DashboardCreateSnacksClient = ({ data, snackId }: { data: Snack; snackId: 
         },
         id: snackId,
       });
+      setLoading(false);
     } else {
-      addSnackMutation.mutate({
+      await addSnackMutation.mutateAsync({
         ...values,
         expiryDate: dayjs(values.expiryDate).format("YYYY-MM-DD"),
       });
+      setLoading(false);
     }
-
     form.resetFields();
   };
+
   return (
     <Page
       title={snackId ? "Edit Snack" : "Add Snack"}
@@ -56,7 +60,7 @@ const DashboardCreateSnacksClient = ({ data, snackId }: { data: Snack; snackId: 
               <DatePicker style={{ width: "100%" }} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading}>
                 Submit
               </Button>
             </Form.Item>
