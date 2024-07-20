@@ -7,14 +7,14 @@ import { eq } from "drizzle-orm";
 import { TCreateOrUpdateUserForm } from "../_entities/schema";
 
 // Param from is id of user
-export const updateUserAction = async (value: TCreateOrUpdateUserForm, from: string) => {
+export const updateUserAction = async ({ value, id }: { value: TCreateOrUpdateUserForm, id: string }) => {
     try {
-        const user = (await db.select().from(users).where(eq(users.id, from))).at(0);
+        const user = (await db.select().from(users).where(eq(users.id, id))).at(0);
         if (!user) {
             throw "User tidak ditemukan";
         }
 
-        // Check if role is exist
+        // Check if role exists
         const role = (await db.select().from(roles).where(eq(roles.id, value.roleId))).at(0);
         if (!role) {
             return {
@@ -24,9 +24,9 @@ export const updateUserAction = async (value: TCreateOrUpdateUserForm, from: str
             };
         }
 
-        // Check if email is exist and not same with current user
+        // Check if email exists and is not the same as the current user
         const email = (await db.select().from(users).where(eq(users.email, value.email))).at(0);
-        if (email && email.id !== from) {
+        if (email && email.id !== id) {
             return {
                 error: {
                     message: "Email sudah digunakan",
@@ -40,7 +40,7 @@ export const updateUserAction = async (value: TCreateOrUpdateUserForm, from: str
         user.email = value.email;
         user.roleId = value.roleId;
 
-        await db.update(users).set(user).where(eq(users.id, from));
+        await db.update(users).set(user).where(eq(users.id, id));
 
         return {
             success: {

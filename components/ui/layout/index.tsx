@@ -32,11 +32,6 @@ const NavbarMenu = [
     icon: <DashboardOutlined />,
   },
   {
-    key: "/dashboard/chat-ai",
-    label: <Link href="/dashboard/chat-ai">Chat AI</Link>,
-    icon: <RobotOutlined />,
-  },
-  {
     key: "/dashboard/users",
     label: <Link href="/dashboard/users">Users</Link>,
     icon: <UserOutlined />,
