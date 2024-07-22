@@ -23,7 +23,6 @@ export const users = pgTable("app_users", {
 export const roles = pgTable("app_roles", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name").notNull(),
-  // permissions: text("permissions").notNull().array(),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
   updatedAt: timestamp("updated_At", { mode: "date" }).defaultNow(),
 });
@@ -39,6 +38,8 @@ export const rolePermissions = pgTable("app_role_permissions", {
   roleId: uuid("role_id").references(() => roles.id, { onDelete: "cascade" }),
   permissionId: uuid("permission_id").references(() => permissions.id, { onDelete: "cascade" }),
 });
+
+export type RolePermission = typeof rolePermissions.$inferInsert;
 
 export const rolesToPermissionsRelations = relations(roles, ({ many }) => ({
   permissions: many(permissions),

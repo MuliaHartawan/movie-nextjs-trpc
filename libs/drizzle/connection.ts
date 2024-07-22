@@ -1,6 +1,7 @@
 import { config } from "../config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
+import * as schema from "./schema";
 
 const pool = new Pool({
   host: config.database.host,
@@ -11,4 +12,4 @@ const pool = new Pool({
   ssl: false,
 });
 
-export const db = drizzle(pool);
+export const db = drizzle(pool, { schema });

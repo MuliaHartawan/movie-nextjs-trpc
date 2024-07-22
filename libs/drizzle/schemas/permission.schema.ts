@@ -1,5 +1,5 @@
 import { Base } from "./base.schema";
 
-export type Role = Base & {
+export type Permission = Base & {
   name: string;
 };
