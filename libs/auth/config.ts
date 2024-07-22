@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import { checkEmail, checkPassword, getUserData } from "./login";
+import { checkEmail, checkPassword, getRoleData, getUserData } from "./login";
 import type { NextAuthConfig } from "next-auth";
 import { schema } from "@/app/(public)/auth/(login)/_entities/schema";
 
@@ -31,16 +31,24 @@ export const authConfig = {
           throw "Email atau Kata sandi tidak valid";
         }
 
-        const user = await getUserData(data?.email);
+        const userData = await getUserData(data?.email);
+        const roleData = await getRoleData(userData?.roleId);
 
-        const isEmailVerified = user?.emailVerifiedAt;
+        const isEmailVerified = userData?.emailVerifiedAt;
 
         if (!isEmailVerified) {
           throw "Email belum terverifikasi";
         }
 
-        if (user) {
-          return user;
+        if (userData) {
+          return {
+            ...userData,
+            role: {
+              id: roleData?.id as string,
+              name: roleData?.name as string,
+              permissions: roleData?.permissions as string[],
+            },
+          };
         } else {
           return null;
         }
