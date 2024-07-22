@@ -6,7 +6,7 @@ import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteUserAction } from "../_actions/delete-user";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils";
@@ -15,6 +15,8 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const columns: ColumnsType<User> = [
     {
