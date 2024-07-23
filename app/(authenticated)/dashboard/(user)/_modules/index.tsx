@@ -88,7 +88,18 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
         </Button>
       }
     >
-      <Datatable rowKey="id" showRowSelection={false} source={makeSource(data)} columns={columns} />
+      <Datatable
+        onChange={(_cf, _st, _dt, paging) => {
+          const params = new URLSearchParams(searchParams);
+          params.set("page", String(paging?.page));
+          params.set("perPage", String(paging?.per_page));
+          router.push(`${pathname}?${params.toString()}`);
+        }}
+        rowKey="id"
+        showRowSelection={false}
+        source={makeSource(data)}
+        columns={columns}
+      />
     </Page>
   );
 };
