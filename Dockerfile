@@ -1,4 +1,4 @@
-FROM imbios/bun-node:18-slim AS deps
+FROM imbios/bun-node:20-slim AS deps
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN corepack enable
