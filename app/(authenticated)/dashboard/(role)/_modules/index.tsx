@@ -3,12 +3,12 @@ import { DataTable } from "@/components/ui/datatable";
 import { ColumnDef } from "@tanstack/react-table";
 import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
-import { Role } from "../_actions/get-roles";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteRoleAction } from "../_actions/delete-role";
 import { useRouter } from "next/navigation";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
 
 export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
   const router = useRouter();
@@ -16,13 +16,6 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
     {
       accessorKey: "name",
       header: "Name",
-    },
-    {
-      accessorKey: "permissions",
-      header: "Permissions",
-      cell: (cell) => {
-        return cell.row?.original?.permissions?.join(", ");
-      },
     },
     {
       accessorKey: "Action",
