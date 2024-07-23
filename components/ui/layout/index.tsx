@@ -1,22 +1,17 @@
 "use client";
 
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { LayoutWithHeader } from "admiral";
 import { TBreadcrumbsItem } from "admiral/breadcrumb";
 import Loading from "@/app/(public)/auth/(otp)/otp/loading";
-import { Flex } from "antd";
-import {
-  DashboardOutlined,
-  PieChartFilled,
-  RobotOutlined,
-  TagOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { TheraIcon } from "@/components/svg-tsx/thera-icon";
 import UserProfile from "../user-profile";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { hasCommonElements } from "@/utils";
 
 export type TMainLayoutProps = {
   title?: string;
@@ -30,35 +25,40 @@ const NavbarMenu = [
     key: "/dashboard",
     label: <Link href="/dashboard">Dashboard</Link>,
     icon: <DashboardOutlined />,
+    permissions: [PERMISSIONS.DASHBOARD],
   },
   {
     key: "/dashboard/users",
     label: <Link href="/dashboard/users">Users</Link>,
     icon: <UserOutlined />,
+    permissions: [PERMISSIONS.USER_READ],
   },
   {
     key: "/dashboard/roles",
     label: <Link href="/dashboard/roles">Roles</Link>,
     icon: <PieChartFilled />,
+    permissions: [PERMISSIONS.ROLE_READ],
   },
   {
     key: "/dashboard/snacks",
     label: <Link href="/dashboard/snacks">Snacks</Link>,
     icon: <TagOutlined />,
+    permissions: [PERMISSIONS.SNACK_READ],
   },
 ];
 
-const MenuHeader = () => {
-  return (
-    <Flex align="right" gap={30}>
-      <UserOutlined />
-    </Flex>
-  );
-};
-
-const MainLayout: React.FC<TMainLayoutProps> = ({ children, title, breadcrumbs, topActions }) => {
+const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
   const router = usePathname();
-  const session = useSession();
+  const { data: session } = useSession();
+
+  const userPermissions = useMemo(
+    () => session?.user?.role?.permissions || [],
+    [session?.user?.role?.permissions],
+  );
+
+  const filteredNavbarMenu = useMemo(() => {
+    return NavbarMenu.filter((item) => hasCommonElements(item.permissions, userPermissions));
+  }, [userPermissions]);
 
   const activeMenuKey = useMemo(() => {
     const pathParts = router.split("/");
@@ -72,10 +72,10 @@ const MainLayout: React.FC<TMainLayoutProps> = ({ children, title, breadcrumbs, 
   }, [router]);
 
   const defaultOpenedKey = useMemo(() => {
-    if (!NavbarMenu) return undefined;
+    if (!filteredNavbarMenu) return undefined;
     let commonPart = activeMenuKey.split("/");
 
-    NavbarMenu.forEach((item) => {
+    filteredNavbarMenu.forEach((item) => {
       if (item && "key" in item && typeof item.key === "string" && item.key) {
         const parts = (item.key as string).split("/");
         let i = 0;
@@ -86,7 +86,7 @@ const MainLayout: React.FC<TMainLayoutProps> = ({ children, title, breadcrumbs, 
       }
     });
     return commonPart || undefined;
-  }, [activeMenuKey, NavbarMenu]);
+  }, [activeMenuKey, filteredNavbarMenu]);
 
   return (
     <>
@@ -109,7 +109,7 @@ const MainLayout: React.FC<TMainLayoutProps> = ({ children, title, breadcrumbs, 
             width: 250,
             defaultSelectedKeys: [activeMenuKey],
             defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
-            menu: NavbarMenu,
+            menu: filteredNavbarMenu,
             theme: "light",
           }}
         >

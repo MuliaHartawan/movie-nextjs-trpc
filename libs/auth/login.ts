@@ -2,7 +2,7 @@
 import "server-only";
 import { eq } from "drizzle-orm";
 import { db } from "../drizzle/connection";
-import { users } from "../drizzle/schema";
+import { roles, users } from "../drizzle/schema";
 import { verifyPassword } from "./password";
 import { signOut } from "./auth";
 
@@ -46,6 +46,20 @@ export const getUserData = async (email?: string | null) => {
       .select()
       .from(users)
       .where(eq(users.email, email))
+      .then((res) => res.at(0));
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getRoleData = async (roleId?: string | null) => {
+  if (!roleId) return;
+  try {
+    const res = await db
+      .select()
+      .from(roles)
+      .where(eq(roles.id, roleId))
       .then((res) => res.at(0));
     return res;
   } catch (err) {

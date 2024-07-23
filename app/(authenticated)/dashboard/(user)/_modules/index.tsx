@@ -1,41 +1,51 @@
 "use client";
-import { DataTable } from "@/components/ui/datatable";
-import { ColumnDef } from "@tanstack/react-table";
+import type { FC, ReactElement } from "react";
 import { User } from "../_actions/get-users";
-import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteUserAction } from "../_actions/delete-user";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Datatable from "admiral/table/datatable/index";
+import { ColumnsType } from "antd/es/table";
+import { makeSource } from "@/utils";
 
-export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({ data }) => {
+export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
+  data,
+}): ReactElement => {
   const router = useRouter();
-  const columns: ColumnDef<User>[] = [
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const columns: ColumnsType<User> = [
     {
-      accessorKey: "fullname",
-      header: "Name",
+      dataIndex: "fullname",
+      key: "fullname",
+      title: "Name",
     },
     {
-      accessorKey: "email",
-      header: "Email",
+      dataIndex: "email",
+      title: "Email",
+      key: "email",
     },
     {
-      accessorKey: "createdAt",
-      header: "Created At",
-      cell: (cell) => {
-        return new Date(cell.row.original.createdAt as Date).toLocaleString();
+      dataIndex: "createdAt",
+      title: "Created At",
+      key: "createdAt",
+      render: (_, record) => {
+        return new Date(record.createdAt as Date).toLocaleString();
       },
     },
     {
-      accessorKey: "Action",
-      header: "Action",
-      cell: (cell) => {
+      dataIndex: "Action",
+      title: "Action",
+      key: "Action",
+      render: (_, record) => {
         return (
           <Flex>
             <Button
-              href={`/dashboard/users/${cell.row?.original?.id}`}
+              href={`/dashboard/users/${record?.id}`}
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
@@ -43,13 +53,13 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({ data
               icon={<DeleteOutlined style={{ color: "red" }} />}
               type="link"
               onClick={() => {
-                deleteUserAction(cell.row?.original?.id as string);
+                deleteUserAction(record?.id as string);
                 router.refresh();
                 message.success("User berhasil dihapus");
               }}
             />
             <Button
-              href={`/dashboard/users/form?id=${cell.row?.original?.id}`}
+              href={`/dashboard/users/form?id=${record?.id}`}
               type="link"
               icon={<EditOutlined />}
             />
@@ -73,14 +83,23 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({ data
         },
       ]}
       topActions={
-        <>
-          <Button href="/dashboard/users/form" icon={<PlusCircleOutlined />}>
-            Add Users
-          </Button>
-        </>
+        <Button href="/dashboard/users/form" icon={<PlusCircleOutlined />}>
+          Add Users
+        </Button>
       }
     >
-      <DataTable data={data.data} meta={data.meta} columns={columns} />
+      <Datatable
+        onChange={(_cf, _st, _dt, paging) => {
+          const params = new URLSearchParams(searchParams);
+          params.set("page", String(paging?.page));
+          params.set("perPage", String(paging?.per_page));
+          router.push(`${pathname}?${params.toString()}`);
+        }}
+        rowKey="id"
+        showRowSelection={false}
+        source={makeSource(data)}
+        columns={columns}
+      />
     </Page>
   );
 };

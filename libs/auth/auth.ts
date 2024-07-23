@@ -23,11 +23,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           email: userData.email,
           emailVerified: userData.emailVerified,
           address: userData.address,
+          role: userData.role,
           createdAt: userData.createdAt,
           updatedAt: userData.updatedAt,
         };
       }
-
       return token;
     },
 
