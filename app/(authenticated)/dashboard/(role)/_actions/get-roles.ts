@@ -1,19 +1,10 @@
 "use server";
 import { db } from "@/libs/drizzle/connection";
-import { roles } from "@/libs/drizzle/schema";
+import { Role, rolePermissions, roles } from "@/libs/drizzle/schema";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
-import { createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
-import { asc, sql } from "drizzle-orm";
+import { asc, eq, sql } from "drizzle-orm";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
 import { ErrorMapper } from "@/common/types/error-500-mapper.types";
-
-const selectRoleSchema = createSelectSchema(roles, {
-  // Permissions is an array of strings
-  permissions: z.array(z.string()),
-});
-
-export type Role = z.infer<typeof selectRoleSchema>;
 
 export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> => {
   const page = meta?.page || 1;
@@ -22,9 +13,7 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
   const search = meta?.search;
 
   try {
-    const query = db
-      .select()
-      .from(roles);
+    const query = db.select().from(roles);
 
     if (search) {
       query.where(sql`lower(${roles.name}) like lower('%' || ${search} || '%')`);
@@ -76,19 +65,17 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
 // Get all roles (for dropdown at form user)
 export const getRolesWithSearch = async (search: string): Promise<Role[] | TMetaItem> => {
   try {
-      const query = db
-          .select()
-          .from(roles);
+    const query = db.select().from(roles);
 
-      if (search) {
-          query.where(sql`lower(${roles.name}) like lower('%' || ${search} || '%')`);
-      }
+    if (search) {
+      query.where(sql`lower(${roles.name}) like lower('%' || ${search} || '%')`);
+    }
 
-      return await query;
+    return await query;
   } catch (error) {
-      return {
-          code: 500,
-          message: "Terjadi kesalahan",
-      };
+    return {
+      code: 500,
+      message: "Terjadi kesalahan",
+    };
   }
-}
+};

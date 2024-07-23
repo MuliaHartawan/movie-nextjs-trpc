@@ -5,8 +5,8 @@ import { Button, Col, Form, Input, Row, Select } from "antd";
 import { useState } from "react";
 import { useUserAction } from "../../_hooks";
 import { User } from "../../_actions/get-users";
-import { Role } from "../../../(role)/_actions/get-roles";
 import { TCreateOrUpdateUserForm } from "../../_entities/schema";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
 
 const DashboardCreateUsersClient = ({
   data,

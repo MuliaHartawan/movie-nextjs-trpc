@@ -1,11 +1,12 @@
 import { relations } from "drizzle-orm";
 import { timestamp, pgTable, text, uuid, integer, varchar } from "drizzle-orm/pg-core";
 
-// TODO: Set Default not null
-
 export const defaultImage =
   "https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png";
 
+/*
+ * User
+ */
 export const users = pgTable("app_users", {
   id: uuid("id").defaultRandom().primaryKey(),
   otp: varchar("otp"),
@@ -20,6 +21,16 @@ export const users = pgTable("app_users", {
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 });
 
+export const userRelations = relations(users, ({ one }) => ({
+  roles: one(roles, {
+    fields: [users.roleId],
+    references: [roles.id],
+  }),
+}));
+
+/*
+ * Role
+ */
 export const roles = pgTable("app_roles", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name").notNull(),
@@ -27,6 +38,17 @@ export const roles = pgTable("app_roles", {
   updatedAt: timestamp("updated_At", { mode: "date" }).defaultNow(),
 });
 
+export const roleRelations = relations(roles, ({ many }) => ({
+  users: many(users),
+  rolePermissions: many(rolePermissions),
+}));
+
+// infer Role type with relations
+export type Role = typeof roles.$inferSelect;
+
+/*
+ * Permission
+ */
 export const permissions = pgTable("app_permissions", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name").notNull(),
@@ -34,32 +56,36 @@ export const permissions = pgTable("app_permissions", {
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 });
 
+export const permissionRelations = relations(permissions, ({ many }) => ({
+  roles: many(rolePermissions),
+}));
+
+export type Permission = typeof permissions.$inferSelect;
+
+/*
+ * Role Permission
+ */
 export const rolePermissions = pgTable("app_role_permissions", {
   roleId: uuid("role_id").references(() => roles.id, { onDelete: "cascade" }),
   permissionId: uuid("permission_id").references(() => permissions.id, { onDelete: "cascade" }),
 });
 
-export type RolePermission = typeof rolePermissions.$inferInsert;
-
-export const rolesToPermissionsRelations = relations(roles, ({ many }) => ({
-  permissions: many(permissions),
-}));
-
-export const permissionsToRolesRelations = relations(permissions, ({ many }) => ({
-  roles: many(roles),
-}));
-
-export const rolesToUserRelations = relations(roles, ({ many }) => ({
-  users: many(users),
-}));
-
-export const usersToRolesRelations = relations(users, ({ one }) => ({
-  roles: one(roles, {
-    fields: [users.roleId],
+export const rolePermissionRelations = relations(rolePermissions, ({ one }) => ({
+  role: one(roles, {
+    fields: [rolePermissions.roleId],
     references: [roles.id],
+  }),
+  permission: one(permissions, {
+    fields: [rolePermissions.permissionId],
+    references: [permissions.id],
   }),
 }));
 
+export type RolePermission = typeof rolePermissions.$inferSelect;
+
+/*
+ * Snack
+ */
 const now = new Date();
 const defaultExpiryDate = new Date(now.setDate(now.getDate() + 1));
 

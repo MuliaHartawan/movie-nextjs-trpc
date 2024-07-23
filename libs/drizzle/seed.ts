@@ -10,10 +10,10 @@ import { seedRolePermissions } from "./seeders/dummy-role-permission";
 const main = async () => {
   try {
     await seedRoles(db);
-    // await seedUsers(db);
-    // await seedSnacks(db);
-    // await seedPermissions(db);
-    await seedRolePermissions();
+    await seedUsers(db);
+    await seedSnacks(db);
+    await seedPermissions(db);
+    await seedRolePermissions(db);
     console.log("Seed done!");
   } catch (error) {
     console.log("Seed failed!", error);
