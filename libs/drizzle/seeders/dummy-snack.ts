@@ -2,8 +2,9 @@ import { Snack } from "../schemas/snack.schema";
 import { faker } from "@faker-js/faker";
 import { snacks } from "../schema";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as schema from "../schema";
 
-export const seedSnacks = async (db: NodePgDatabase<Record<string, never>>) => {
+export const seedSnacks = async (db: NodePgDatabase<typeof schema>) => {
   console.log("Seeding snacks...");
   const dummySnacks: Snack[] = [];
 
