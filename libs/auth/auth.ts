@@ -1,10 +1,6 @@
 import NextAuth from "next-auth";
 import { authConfig } from "./config";
 import { TUser } from "@/types/user";
-import { checkEmail, getRoleData, getUserData } from "./login";
-import { db } from "../drizzle/connection";
-import { roles, users } from "../drizzle/schema";
-import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -12,29 +8,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === "google") {
-        const isUserExist = await checkEmail(user?.email);
-        if (!isUserExist) {
-          await db.insert(users).values({
-            fullname: user?.name as string,
-            email: user?.email as string,
-            image: user?.image as string,
-            address: undefined,
-            otp: undefined,
-            password: undefined,
-          });
-          return `/auth/register?email=${user?.email}&fullname=${user?.name}&from=google`;
-        }
-        if (isUserExist) {
-          const getUser = await getUserData(user?.email);
-          const isEmailVerified = getUser?.emailVerifiedAt;
-          if (!isEmailVerified) {
-            return `/auth/register?email=${user?.email}&fullname=${user?.name}&from=google`;
-          }
-          return true;
-        }
-      }
+    async signIn({ user }) {
       if (!user) return false;
       return true;
     },
@@ -52,26 +26,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           role: userData.role,
           createdAt: userData.createdAt,
           updatedAt: userData.updatedAt,
-        };
-      }
-      if (account?.provider === "google") {
-        const userData = await getUserData(user?.email);
-        const roleData = await getRoleData(userData?.roleId);
-
-        token.user = {
-          id: userData?.id as string,
-          fullname: userData?.fullname,
-          image: userData?.image,
-          email: String(userData?.email),
-          emailVerified: userData?.emailVerifiedAt as Date,
-          address: userData?.address,
-          role: {
-            id: roleData?.id as string,
-            name: roleData?.name as string,
-            permissions: roleData?.permissions as string[],
-          },
-          createdAt: userData?.createdAt,
-          updatedAt: userData?.updatedAt,
         };
       }
       return token;

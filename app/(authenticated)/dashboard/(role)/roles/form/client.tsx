@@ -3,23 +3,24 @@
 import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { useState } from "react";
-import { Role } from "../../_actions/get-roles";
 import { useRoleAction } from "../../_hooks";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { TCreateOrUpdateRoleForm } from "../../_entities/schema";
 
 const DashboardCreateRolesClient = ({ data, roleId }: { data: Role; roleId: string }) => {
   const { updateRoleMutation, addRoleMutation } = useRoleAction();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const handleAddOrUpdateRole = async (values: Role) => {
-    const { name, permissions } = values;
+  const handleAddOrUpdateRole = async (values: TCreateOrUpdateRoleForm) => {
+    const { name, permissionIds } = values;
     setLoading(true);
     if (roleId) {
       await updateRoleMutation.mutateAsync({
         value: {
           name,
-          permissions: permissions as [string, ...string[]],
+          permissionIds: permissionIds as [string, ...string[]],
         },
         id: roleId,
       });
@@ -27,7 +28,7 @@ const DashboardCreateRolesClient = ({ data, roleId }: { data: Role; roleId: stri
     } else {
       await addRoleMutation.mutateAsync({
         name,
-        permissions: permissions as [string, ...string[]],
+        permissionIds: permissionIds as [string, ...string[]],
       });
       setLoading(false);
     }
@@ -68,7 +69,7 @@ const DashboardCreateRolesClient = ({ data, roleId }: { data: Role; roleId: stri
               label="Permission"
               name="permissions"
               rules={[{ required: true, message: "Minimal satu permission harus dipilih" }]}
-              initialValue={data?.permissions}
+              initialValue={data}
             >
               <Select
                 mode="multiple"

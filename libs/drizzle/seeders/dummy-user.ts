@@ -3,8 +3,9 @@ import { defaultImage, roles, users } from "../schema";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { ROLE_DUMMY } from "@/common/enums/role-dummy.enum";
 import { User } from "../schemas/user.schema";
+import * as schema from "../schema";
 
-export const seedUsers = async (db: NodePgDatabase<Record<string, never>>) => {
+export const seedUsers = async (db: NodePgDatabase<typeof schema>) => {
   console.log("Seeding users...");
   const dummyUsers: User[] = [];
 
