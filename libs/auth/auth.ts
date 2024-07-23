@@ -1,9 +1,10 @@
 import NextAuth from "next-auth";
 import { authConfig } from "./config";
 import { TUser } from "@/types/user";
-import { checkEmail, getUserData } from "./login";
+import { checkEmail, getRoleData, getUserData } from "./login";
 import { db } from "../drizzle/connection";
-import { users } from "../drizzle/schema";
+import { roles, users } from "../drizzle/schema";
+import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -48,12 +49,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           email: userData.email,
           emailVerified: userData.emailVerified,
           address: userData.address,
+          role: userData.role,
           createdAt: userData.createdAt,
           updatedAt: userData.updatedAt,
         };
       }
       if (account?.provider === "google") {
         const userData = await getUserData(user?.email);
+        const roleData = await getRoleData(userData?.roleId);
+
         token.user = {
           id: userData?.id as string,
           fullname: userData?.fullname,
@@ -61,6 +65,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           email: String(userData?.email),
           emailVerified: userData?.emailVerifiedAt as Date,
           address: userData?.address,
+          role: {
+            id: roleData?.id as string,
+            name: roleData?.name as string,
+            permissions: roleData?.permissions as string[],
+          },
           createdAt: userData?.createdAt,
           updatedAt: userData?.updatedAt,
         };

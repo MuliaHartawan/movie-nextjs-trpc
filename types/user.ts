@@ -6,6 +6,11 @@ export type TUser = {
   emailVerified: Date | null;
   address?: string | null;
   password: string;
+  role: {
+    id: string;
+    name: string;
+    permissions: string[];
+  };
   createdAt?: Date | null;
   updatedAt?: Date | null;
 };
