@@ -32,7 +32,6 @@ export const authConfig = {
         }
 
         const userData = await getUserData(data?.email);
-        const roleData = await getRoleData(userData?.roleId);
 
         const isEmailVerified = userData?.emailVerifiedAt;
 
@@ -44,9 +43,11 @@ export const authConfig = {
           return {
             ...userData,
             role: {
-              id: roleData?.id as string,
-              name: roleData?.name as string,
-              permissions: roleData?.permissions as string[],
+              id: userData?.roles?.id as string,
+              name: userData?.roles?.name as string,
+              permissions: userData?.roles?.rolePermissions?.map(
+                (rolePermission) => rolePermission.permission?.name,
+              ) as string[],
             },
           };
         } else {
