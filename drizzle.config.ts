@@ -11,6 +11,6 @@ export default defineConfig({
     user: config.database.user,
     password: config.database.password,
     database: config.database.name,
-    ssl: false,
+    ssl: config.database.ssl,
   },
 });

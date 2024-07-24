@@ -9,7 +9,7 @@ import { deleteRoleAction } from "../_actions/delete-role";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils";
-import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { Role } from "@/libs/drizzle/schema";
 
 export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
   const router = useRouter();
@@ -21,7 +21,7 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
       dataIndex: "name",
       key: "name",
       title: "Name",
-      width: '10%',
+      width: "10%",
     },
     {
       dataIndex: "Action",
@@ -74,12 +74,16 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
         </Button>
       }
     >
-      <Datatable source={makeSource(data)} columns={columns} onChange={(_cf, _st, _dt, paging) => {
-        const params = new URLSearchParams(searchParams);
-        params.set("page", String(paging?.page));
-        params.set("perPage", String(paging?.per_page));
-        router.push(`${pathname}?${params.toString()}`);
-      }} />
+      <Datatable
+        source={makeSource(data)}
+        columns={columns}
+        onChange={(_cf, _st, _dt, paging) => {
+          const params = new URLSearchParams(searchParams);
+          params.set("page", String(paging?.page));
+          params.set("perPage", String(paging?.per_page));
+          router.push(`${pathname}?${params.toString()}`);
+        }}
+      />
     </Page>
   );
 };
