@@ -9,18 +9,23 @@ export const seedRoles = async (db: NodePgDatabase<typeof schema>) => {
   const dummyRoles: Role[] = [
     {
       name: ROLE_DUMMY.ADMIN,
+      rolePermissions: [],
     },
     {
       name: ROLE_DUMMY.STAFF,
+      rolePermissions: [],
     },
     {
       name: ROLE_DUMMY.ADMIN_SNACK,
+      rolePermissions: [],
     },
     {
       name: ROLE_DUMMY.ADMIN_USER,
+      rolePermissions: [],
     },
     {
       name: ROLE_DUMMY.ADMIN_ROLE,
+      rolePermissions: [],
     },
   ];
 
