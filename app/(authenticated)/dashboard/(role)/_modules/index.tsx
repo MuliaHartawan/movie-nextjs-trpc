@@ -1,30 +1,37 @@
 "use client";
-import { DataTable } from "@/components/ui/datatable";
-import { ColumnDef } from "@tanstack/react-table";
+import Datatable from "admiral/table/datatable/index";
 import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteRoleAction } from "../_actions/delete-role";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ColumnType } from "antd/es/table";
+import { makeSource } from "@/utils";
 import { Role } from "@/libs/drizzle/schema";
 
 export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
   const router = useRouter();
-  const columns: ColumnDef<Role>[] = [
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const columns: ColumnType<Role>[] = [
     {
-      accessorKey: "name",
-      header: "Name",
+      dataIndex: "name",
+      key: "name",
+      title: "Name",
+      width: "10%",
     },
     {
-      accessorKey: "Action",
-      header: "Action",
-      cell: (cell) => {
+      dataIndex: "Action",
+      key: "Action",
+      title: "Action",
+      render: (_, record) => {
         return (
           <Flex>
             <Button
-              href={`/dashboard/roles/${cell.row?.original?.id}`}
+              href={`/dashboard/roles/${record?.id}`}
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
@@ -32,13 +39,13 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
               icon={<DeleteOutlined style={{ color: "red" }} />}
               type="link"
               onClick={() => {
-                deleteRoleAction(cell.row?.original?.id as string);
+                deleteRoleAction(record?.id as string);
                 router.refresh();
                 message.success("Role berhasil dihapus");
               }}
             />
             <Button
-              href={`/dashboard/roles/form?id=${cell.row?.original?.id}`}
+              href={`/dashboard/roles/form?id=${record?.id}`}
               type="link"
               icon={<EditOutlined />}
             />
@@ -50,7 +57,7 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
 
   return (
     <Page
-      title="roles"
+      title="Roles"
       breadcrumbs={[
         {
           label: "Dashboard",
@@ -62,14 +69,21 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
         },
       ]}
       topActions={
-        <>
-          <Button href="/dashboard/roles/form" icon={<PlusCircleOutlined />}>
-            Add Roles
-          </Button>
-        </>
+        <Button href="/dashboard/roles/form" icon={<PlusCircleOutlined />}>
+          Add Roles
+        </Button>
       }
     >
-      <DataTable data={data.data} meta={data.meta} columns={columns} />
+      <Datatable
+        source={makeSource(data)}
+        columns={columns}
+        onChange={(_cf, _st, _dt, paging) => {
+          const params = new URLSearchParams(searchParams);
+          params.set("page", String(paging?.page));
+          params.set("perPage", String(paging?.per_page));
+          router.push(`${pathname}?${params.toString()}`);
+        }}
+      />
     </Page>
   );
 };

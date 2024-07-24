@@ -1,44 +1,53 @@
 "use client";
-import { DataTable } from "@/components/ui/datatable";
-import { ColumnDef } from "@tanstack/react-table";
+import Datatable from "admiral/table/datatable/index";
 import { Snack } from "../_actions/get-snacks";
 import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
-import { Button, Flex, message } from "antd";
+import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteSnackAction } from "../_actions/delete-snack";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ColumnType } from "antd/es/table";
+import { makeSource } from "@/utils";
 
+const { confirm } = Modal;
 export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ data }) => {
   const router = useRouter();
-  const columns: ColumnDef<Snack>[] = [
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const columns: ColumnType<Snack>[] = [
     {
-      accessorKey: "name",
-      header: "Name",
+      dataIndex: "name",
+      key: "name",
+      title: "Name",
     },
     {
-      accessorKey: "cost",
-      header: "Cost",
-      cell: (cell) => {
-        return `Rp ${cell.row?.original?.cost?.toLocaleString()}`;
+      dataIndex: "cost",
+      title: "Cost",
+      key: "cost",
+      render: (_, row) => {
+        return `Rp ${row?.cost?.toLocaleString()}`;
       },
     },
     {
-      accessorKey: "expiryDate",
-      header: "Expiry Date",
-      cell: (cell) => {
-        return new Date(cell.row?.original?.expiryDate as Date).toLocaleString();
+      dataIndex: "expiryDate",
+      title: "Expiry Date",
+      key: "expiryDate",
+      render: (_, row) => {
+        return new Date(row?.expiryDate as Date).toLocaleString();
       },
     },
     {
-      accessorKey: "Action",
-      header: "Action",
-      cell: (cell) => {
+      dataIndex: "Action",
+      title: "Action",
+      key: "Action",
+      render: (_, row) => {
         return (
           <Flex>
             <Button
-              href={`/dashboard/snacks/${cell.row?.original?.id}`}
+              href={`/dashboard/snacks/${row?.id}`}
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
@@ -46,13 +55,22 @@ export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ da
               icon={<DeleteOutlined style={{ color: "red" }} />}
               type="link"
               onClick={() => {
-                deleteSnackAction(cell.row?.original?.id as string);
-                router.refresh();
-                message.success("Snack berhasil dihapus");
+                confirm({
+                  title: "Are you sure you want to delete this snack?",
+                  okText: "Delete",
+                  okType: "danger",
+                  icon: <DeleteOutlined />,
+                  cancelText: "Cancel",
+                  onOk() {
+                    deleteSnackAction(row?.id);
+                    router.refresh();
+                    message.success("Snack berhasil dihapus");
+                  },
+                });
               }}
             />
             <Button
-              href={`/dashboard/snacks/form?id=${cell.row?.original?.id}`}
+              href={`/dashboard/snacks/form?id=${row?.id}`}
               type="link"
               icon={<EditOutlined />}
             />
@@ -76,14 +94,17 @@ export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ da
         },
       ]}
       topActions={
-        <>
-          <Button href="/dashboard/snacks/form" icon={<PlusCircleOutlined />}>
-            Add Snack
-          </Button>
-        </>
+        <Button href="/dashboard/snacks/form" icon={<PlusCircleOutlined />}>
+          Add Snack
+        </Button>
       }
     >
-      <DataTable data={data.data} meta={data.meta} columns={columns} />
+      <Datatable source={makeSource(data)} columns={columns} onChange={(_cf, _st, _dt, paging) => {
+        const params = new URLSearchParams(searchParams);
+        params.set("page", String(paging?.page));
+        params.set("perPage", String(paging?.per_page));
+        router.push(`${pathname}?${params.toString()}`);
+      }} />
     </Page>
   );
 };

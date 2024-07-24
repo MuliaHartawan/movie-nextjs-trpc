@@ -1,8 +1,8 @@
 "use client";
 
+import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
-import { Role } from "../../_actions/get-roles";
 
 const DashboardDetailRolesClient = ({ data }: { data: Role }) => {
   return (
@@ -29,7 +29,9 @@ const DashboardDetailRolesClient = ({ data }: { data: Role }) => {
             {data?.name}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Permission">
-            {data?.permissions?.join(", ")}
+            {data?.rolePermissions.map((rolePermission) => (
+              <div key={rolePermission.permission.id}>{rolePermission.permission.name}</div>
+            ))}
           </Descriptions.Item>
         </Descriptions>
       </Section>

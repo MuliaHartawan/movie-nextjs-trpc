@@ -2,9 +2,10 @@
 import "server-only";
 import { eq } from "drizzle-orm";
 import { db } from "../drizzle/connection";
-import { roles, users } from "../drizzle/schema";
+import { rolePermissions, roles, users } from "../drizzle/schema";
 import { verifyPassword } from "./password";
 import { signOut } from "./auth";
+import { permission } from "process";
 
 export const checkEmail = async (email?: string | null) => {
   if (!email) return "Email wajib diisi";
@@ -42,12 +43,24 @@ export const checkPassword = async (password?: string, email?: string) => {
 export const getUserData = async (email?: string | null) => {
   if (!email) return;
   try {
-    const res = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, email))
-      .then((res) => res.at(0));
-    return res;
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email),
+      with: {
+        roles: {
+          with: {
+            rolePermissions: {
+              with: {
+                permission: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    console.log(user);
+
+    return user;
   } catch (err) {
     throw err;
   }
