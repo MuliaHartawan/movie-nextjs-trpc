@@ -11,5 +11,6 @@ export const config = {
     user: (process.env.DB_USER as string) || "",
     password: (process.env.DB_PASSWORD as string) || "",
     name: (process.env.DB_NAME as string) || "",
+    ssl: (process.env.DB_SSL as string) === "true" || false,
   },
 };

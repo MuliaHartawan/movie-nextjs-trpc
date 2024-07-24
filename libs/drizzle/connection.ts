@@ -9,7 +9,7 @@ const pool = new Pool({
   user: config.database.user,
   password: config.database.password,
   database: config.database.name,
-  ssl: true,
+  ssl: config.database.ssl,
 });
 
 export const db = drizzle(pool, { schema });
