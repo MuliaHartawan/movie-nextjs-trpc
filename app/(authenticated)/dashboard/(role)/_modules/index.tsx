@@ -8,7 +8,7 @@ import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteRoleAction } from "../_actions/delete-role";
 import { useRouter } from "next/navigation";
-import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { Role } from "@/libs/drizzle/schema";
 
 export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
   const router = useRouter();
