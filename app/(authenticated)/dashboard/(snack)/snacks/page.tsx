@@ -13,7 +13,7 @@ const DashboardSnacks = async ({
     perPage: Number(searchParams?.perPage || 10),
     search: String(searchParams?.search || ""),
   });
-  //console.log(data);
+
   return <DashboardSnacksModule data={data} />;
 };
 
