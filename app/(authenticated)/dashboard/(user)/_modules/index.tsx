@@ -90,6 +90,7 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
     >
       <Datatable
         onChange={(_cf, _st, _dt, paging) => {
+          console.log("triggered");
           const params = new URLSearchParams(searchParams);
           params.set("page", String(paging?.page));
           params.set("perPage", String(paging?.per_page));

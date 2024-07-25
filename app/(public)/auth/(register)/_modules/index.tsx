@@ -12,7 +12,6 @@ import { registerAction } from "../_actions/register-action";
 import { ExclamationIcon } from "@/components/svg-tsx/exclamation-icon";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useNotifyStore } from "@/libs/store/notify";
-import { loginByGoogle } from "../../(login)/_actions/login-action";
 
 export const RegisterFormModule: FC = (): ReactElement => {
   const { setNotify, notify } = useNotifyStore();
@@ -126,20 +125,6 @@ export const RegisterFormModule: FC = (): ReactElement => {
             </Link>
           </div>
         </div>
-        {!emailParams && (
-          <>
-            <div className="flex relative my-3">
-              <span className="text-sm text-gray-400 leading-5 left-1/2 translate-x-[-50%] flex justify-center bg-white absolute -top-3 z-10 px-1">
-                Atau
-              </span>
-              <hr className="border absolute top-1/2 -translate-y-1/2 border-gray-300 w-full" />
-            </div>
-            <Button onClick={() => loginByGoogle()} variant="secondary">
-              <GoogleIcon />
-              Daftar dengan Google
-            </Button>
-          </>
-        )}
       </div>
 
       <Modal
