@@ -7,7 +7,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 export const sendLinkResetEmail = async (payload: TSendLinkReset) =>
   await resend.emails.send({
-    from: "noreply <verfication@noreply.msdqn.dev>",
+    from: "noreply <verfication@noreply.nextjs-fullstack-blrplt.dot.co.id>",
     to: [payload.email],
     subject: "Link Reset Password",
     text: `Your password reset link is ${appUrl}/auth/${payload.token}/reset?email=${payload.email}`,
