@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendOtpVerficationEmail = async (payload: TSendOtp) =>
   await resend.emails.send({
-    from: "noreply <verfication@noreply.msdqn.dev>",
+    from: "noreply <verfication@noreply.nextjs-fullstack-blrplt.dot.co.id>",
     to: [payload.email],
     subject: "OTP Verification",
     text: `Your OTP is ${payload.otp}`,
