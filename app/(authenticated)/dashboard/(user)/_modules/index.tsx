@@ -6,17 +6,17 @@ import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteUserAction } from "../_actions/delete-user";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils";
+import { useFilter } from "@/utils/filter";
 
 export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { implementDataTable } = useFilter();
 
   const columns: ColumnsType<User> = [
     {
@@ -89,13 +89,7 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
       }
     >
       <Datatable
-        onChange={(_cf, _st, _dt, paging) => {
-          console.log("triggered");
-          const params = new URLSearchParams(searchParams);
-          params.set("page", String(paging?.page));
-          params.set("perPage", String(paging?.per_page));
-          router.push(`${pathname}?${params.toString()}`);
-        }}
+        onChange={implementDataTable}
         rowKey="id"
         showRowSelection={false}
         source={makeSource(data)}
