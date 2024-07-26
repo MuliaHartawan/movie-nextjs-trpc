@@ -5,6 +5,7 @@ import { isObject } from "./type-check";
 import { everyEqual } from "./equal";
 import { IDataTableProps } from "admiral/table/datatable/type";
 import dayjs from "dayjs";
+import { DataTablePagination } from "admiral/table/datatable/type";
 
 export type TFilter = string | undefined;
 
@@ -17,6 +18,15 @@ function paramsToObject(entries: IterableIterator<[string, string]>) {
   }
   return result;
 }
+
+const normalizePagination = (data?: DataTablePagination) => {
+  if (!data) return;
+  return {
+    page: data.page,
+    perPage: data.per_page,
+    total: data.total,
+  };
+};
 
 const normalize = (data: Record<string, unknown>): Record<string, TFilter> => {
   // Flatting data
@@ -129,7 +139,7 @@ export const useFilter = () => {
       ...(customFilter || {}),
       ...(cloneSort || {}),
       ...(filters || {}),
-      ...(pagination || {}),
+      ...(normalizePagination(pagination) || {}),
     });
   };
 
