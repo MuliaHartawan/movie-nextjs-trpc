@@ -1,5 +1,6 @@
+import { withSentryConfig } from "@sentry/nextjs";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,7 +11,7 @@ const nextConfig = {
     outputFileTracingIncludes: { "/": ["./node_modules/argon2/prebuilds/linux-x64/*.musl.*"] },
   },
   transpilePackages: ["admiral"],
-  webpack: (config, { isServer }) => {
+  webpack: (config) => {
     config.resolve.alias["@"] = path.join(__dirname, "");
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
@@ -18,4 +19,16 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "sentry",
+  authToken: process.env.SENTRY_TOKEN,
+  project: process.env.SENTRY_PROJECT,
+  sentryUrl: process.env.SENTRY_URL,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  hideSourceMaps: true,
+  disableLogger: true,
+  automaticVercelMonitors: true,
+  productionBrowserSourceMaps: true,
+});
+
