@@ -7,15 +7,15 @@ import { Page } from "admiral";
 import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { deleteSnackAction } from "../_actions/delete-snack";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils";
+import { useFilter } from "@/utils/filter";
 
 const { confirm } = Modal;
 export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ data }) => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { implementDataTable } = useFilter();
 
   const columns: ColumnType<Snack>[] = [
     {
@@ -99,12 +99,7 @@ export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ da
         </Button>
       }
     >
-      <Datatable source={makeSource(data)} columns={columns} onChange={(_cf, _st, _dt, paging) => {
-        const params = new URLSearchParams(searchParams);
-        params.set("page", String(paging?.page));
-        params.set("perPage", String(paging?.per_page));
-        router.push(`${pathname}?${params.toString()}`);
-      }} />
+      <Datatable source={makeSource(data)} columns={columns} onChange={implementDataTable} />
     </Page>
   );
 };
