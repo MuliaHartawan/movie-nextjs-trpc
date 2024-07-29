@@ -12,11 +12,16 @@ import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { useFilter } from "@/utils/filter";
 
+const ORDER: Record<string, "descend" | "ascend" | null> = {
+  ASC: "ascend",
+  DESC: "descend",
+};
+
 export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();
-  const { implementDataTable } = useFilter();
+  const { implementDataTable, filter } = useFilter();
 
   const columns: ColumnsType<User> = [
     {
@@ -94,6 +99,7 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
         showRowSelection={false}
         source={makeSource(data)}
         columns={columns}
+        search={filter.search}
       />
     </Page>
   );

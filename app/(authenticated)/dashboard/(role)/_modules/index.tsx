@@ -14,7 +14,7 @@ import { useFilter } from "@/utils/filter";
 
 export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
   const router = useRouter();
-  const { implementDataTable } = useFilter();
+  const { implementDataTable, filter } = useFilter();
 
   const columns: ColumnType<Role>[] = [
     {
@@ -74,7 +74,12 @@ export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data
         </Button>
       }
     >
-      <Datatable source={makeSource(data)} columns={columns} onChange={implementDataTable} />
+      <Datatable
+        source={makeSource(data)}
+        columns={columns}
+        onChange={implementDataTable}
+        search={filter.search}
+      />
     </Page>
   );
 };
