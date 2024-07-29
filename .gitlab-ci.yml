@@ -28,7 +28,7 @@ deploy_development:update_service:
     variables:
         STACK_NAME: 'boilerplate-nextjs-fullstack'
         SERVICE_NAME: 'landing-page'
-        URL_APP: 'https://nextjs-fullstack-blrplt.dot.co.id'
+        URL_APP: 'https://nextjs-fullstack-blrplt.dot.co.id/auth/login'
         CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
     script:
         - pip install -r deploy/script/requirement.txt
