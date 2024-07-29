@@ -1,5 +1,5 @@
 export type Base = {
-    id?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+  id?: string;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
 };

@@ -2,9 +2,10 @@
 
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
-import { User } from "../../_actions/get-users";
+import { User } from "../_actions/get-users";
+import { FC, ReactElement } from "react";
 
-const DashboardDetailUserClient = ({ data }: { data: User }) => {
+export const DashboardDetailUserModule: FC<{ data?: User }> = ({ data }): ReactElement => {
   return (
     <Page
       title="Detail User"
@@ -39,5 +40,3 @@ const DashboardDetailUserClient = ({ data }: { data: User }) => {
     </Page>
   );
 };
-
-export default DashboardDetailUserClient;

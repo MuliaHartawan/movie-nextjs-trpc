@@ -2,9 +2,7 @@ import { ReactElement } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { TInput } from "./type";
 
-export const Input = <T extends FieldValues>(
-  props: TInput<T>,
-): ReactElement => {
+export const Input = <T extends FieldValues>(props: TInput<T>): ReactElement => {
   const {
     field,
     fieldState: { error },
@@ -16,8 +14,7 @@ export const Input = <T extends FieldValues>(
     <div className="w-full flex flex-col gap-y-1">
       {props.label && (
         <label className="text-sm text-gray-700">
-          {props.label}{" "}
-          {props.required && <span className="text-red-500">*</span>}
+          {props.label} {props.required && <span className="text-red-500">*</span>}
         </label>
       )}
       <input
@@ -25,9 +22,7 @@ export const Input = <T extends FieldValues>(
         {...field}
         className={`${className} border text-sm rounded-md p-2 w-full focus:outline-none   placeholder:text-sm`}
       />
-      {error?.message && (
-        <span className="text-red-500 text-xs italic">{error?.message}</span>
-      )}
+      {error?.message && <span className="text-red-500 text-xs italic">{error?.message}</span>}
     </div>
   );
 };

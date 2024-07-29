@@ -2,21 +2,17 @@
 
 import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { useState } from "react";
-import { useUserAction } from "../../_hooks";
-import { User } from "../../_actions/get-users";
-import { TCreateOrUpdateUserForm } from "../../_entities/schema";
+import { FC, ReactElement, useState } from "react";
+import { useUserAction } from "../_hooks";
+import { User } from "../_actions/get-users";
+import { TCreateOrUpdateUserForm } from "../_entities/schema";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 
-const DashboardCreateUsersClient = ({
-  data,
-  userId,
-  roles,
-}: {
-  data: User;
+export const DashboardCreateUsersModule: FC<{
+  data?: User;
   userId: string;
   roles?: Role[];
-}) => {
+}> = ({ data, userId, roles }): ReactElement => {
   const { updateUserMutation, addUserMutation } = useUserAction();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -31,7 +27,6 @@ const DashboardCreateUsersClient = ({
         });
         setLoading(false);
       } else {
-        console.log(values);
         await addUserMutation.mutateAsync(values);
         setLoading(false);
       }
@@ -96,5 +91,3 @@ const DashboardCreateUsersClient = ({
     </Page>
   );
 };
-
-export default DashboardCreateUsersClient;

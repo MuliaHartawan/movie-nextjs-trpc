@@ -18,6 +18,7 @@ const config: Config = {
       normal: ['"Montserrat"', "sans-serif"],
     },
     extend: {},
-  }, plugins: [],
+  },
+  plugins: [],
 };
 export default config;

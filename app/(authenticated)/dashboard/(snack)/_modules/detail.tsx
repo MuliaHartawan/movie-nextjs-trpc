@@ -1,10 +1,11 @@
 "use client";
 
 import { Page, Section } from "admiral";
-import { Snack } from "../../_actions/get-snacks";
+import { Snack } from "../_actions/get-snacks";
 import { Descriptions } from "antd";
+import { FC, ReactElement } from "react";
 
-const DashboardDetailSnacksClient = ({ data }: { data: Snack }) => {
+export const DashboardDetailSnacksModule: FC<{ data?: Snack }> = ({ data }): ReactElement => {
   return (
     <Page
       title="Detail Snacks"
@@ -18,7 +19,7 @@ const DashboardDetailSnacksClient = ({ data }: { data: Snack }) => {
           path: "/dashboard/snacks",
         },
         {
-          label: data?.name,
+          label: data?.name as string,
           path: `/dashboard/snacks/${data?.id}`,
         },
       ]}
@@ -36,5 +37,3 @@ const DashboardDetailSnacksClient = ({ data }: { data: Snack }) => {
     </Page>
   );
 };
-
-export default DashboardDetailSnacksClient;

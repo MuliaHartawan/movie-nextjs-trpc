@@ -1,6 +1,6 @@
 "use client";
 import Datatable from "admiral/table/datatable/index";
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
@@ -12,7 +12,9 @@ import { makeSource } from "@/utils";
 import { Role } from "@/libs/drizzle/schema";
 import { useFilter } from "@/utils/filter";
 
-export const DashboardRolesModule: FC<{ data: TMetaResponse<Role[]> }> = ({ data }) => {
+export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
+  data,
+}): ReactElement => {
   const router = useRouter();
   const { implementDataTable } = useFilter();
 

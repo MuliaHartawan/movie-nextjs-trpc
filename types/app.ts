@@ -1,4 +1,4 @@
 export interface PageProps {
-    params: { slug: string; type?: string };
-    searchParams: { [key: string]: string | string[] | undefined };
+  params: { slug: string; type?: string; id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }

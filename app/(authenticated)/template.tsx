@@ -1,8 +1,7 @@
 "use client";
 import MainLayout from "@/components/ui/layout";
-import { Sidebar } from "@/components/ui/sidebar";
 import { FC, PropsWithChildren, ReactElement } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 const DashboardTemplate: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {

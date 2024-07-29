@@ -13,7 +13,7 @@ import { ActionResponse, ServerActionFunction } from "./type";
  */
 export const wrapServerActionWithParams = async <TData, TVariables = void>(
   queryFn: ServerActionFunction<TData, TVariables>,
-  vars: TVariables
+  vars: TVariables,
 ): Promise<ActionResponse<TData>> => {
   try {
     const response = await queryFn(vars);
@@ -38,8 +38,6 @@ export const wrapServerActionWithParams = async <TData, TVariables = void>(
  * @param queryFn
  * @returns
  */
-export const wrapServerAction = async <TData>(
-  queryFn: () => Promise<TData>
-) => {
+export const wrapServerAction = async <TData>(queryFn: () => Promise<TData>) => {
   return wrapServerActionWithParams(queryFn, undefined);
 };

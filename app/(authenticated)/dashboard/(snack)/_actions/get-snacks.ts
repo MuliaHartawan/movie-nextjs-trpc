@@ -19,9 +19,7 @@ export const getSnacks = async (meta: TMetaItem): Promise<TMetaResponse<Snack[]>
   const search = meta?.search;
 
   try {
-    const query = db
-      .select()
-      .from(snacks);
+    const query = db.select().from(snacks);
 
     if (search) {
       query.where(sql`lower(${snacks.name}) like lower('%' || ${search} || '%')`);

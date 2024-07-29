@@ -71,17 +71,17 @@ export const permissionMapper = [
   },
 ];
 
-export const paginationTransform = (t: TMetaItem): TablePaginationConfig => {
+export const paginationTransform = (t?: TMetaItem): TablePaginationConfig => {
   return {
-    current: t.page,
-    pageSize: t.perPage,
-    total: t.totalPage,
+    current: t?.page,
+    pageSize: t?.perPage,
+    total: t?.totalPage,
   };
 };
 
-export const makeSource = <T>(data: TMetaResponse<T>) => {
+export const makeSource = <T>(data?: TMetaResponse<T>) => {
   return {
-    data: data.data,
-    meta: paginationTransform(data.meta),
+    data: data?.data,
+    meta: paginationTransform(data?.meta),
   };
 };
