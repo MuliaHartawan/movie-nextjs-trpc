@@ -3,8 +3,9 @@
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
+import { FC, ReactElement } from "react";
 
-const DashboardDetailRolesClient = ({ data }: { data: Role }) => {
+export const DashboardDetailRolesModule: FC<{ data?: Role }> = ({ data }): ReactElement => {
   return (
     <Page
       title="Detail Roles"
@@ -18,7 +19,7 @@ const DashboardDetailRolesClient = ({ data }: { data: Role }) => {
           path: "/dashboard/roles",
         },
         {
-          label: data?.name,
+          label: data?.name as string,
           path: `/dashboard/roles/${data?.id}`,
         },
       ]}
@@ -38,5 +39,3 @@ const DashboardDetailRolesClient = ({ data }: { data: Role }) => {
     </Page>
   );
 };
-
-export default DashboardDetailRolesClient;

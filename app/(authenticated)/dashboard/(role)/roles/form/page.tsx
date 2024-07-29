@@ -1,13 +1,11 @@
 import { PageProps } from "@/types/app";
 import { getRoleAction } from "../../_actions/get-role";
-import DashboardCreateRolesClient from "./client";
+import { DashboardCreateRolesModule } from "../../_modules/form";
 
-const DashboardCreateRolesModule = async (props: PageProps) => {
+const DashboardCreateRolesPage = async (props: PageProps) => {
   const roleId = props.searchParams.id?.toString() ?? "";
   const data = await getRoleAction(roleId);
-
-  // @ts-ignore
-  return <DashboardCreateRolesClient data={data?.success?.data} roleId={roleId} />;
+  return <DashboardCreateRolesModule data={data?.success?.data} roleId={roleId} />;
 };
 
-export default DashboardCreateRolesModule;
+export default DashboardCreateRolesPage;

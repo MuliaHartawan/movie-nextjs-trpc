@@ -179,12 +179,8 @@
           "name": "app_user_role_id_app_role_id_fk",
           "tableFrom": "app_user",
           "tableTo": "app_role",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["role_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -194,9 +190,7 @@
         "app_user_email_unique": {
           "name": "app_user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       }
     }

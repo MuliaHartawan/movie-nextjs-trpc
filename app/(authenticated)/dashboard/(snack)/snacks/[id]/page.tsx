@@ -1,17 +1,11 @@
+import { PageProps } from "@/types/app";
 import { getSnackAction } from "../../_actions/get-snack";
-import DashboardDetailSnacksClient from "./clients";
+import { DashboardDetailSnacksModule } from "../../_modules/detail";
+import { ReactElement } from "react";
 
-const DashboardDetailSnacksModule = async ({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) => {
-  const data = await getSnackAction(params.id);
-
-  //   @ts-ignore
-  return <DashboardDetailSnacksClient data={data.success?.data} />;
+const DashboardDetailSnacksPage = async (props: PageProps): Promise<ReactElement> => {
+  const data = await getSnackAction(props?.params?.id);
+  return <DashboardDetailSnacksModule data={data.success?.data} />;
 };
 
-export default DashboardDetailSnacksModule;
+export default DashboardDetailSnacksPage;

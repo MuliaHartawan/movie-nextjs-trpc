@@ -1,10 +1,11 @@
 "use server";
 import { db } from "@/libs/drizzle/connection";
-import { Role, rolePermissions, roles } from "@/libs/drizzle/schema";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
 import { asc, eq, sql } from "drizzle-orm";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
 import { ErrorMapper } from "@/common/types/error-500-mapper.types";
+import { roles } from "@/libs/drizzle/schema";
 
 export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> => {
   const page = meta?.page || 1;
@@ -34,7 +35,7 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
     const prevPage = page > 1 ? page - 1 : null;
 
     const metaPrefix: TMetaResponse<Role[]> = {
-      data,
+      data: data as Role[],
       meta: {
         code: 200,
         status: "success",

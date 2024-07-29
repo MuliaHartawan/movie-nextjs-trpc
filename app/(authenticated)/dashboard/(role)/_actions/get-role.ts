@@ -1,6 +1,7 @@
 "use server";
 import { db } from "@/libs/drizzle/connection";
 import { roles } from "@/libs/drizzle/schema";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { eq } from "drizzle-orm";
 
 export const getRoleAction = async (from: string) => {
@@ -31,7 +32,7 @@ export const getRoleAction = async (from: string) => {
 
     return {
       success: {
-        data: role,
+        data: role as Role,
       },
     };
   } catch (error) {

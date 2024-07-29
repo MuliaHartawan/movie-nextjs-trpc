@@ -64,12 +64,8 @@
           "name": "app_role_permissions_role_id_app_roles_id_fk",
           "tableFrom": "app_role_permissions",
           "tableTo": "app_roles",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["role_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -77,12 +73,8 @@
           "name": "app_role_permissions_permission_id_app_permissions_id_fk",
           "tableFrom": "app_role_permissions",
           "tableTo": "app_permissions",
-          "columnsFrom": [
-            "permission_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["permission_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -259,12 +251,8 @@
           "name": "app_users_role_id_app_roles_id_fk",
           "tableFrom": "app_users",
           "tableTo": "app_roles",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["role_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -274,9 +262,7 @@
         "app_users_email_unique": {
           "name": "app_users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       }
     }

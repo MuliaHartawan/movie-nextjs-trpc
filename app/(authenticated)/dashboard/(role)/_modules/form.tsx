@@ -1,14 +1,16 @@
 "use client";
-
 import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { useState } from "react";
-import { useRoleAction } from "../../_hooks";
+import { FC, ReactElement, useState } from "react";
+import { useRoleAction } from "../_hooks";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { TCreateOrUpdateRoleForm } from "../../_entities/schema";
+import { TCreateOrUpdateRoleForm } from "../_entities/schema";
 
-const DashboardCreateRolesClient = ({ data, roleId }: { data: Role; roleId: string }) => {
+export const DashboardCreateRolesModule: FC<{ data?: Role; roleId: string }> = ({
+  data,
+  roleId,
+}): ReactElement => {
   const { updateRoleMutation, addRoleMutation } = useRoleAction();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -88,5 +90,3 @@ const DashboardCreateRolesClient = ({ data, roleId }: { data: Role; roleId: stri
     </Page>
   );
 };
-
-export default DashboardCreateRolesClient;

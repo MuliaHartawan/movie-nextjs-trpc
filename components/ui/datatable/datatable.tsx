@@ -108,7 +108,7 @@ export const Search: FC<TPagination> = (props): ReactElement => {
       onChange={(e) => setSearch(e?.target?.value)}
     />
   );
-}
+};
 
 export const DataTable = <T extends Record<string, any>>(props: TTable<T>): ReactElement => {
   const [sorting, setSorting] = useState<SortingState>([]);

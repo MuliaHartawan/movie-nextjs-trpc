@@ -1,17 +1,10 @@
+import { PageProps } from "@/types/app";
 import { getRoleAction } from "../../_actions/get-role";
-import DashboardDetailRolesClient from "./clients";
+import { DashboardDetailRolesModule } from "../../_modules/detail";
 
-const DashboardDetailRolesModule = async ({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) => {
-  const data = await getRoleAction(params.id);
-
-  //   @ts-ignore
-  return <DashboardDetailRolesClient data={data.success?.data} />;
+const DashboardDetailRolesPage = async (props: PageProps) => {
+  const data = await getRoleAction(props.params.id);
+  return <DashboardDetailRolesModule data={data?.success?.data} />;
 };
 
-export default DashboardDetailRolesModule;
+export default DashboardDetailRolesPage;

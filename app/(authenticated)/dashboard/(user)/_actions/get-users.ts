@@ -17,9 +17,7 @@ export const getUsers = async (meta: TMetaItem): Promise<TMetaResponse<User[]>> 
   const offset = (page - 1) * perPage;
   const search = meta?.search;
 
-  const query = db
-    .select()
-    .from(users);
+  const query = db.select().from(users);
 
   if (search) {
     query.where(sql`lower(${users.fullname}) like lower('%' || ${search} || '%')`);

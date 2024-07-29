@@ -1,13 +1,16 @@
 "use client";
 
 import { Page } from "admiral";
-import { Button, Col, DatePicker, Form, Input, Row, message } from "antd";
-import { Snack } from "../../_actions/get-snacks";
-import { useSnackAction } from "../../_hooks";
+import { Button, Col, DatePicker, Form, Input, Row } from "antd";
+import { Snack } from "../_actions/get-snacks";
+import { useSnackAction } from "../_hooks";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { FC, ReactElement, useState } from "react";
 
-const DashboardCreateSnacksClient = ({ data, snackId }: { data: Snack; snackId: string }) => {
+export const DashboardCreateSnacksModule: FC<{
+  data?: Snack;
+  snackId: string;
+}> = ({ data, snackId }): ReactElement => {
   const { updateSnackMutation, addSnackMutation } = useSnackAction();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -70,5 +73,3 @@ const DashboardCreateSnacksClient = ({ data, snackId }: { data: Snack; snackId: 
     </Page>
   );
 };
-
-export default DashboardCreateSnacksClient;
