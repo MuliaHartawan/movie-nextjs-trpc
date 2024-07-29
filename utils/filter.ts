@@ -32,13 +32,12 @@ const normalize = (data: Record<string, unknown>): Record<string, TFilter> => {
   // Flatting data
   const cloneData: Record<string, TFilter> = Object.keys(data).reduce(
     (all, key) => {
+      console.log(all, key);
       // check if the value is object then flatting it
       const dataKey = data[key];
-      if (isObject(dataKey)) {
-        const normalizedData = normalize(dataKey);
-        Object.keys(normalizedData).forEach((valueKey) => {
-          if (!all[valueKey]) all[valueKey] = normalizedData[valueKey];
-        });
+
+      if (dayjs.isDayjs(dataKey)) {
+        all[key] = dataKey.toISOString();
         // check if the value is date range then join it
       } else if (
         Array.isArray(dataKey) &&
@@ -55,6 +54,11 @@ const normalize = (data: Record<string, unknown>): Record<string, TFilter> => {
         // check if the value is undefined or null then set it to undefined
       } else if (dataKey === undefined || dataKey === null) {
         all[key] = undefined;
+      } else if (isObject(dataKey)) {
+        const normalizedData = normalize(dataKey);
+        Object.keys(normalizedData).forEach((valueKey) => {
+          if (!all[valueKey]) all[valueKey] = normalizedData[valueKey];
+        });
         // check if the value is else then convert it to string
       } else {
         all[key] = String(dataKey);
@@ -64,7 +68,6 @@ const normalize = (data: Record<string, unknown>): Record<string, TFilter> => {
     },
     {} as Record<string, TFilter>,
   );
-
   return cloneData;
 };
 

@@ -15,7 +15,7 @@ import { useFilter } from "@/utils/filter";
 const { confirm } = Modal;
 export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ data }) => {
   const router = useRouter();
-  const { implementDataTable } = useFilter();
+  const { implementDataTable, filter } = useFilter();
 
   const columns: ColumnType<Snack>[] = [
     {
@@ -99,7 +99,12 @@ export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ da
         </Button>
       }
     >
-      <Datatable source={makeSource(data)} columns={columns} onChange={implementDataTable} />
+      <Datatable
+        source={makeSource(data)}
+        columns={columns}
+        onChange={implementDataTable}
+        search={filter.search}
+      />
     </Page>
   );
 };

@@ -16,7 +16,7 @@ export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();
-  const { implementDataTable } = useFilter();
+  const { implementDataTable, filter } = useFilter();
 
   const columns: ColumnType<Role>[] = [
     {
@@ -76,7 +76,12 @@ export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
         </Button>
       }
     >
-      <Datatable source={makeSource(data)} columns={columns} onChange={implementDataTable} />
+      <Datatable
+        source={makeSource(data)}
+        columns={columns}
+        onChange={implementDataTable}
+        search={filter.search}
+      />
     </Page>
   );
 };

@@ -25,7 +25,7 @@
     "@sentry/nextjs": "^8",
     "@tanstack/react-query": "^5.51.15",
     "@tanstack/react-table": "^8.19.2",
-    "admiral": "git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#v2.0.0-beta.54",
+    "admiral": "git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#v2.0.0-beta.58",
     "antd": "5.16.4",
     "argon2-wasm-edge": "^1.0.23",
     "clsx": "^2.1.1",

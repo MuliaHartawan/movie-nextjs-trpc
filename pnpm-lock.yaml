@@ -27,8 +27,8 @@ importers:
         specifier: ^8.19.2
         version: 8.19.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       admiral:
-        specifier: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#v2.0.0-beta.54
-        version: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#6edf75c619dc53fa1d6780374db6e5e434448aaf(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#v2.0.0-beta.58
+        version: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#fbfee9d4f2d7161261c98e17e4e4e22783461cc7(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       antd:
         specifier: 5.16.4
         version: 5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2795,9 +2795,9 @@ packages:
     resolution: {integrity: sha512-OXwN5b9pCUXNQHJpwwD2qP40byEmSgzj8B4ydSN0uMNYWiFmJ6x6KwUllMmfk8Rwu/HJDFR7U8ubsWBoN0Xp0A==}
     engines: {node: '>=8.9'}
 
-  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#6edf75c619dc53fa1d6780374db6e5e434448aaf:
-    resolution: {commit: 6edf75c619dc53fa1d6780374db6e5e434448aaf, repo: https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral, type: git}
-    version: 2.0.0-beta.54
+  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#fbfee9d4f2d7161261c98e17e4e4e22783461cc7:
+    resolution: {commit: fbfee9d4f2d7161261c98e17e4e4e22783461cc7, repo: https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral, type: git}
+    version: 2.0.0-beta.58
     engines: {node: '20'}
     peerDependencies:
       '@ant-design/icons': ^5.3.6
@@ -10429,7 +10429,7 @@ snapshots:
       loader-utils: 2.0.4
       regex-parser: 2.3.0
 
-  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#6edf75c619dc53fa1d6780374db6e5e434448aaf(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#fbfee9d4f2d7161261c98e17e4e4e22783461cc7(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@ant-design/icons': 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       antd: 5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

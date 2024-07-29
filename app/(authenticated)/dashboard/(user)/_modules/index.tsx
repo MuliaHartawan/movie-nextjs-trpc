@@ -16,7 +16,7 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();
-  const { implementDataTable } = useFilter();
+  const { implementDataTable, filter } = useFilter();
 
   const columns: ColumnsType<User> = [
     {
@@ -94,6 +94,7 @@ export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
         showRowSelection={false}
         source={makeSource(data)}
         columns={columns}
+        search={filter.search}
       />
     </Page>
   );
