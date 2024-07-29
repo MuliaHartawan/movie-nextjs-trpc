@@ -33,3 +33,13 @@ deploy_development:update_service:
     script:
         - pip install -r deploy/script/requirement.txt
         - python deploy/script/develop.py
+
+include:
+  # sonarqube scanner
+  - component: gitlab.dot.co.id/cicd-components/sonarqube/cli@main
+    inputs:
+      stage: test
+      run-on: /^development$/i
+      runner-tag: dot
+      sonar-project-key: playground_boilerplates_nextjs-fullstack_52185bc7-da83-4a5f-8afe-17a46afee79b
+      sonar-project-name: dot-boilerplate-nextjs-fullstack
