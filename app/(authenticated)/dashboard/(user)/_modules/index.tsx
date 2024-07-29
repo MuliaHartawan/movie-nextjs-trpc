@@ -12,11 +12,6 @@ import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { useFilter } from "@/utils/filter";
 
-const ORDER: Record<string, "descend" | "ascend" | null> = {
-  ASC: "ascend",
-  DESC: "descend",
-};
-
 export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,
 }): ReactElement => {
