@@ -9,7 +9,7 @@ import { FC, ReactElement, useState } from "react";
 
 export const DashboardCreateSnacksModule: FC<{
   data?: Snack;
-  snackId: string;
+  snackId?: string;
 }> = ({ data, snackId }): ReactElement => {
   const { updateSnackMutation, addSnackMutation } = useSnackAction();
   const [form] = Form.useForm();
