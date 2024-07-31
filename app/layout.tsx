@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google";
 import { StoreProvider } from "@/libs/store/provider";
 import { AuthProvider } from "@/libs/auth/provider";
 import { Notify } from "@/components/ui/notify";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 
 const monserrat = Montserrat({
@@ -25,7 +26,7 @@ const RootLayout: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {
       <body className={monserrat.className}>
         <AuthProvider>
           <StoreProvider>
-            {props.children}
+            <AntdRegistry>{props.children}</AntdRegistry>
             <Notify />
           </StoreProvider>
         </AuthProvider>
