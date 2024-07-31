@@ -14,9 +14,10 @@ export const useUserAction = () => {
       message.success("Berhasil menambahkan User");
       router.push("/dashboard/users");
     },
-    onError: (error) => {
-      message.error("Gagal menambahkan User");
-      throw new Error("Gagal menambahkan User");
+    onError: (error: Error) => {
+      console.log(error);
+      message.error(error.message);
+      throw new Error(error.message);
     },
   });
 

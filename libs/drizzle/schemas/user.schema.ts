@@ -5,8 +5,9 @@ export type User = Base & {
   address: string;
   password: string;
   email: string;
-  roleId: string | null;
-  id: string;
+  roleId?: string | null;
+  id?: string;
   otp: string | null;
   image: string | null;
+  emailVerifiedAt: Date | null;
 };
