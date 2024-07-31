@@ -64,41 +64,35 @@ export const getUserAction = async (from: string) => {
 };
 
 export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
-  try {
-    const role = await findOneRoleById(value.roleId);
+  if (value.fullname === "error") throw new Error("fullname can not be error");
+  const role = await findOneRoleById(value.roleId);
 
-    if (!role) {
-      return {
-        status: "error",
-        error: "Role tidak ditemukan",
-      };
-    }
-
-    const email = await findOneUserByEmail(value.email);
-    if (email) {
-      return {
-        status: "error",
-        error: "Email sudah digunakan",
-      };
-    }
-
-    const password = await hashPassword(value.password);
-
-    await createUser({
-      ...value,
-      password,
-    } as User);
-
-    return {
-      status: "success",
-      message: "User created successfully",
-    };
-  } catch (error) {
+  if (!role) {
     return {
       status: "error",
-      error,
+      error: "Role tidak ditemukan",
     };
   }
+
+  const email = await findOneUserByEmail(value.email);
+  if (email) {
+    return {
+      status: "error",
+      error: "Email sudah digunakan",
+    };
+  }
+
+  const password = await hashPassword(value.password);
+
+  await createUser({
+    ...value,
+    password,
+  } as User);
+
+  return {
+    status: "success",
+    message: "User created successfully",
+  };
 };
 
 export const updateUserAction = async ({

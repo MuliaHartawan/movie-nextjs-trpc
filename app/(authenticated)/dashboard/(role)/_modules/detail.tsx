@@ -30,7 +30,7 @@ export const DashboardDetailRolesModule: FC<{ data?: Role }> = ({ data }): React
             {data?.name}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Permission">
-            {data?.rolePermissions.map((rolePermission) => (
+            {data?.rolePermissions?.map((rolePermission) => (
               <div key={rolePermission.permission.id}>{rolePermission.permission.name}</div>
             ))}
           </Descriptions.Item>

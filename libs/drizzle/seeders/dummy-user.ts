@@ -20,7 +20,7 @@ export const seedUsers = async (db: NodePgDatabase<typeof schema>) => {
       address: `Address ${i + 1}`,
       password: await hashPassword(`password${i + 1}`),
       image: defaultImage,
-      emailVerified: new Date(),
+      emailVerifiedAt: new Date(),
     };
 
     // Define the user's role with conditions
