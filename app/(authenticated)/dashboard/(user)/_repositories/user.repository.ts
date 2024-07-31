@@ -1,4 +1,4 @@
-import { TMetaItem, TMetaResponse } from "@/types/meta";
+import { TMetaItem } from "@/types/meta";
 import { db } from "@/libs/drizzle/connection";
 import { asc, count, eq, sql } from "drizzle-orm";
 import { User } from "@/libs/drizzle/schemas/user.schema";
