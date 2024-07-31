@@ -1,8 +1,8 @@
 "use client";
 
+import { User } from "@/libs/drizzle/schemas/user.schema";
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
-import { User } from "../_actions/get-users";
 import { FC, ReactElement } from "react";
 
 export const DashboardDetailUserModule: FC<{ data?: User }> = ({ data }): ReactElement => {

@@ -19,4 +19,4 @@ export const createOrUpdateUserSchema = z.object({
     .uuid({ message: "Role tidak valid" }),
 });
 
-export type TCreateOrUpdateUserForm = z.infer<typeof createOrUpdateUserSchema>;
+export type TCreateOrUpdateUserRequest = z.infer<typeof createOrUpdateUserSchema>;
