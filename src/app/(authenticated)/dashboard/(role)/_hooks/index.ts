@@ -1,9 +1,9 @@
 import { useActionMutation } from "@/libs/action-query";
+import { createRoleAction } from "@/server/role/actions/create-role";
+import { updateRoleAction } from "@/server/role/actions/update-role";
 import { useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
-import { createRoleAction } from "../_actions/create-role";
-import { updateRoleAction } from "../_actions/update-role";
 
 export const useRoleAction = () => {
   const queryClient = useQueryClient();
@@ -15,9 +15,8 @@ export const useRoleAction = () => {
       message.success("Berhasil menambahkan Role");
       router.push("/dashboard/roles");
     },
-    onError: (error) => {
-      message.error("Gagal menambahkan Role");
-      throw new Error("Gagal menambahkan Role");
+    onError: (error: Error) => {
+      message.error(error.message);
     },
   });
 
@@ -27,9 +26,8 @@ export const useRoleAction = () => {
       message.success("Berhasil memperbarui Role");
       router.push("/dashboard/roles");
     },
-    onError: (error) => {
-      message.error("Gagal memperbarui Role");
-      throw new Error("Gagal memperbarui Role");
+    onError: (error: Error) => {
+      message.error(error.message);
     },
   });
 

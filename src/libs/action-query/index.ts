@@ -6,6 +6,7 @@ import {
   useQuery,
   UseQueryOptions,
   QueryKey,
+  UseQueryResult,
 } from "@tanstack/react-query";
 import { wrapServerAction, wrapServerActionWithParams } from "./server";
 
@@ -16,9 +17,9 @@ export const useActionQuery = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   queryKey: TQueryKey,
-  queryFn: () => Promise<TQueryFnData>,
-  options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, "queryKey" | "queryFn">,
-) => {
+  queryFn: (params?: string) => Promise<TQueryFnData>,
+  options?: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+): UseQueryResult<TData, TError> => {
   const newClientActionQueryFn = async (): Promise<TQueryFnData> => {
     const response = await wrapServerAction(queryFn);
     if (response.status === "error") {
@@ -26,7 +27,8 @@ export const useActionQuery = <
     }
     return response.data;
   };
-  return useQuery({
+
+  return useQuery<TQueryFnData, TError, TData, TQueryKey>({
     queryKey,
     queryFn: newClientActionQueryFn,
     ...options,

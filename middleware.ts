@@ -1,6 +1,6 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { permissionMapper } from "./utils";
+import { permissionMapper } from "./src/utils";
 
 export async function middleware(req: NextRequest, _event: NextFetchEvent) {
   const session = await getToken({

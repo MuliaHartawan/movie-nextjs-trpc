@@ -11,7 +11,6 @@ export const userPagination = async (
   const perPage = meta.perPage;
   const offset = (page - 1) * perPage;
   const search = meta?.search;
-
   const query = db.select().from(users);
 
   if (search) {

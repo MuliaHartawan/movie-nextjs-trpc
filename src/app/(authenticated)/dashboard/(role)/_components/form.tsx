@@ -5,7 +5,7 @@ import { FC, ReactElement, useState } from "react";
 import { useRoleAction } from "../_hooks";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { TCreateOrUpdateRoleForm } from "../_entities/schema";
+import { TCreateOrUpdateRoleForm } from "@/server/role/entities/validation";
 
 export const DashboardCreateRolesModule: FC<{ data?: Role; roleId: string }> = ({
   data,

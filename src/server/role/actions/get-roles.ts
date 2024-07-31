@@ -4,7 +4,6 @@ import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
 import { asc, sql } from "drizzle-orm";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
-import { ErrorMapper } from "@/common/types/error-500-mapper.types";
 import { roles } from "@/libs/drizzle/schema";
 
 export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> => {

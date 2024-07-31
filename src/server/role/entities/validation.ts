@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createOrUpdateRoleSchema = z.object({
+export const createOrUpdateRoleValidation = z.object({
   name: z
     .string({ required_error: "Nama Wajib Diisi", message: "Nama harus berupa string" })
     .min(1, { message: "Nama wajib diisi" })
@@ -10,4 +10,4 @@ export const createOrUpdateRoleSchema = z.object({
     .nonempty({ message: "Minimal satu permission harus dipilih" }),
 });
 
-export type TCreateOrUpdateRoleForm = z.infer<typeof createOrUpdateRoleSchema>;
+export type TCreateOrUpdateRoleForm = z.infer<typeof createOrUpdateRoleValidation>;

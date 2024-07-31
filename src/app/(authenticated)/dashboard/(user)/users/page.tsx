@@ -1,8 +1,8 @@
 "use server";
 import type { ReactElement } from "react";
-import { DashboardUsersModule } from "../_modules";
 import { PageProps } from "@/types/app";
-import { getUsers } from "../_server-actions/user.action";
+import { getUsers } from "@/server/user/actions/user.action";
+import { DashboardUsersModule } from "../_components";
 
 const DashboardUsers = async (props: PageProps): Promise<ReactElement> => {
   const data = await getUsers({
