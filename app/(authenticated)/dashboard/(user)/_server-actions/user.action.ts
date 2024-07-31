@@ -64,7 +64,6 @@ export const getUserAction = async (from: string) => {
 };
 
 export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
-  // try {
   if (value.fullname === "error") throw new Error("fullname can not be error");
   const role = await findOneRoleById(value.roleId);
 
@@ -94,11 +93,6 @@ export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
     status: "success",
     message: "User created successfully",
   };
-  // } catch (error) {
-  //return {
-  //  status: "error",
-  //  error,
-  // };
 };
 
 export const updateUserAction = async ({

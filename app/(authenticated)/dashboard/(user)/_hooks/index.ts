@@ -15,7 +15,6 @@ export const useUserAction = () => {
       router.push("/dashboard/users");
     },
     onError: (error: Error) => {
-      console.log(error);
       message.error(error.message);
       throw new Error(error.message);
     },
