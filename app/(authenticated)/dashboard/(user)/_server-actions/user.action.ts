@@ -1,41 +1,31 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
-import { db } from "@/libs/drizzle/connection";
-import { roles, users } from "@/libs/drizzle/schema";
-import { asc, eq, sql } from "drizzle-orm";
 import { TCreateOrUpdateUserRequest } from "../_requests/create-or-update.request";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
 import { User } from "@/libs/drizzle/schemas/user.schema";
+import {
+  createUser,
+  deleteUserById,
+  findOneUserByEmail,
+  findOneUserById,
+  updateUserById,
+  userPagination,
+} from "../_repositories/user.repository";
+import { findOneRoleById } from "../_repositories/role.repository";
 
 export const getUsers = async (meta: TMetaItem): Promise<TMetaResponse<User[]>> => {
-  const page = meta?.page || 1;
-  const perPage = meta?.perPage || 8;
-  const offset = (page - 1) * perPage;
-  const search = meta?.search;
+  const page = meta.page;
+  const perPage = meta.perPage;
 
-  const query = db.select().from(users);
+  const data = await userPagination(meta);
 
-  if (search) {
-    query.where(sql`lower(${users.fullname}) like lower('%' || ${search} || '%')`);
-  }
-
-  const data = await query
-    .limit(perPage)
-    .offset(offset)
-    .orderBy(users.createdAt, asc(users.createdAt));
-
-  const count = await db
-    .select({ id: users.id })
-    .from(users)
-    .then((res) => res.length);
-
-  const totalPage = calculateTotalPages(count, perPage);
+  const totalPage = calculateTotalPages(data.count, perPage);
   const nextPage = page < totalPage ? page + 1 : null;
   const prevPage = page > 1 ? page - 1 : null;
 
   const metaPrefix: TMetaResponse<User[]> = {
-    data,
+    data: data.users,
     meta: {
       code: 200,
       status: "success",
@@ -54,7 +44,7 @@ export const getUsers = async (meta: TMetaItem): Promise<TMetaResponse<User[]>> 
 // Param from is id of user
 export const getUserAction = async (from: string) => {
   try {
-    const user = (await db.select().from(users).where(eq(users.id, from))).at(0);
+    const user = await findOneUserById(from);
     if (!user) {
       throw "User tidak ditemukan";
     }
@@ -75,7 +65,7 @@ export const getUserAction = async (from: string) => {
 
 export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
   try {
-    const role = (await db.select().from(roles).where(eq(roles.id, value.roleId))).at(0);
+    const role = await findOneRoleById(value.roleId);
 
     if (!role) {
       return {
@@ -84,7 +74,7 @@ export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
       };
     }
 
-    const email = (await db.select().from(users).where(eq(users.email, value.email))).at(0);
+    const email = await findOneUserByEmail(value.email);
     if (email) {
       return {
         status: "error",
@@ -94,10 +84,10 @@ export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
 
     const password = await hashPassword(value.password);
 
-    await db.insert(users).values({
+    await createUser({
       ...value,
       password,
-    });
+    } as User);
 
     return {
       status: "success",
@@ -119,13 +109,13 @@ export const updateUserAction = async ({
   id: string;
 }) => {
   try {
-    const user = (await db.select().from(users).where(eq(users.id, id))).at(0);
+    const user = await findOneUserById(id);
     if (!user) {
       throw "User tidak ditemukan";
     }
 
     // Check if role exists
-    const role = (await db.select().from(roles).where(eq(roles.id, value.roleId))).at(0);
+    const role = await findOneRoleById(value.roleId);
     if (!role) {
       return {
         error: {
@@ -135,7 +125,7 @@ export const updateUserAction = async ({
     }
 
     // Check if email exists and is not the same as the current user
-    const email = (await db.select().from(users).where(eq(users.email, value.email))).at(0);
+    const email = await findOneUserByEmail(value.email);
     if (email && email.id !== id) {
       return {
         error: {
@@ -150,7 +140,7 @@ export const updateUserAction = async ({
     user.email = value.email;
     user.roleId = value.roleId;
 
-    await db.update(users).set(user).where(eq(users.id, id));
+    await updateUserById(id, user);
 
     return {
       success: {
@@ -168,7 +158,7 @@ export const updateUserAction = async ({
 
 export const deleteUserAction = async (from: string) => {
   try {
-    await db.delete(users).where(eq(users.id, from));
+    await deleteUserById(from);
 
     return {
       success: {

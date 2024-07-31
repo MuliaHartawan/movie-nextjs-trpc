@@ -3,7 +3,7 @@ import { Permission } from "./permission.schema";
 
 export type Role = Base & {
   name: string;
-  rolePermissions: {
+  rolePermissions?: {
     permission: Permission;
   }[];
 };
