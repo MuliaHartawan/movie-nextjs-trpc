@@ -3,8 +3,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
 import { createUserAction, updateUserAction } from "../_server-actions/user.action";
-// import { createUserAction } from "../_server-actions/create-user";
-// import { updateUserAction } from "../_server-actions/update-user";
 
 export const useUserAction = () => {
   const queryClient = useQueryClient();
