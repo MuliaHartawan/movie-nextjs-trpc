@@ -1,3 +1,8 @@
+stages:
+  - test
+  - build
+  - deploy
+
 build_development:docker_image:
   stage: build
   image: docker:20.10
