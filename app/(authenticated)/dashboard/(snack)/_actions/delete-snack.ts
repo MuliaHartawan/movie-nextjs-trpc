@@ -5,19 +5,11 @@ import { eq } from "drizzle-orm";
 
 // Param from is id of snack
 export const deleteSnackAction = async (from: string) => {
-  try {
-    await db.delete(snacks).where(eq(snacks.id, from));
+  await db.delete(snacks).where(eq(snacks.id, from));
 
-    return {
-      success: {
-        message: "Snack berhasil dihapus",
-      },
-    };
-  } catch (error) {
-    return {
-      error: {
-        message: "Terjadi kesalahan",
-      },
-    };
-  }
+  return {
+    success: {
+      message: "Snack berhasil dihapus",
+    },
+  };
 };

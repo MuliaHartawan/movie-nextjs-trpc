@@ -10,26 +10,26 @@ export const useSnackAction = () => {
   const router = useRouter();
 
   const addSnackMutation = useActionMutation(createSnackAction, {
-    onSuccess: () => {
+    onSuccess: ({ success }) => {
       queryClient.invalidateQueries({ queryKey: ["snacks"] });
-      message.success("Berhasil menambahkan snack");
+      message.success(success.message);
       router.push("/dashboard/snacks");
     },
-    onError: (error) => {
-      message.error("Gagal menambahkan snack");
-      throw new Error("Gagal menambahkan snack");
+    onError: (error: Error) => {
+      message.error(error.message);
+      throw new Error(error.message);
     },
   });
 
   const updateSnackMutation = useActionMutation(updateSnackAction, {
-    onSuccess: () => {
+    onSuccess: ({ success }) => {
       queryClient.invalidateQueries({ queryKey: ["snacks"] });
-      message.success("Berhasil memperbarui snack");
+      message.success(success.message);
       router.push("/dashboard/snacks");
     },
-    onError: (error) => {
-      message.error("Gagal memperbarui snack");
-      throw new Error("Gagal memperbarui snack");
+    onError: (error: Error) => {
+      message.error(error.message);
+      throw new Error(error.message);
     },
   });
 
