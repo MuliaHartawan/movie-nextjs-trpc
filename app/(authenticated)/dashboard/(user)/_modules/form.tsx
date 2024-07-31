@@ -4,9 +4,9 @@ import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { FC, ReactElement, useState } from "react";
 import { useUserAction } from "../_hooks";
-import { User } from "../_actions/get-users";
-import { TCreateOrUpdateUserForm } from "../_entities/schema";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { TCreateOrUpdateUserRequest } from "../_requests/create-or-update.request";
+import { User } from "@/libs/drizzle/schemas/user.schema";
 
 export const DashboardCreateUsersModule: FC<{
   data?: User;
@@ -17,7 +17,7 @@ export const DashboardCreateUsersModule: FC<{
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const handleAddOrUpdateUser = async (values: TCreateOrUpdateUserForm) => {
+  const handleAddOrUpdateUser = async (values: TCreateOrUpdateUserRequest) => {
     setLoading(true);
     try {
       if (userId) {

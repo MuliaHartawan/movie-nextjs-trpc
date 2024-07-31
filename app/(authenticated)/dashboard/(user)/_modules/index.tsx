@@ -1,16 +1,16 @@
 "use client";
 import type { FC, ReactElement } from "react";
-import { User } from "../_actions/get-users";
 import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { deleteUserAction } from "../_actions/delete-user";
 import { useRouter } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { useFilter } from "@/utils/filter";
+import { deleteUserAction } from "../_server-actions/user.action";
+import { User } from "@/libs/drizzle/schemas/user.schema";
 
 export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,

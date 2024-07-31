@@ -2,8 +2,8 @@ export type TMetaItem = {
   code?: number;
   status?: string;
   message?: string;
-  page?: number;
-  perPage?: number;
+  page: number | 1;
+  perPage: number | 10;
   totalPage?: number;
   search?: string;
   nextPage?: number | null;

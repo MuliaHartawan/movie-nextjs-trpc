@@ -2,8 +2,7 @@ import { useActionMutation } from "@/libs/action-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
-import { createUserAction } from "../_actions/create-user";
-import { updateUserAction } from "../_actions/update-user";
+import { createUserAction, updateUserAction } from "../_server-actions/user.action";
 
 export const useUserAction = () => {
   const queryClient = useQueryClient();
