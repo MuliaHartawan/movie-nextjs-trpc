@@ -5,6 +5,7 @@ import { ReactElement } from "react";
 
 const DashboardCreateSnacksPage = async (props: PageProps): Promise<ReactElement> => {
   const snacksId = props.searchParams.id?.toString() ?? "";
+  if (!snacksId) return <DashboardCreateSnacksModule />;
   const data = await getSnackAction(snacksId);
   return <DashboardCreateSnacksModule data={data?.success?.data} snackId={snacksId} />;
 };
