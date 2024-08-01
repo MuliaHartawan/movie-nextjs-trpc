@@ -1,8 +1,8 @@
 "use server";
-import { TCreateOrUpdateRoleForm } from "../_entities/schema";
 import { db } from "@/libs/drizzle/connection";
 import { rolePermissions, roles } from "@/libs/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { TCreateOrUpdateRoleForm } from "../entities/validation";
 
 // Param from is id of role
 export const updateRoleAction = async ({

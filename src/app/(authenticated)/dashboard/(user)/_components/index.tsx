@@ -9,8 +9,8 @@ import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { useFilter } from "@/utils/filter";
-import { deleteUserAction } from "../_server-actions/user.action";
 import { User } from "@/libs/drizzle/schemas/user.schema";
+import { deleteUserAction } from "@/server/user/actions/user.action";
 
 export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
   data,

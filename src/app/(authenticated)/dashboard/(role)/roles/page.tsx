@@ -1,10 +1,10 @@
 "use server";
 import type { ReactElement } from "react";
-import { DashboardRolesModule } from "../_modules";
-import { getRoles } from "../_actions/get-roles";
 import { PageProps } from "@/types/app";
 import { Role } from "@/libs/drizzle/schema";
 import { TMetaResponse } from "@/types/meta";
+import { getRoles } from "@/server/role/actions/get-roles";
+import { DashboardRolesModule } from "../_components";
 
 const DashboardRoles = async (props: PageProps): Promise<ReactElement> => {
   const data = await getRoles({

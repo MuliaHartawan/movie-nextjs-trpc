@@ -1,8 +1,8 @@
 import { useActionMutation } from "@/libs/action-query";
+import { createUserAction, updateUserAction } from "@/server/user/actions/user.action";
 import { useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
-import { createUserAction, updateUserAction } from "../_server-actions/user.action";
 
 export const useUserAction = () => {
   const queryClient = useQueryClient();
@@ -16,7 +16,6 @@ export const useUserAction = () => {
     },
     onError: (error: Error) => {
       message.error(error.message);
-      throw new Error(error.message);
     },
   });
 
@@ -26,9 +25,8 @@ export const useUserAction = () => {
       message.success("Berhasil memperbarui User");
       router.push("/dashboard/users");
     },
-    onError: (error) => {
-      message.error("Gagal memperbarui User");
-      throw new Error("Gagal memperbarui User");
+    onError: (error: Error) => {
+      message.error(error.message);
     },
   });
 

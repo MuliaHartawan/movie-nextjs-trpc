@@ -31,4 +31,3 @@ export default withSentryConfig(nextConfig, {
   automaticVercelMonitors: true,
   productionBrowserSourceMaps: true,
 });
-

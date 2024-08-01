@@ -5,12 +5,12 @@ import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { deleteRoleAction } from "../_actions/delete-role";
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { Role } from "@/libs/drizzle/schema";
 import { useFilter } from "@/utils/filter";
+import { deleteRoleAction } from "@/server/role/actions/delete-role";
 
 export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
   data,
