@@ -1,3 +1,4 @@
+"use server";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
 import {
   findOneRoleWithPermissionsById,

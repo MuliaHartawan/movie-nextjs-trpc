@@ -12,4 +12,4 @@ const pool = new Pool({
   ssl: config.database.ssl,
 });
 
-export const db = drizzle(pool, { schema, logger: true });
+export const db = drizzle(pool, { schema });
