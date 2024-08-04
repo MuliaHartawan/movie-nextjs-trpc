@@ -2,10 +2,9 @@
 import "server-only";
 import { eq } from "drizzle-orm";
 import { db } from "../drizzle/connection";
-import { rolePermissions, roles, users } from "../drizzle/schema";
+import { roles, users } from "../drizzle/schema";
 import { verifyPassword } from "./password";
 import { signOut } from "./auth";
-import { permission } from "process";
 
 export const checkEmail = async (email?: string | null) => {
   if (!email) return "Email wajib diisi";

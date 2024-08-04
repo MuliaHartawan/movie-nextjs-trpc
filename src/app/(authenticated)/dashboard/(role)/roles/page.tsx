@@ -3,8 +3,8 @@ import type { ReactElement } from "react";
 import { PageProps } from "@/types/app";
 import { Role } from "@/libs/drizzle/schema";
 import { TMetaResponse } from "@/types/meta";
-import { getRoles } from "@/server/role/actions/get-roles";
 import { DashboardRolesModule } from "../_components";
+import { getRoles } from "@/server/role/actions/role.action";
 
 const DashboardRoles = async (props: PageProps): Promise<ReactElement> => {
   const data = await getRoles({

@@ -1,7 +1,15 @@
 import { TMetaItem, TMetaResponse } from "@/types/meta";
-import { findOneRoleById, rolePagination } from "../repositories/role.repository";
-import { Role } from "@/libs/drizzle/schema";
+import {
+  findOneRoleWithPermissionsById,
+  findRolesWithSearch,
+  rolePagination,
+  createRoleAndPermissions,
+  updateRoleAndPermissionsById,
+  deleteRoleById,
+} from "../repositories/role.repository";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { TCreateOrUpdateRoleForm } from "../entities/validation";
 
 export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> => {
   const page = meta.page;
@@ -15,7 +23,7 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
     meta: {
       code: 200,
       status: "success",
-      message: "Berhasil menampilkan order",
+      message: "Berhasil menampilkan roles",
       page,
       perPage,
       totalPage,
@@ -26,7 +34,28 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
   return metaResponsePrefix(metaPrefix);
 };
 
-export const getRole = async (from: string) => {
-  const data = await findOneRoleById(from);
-  return data;
+export const getRolesWithSearch = async (search: string): Promise<Role[] | TMetaItem> => {
+  return await findRolesWithSearch(search);
+};
+
+export const getRole = async (from: string): Promise<Role | undefined> => {
+  return await findOneRoleWithPermissionsById(from);
+};
+
+export const createRole = async (value: TCreateOrUpdateRoleForm): Promise<void> => {
+  await createRoleAndPermissions(value.name, value.permissionIds);
+};
+
+export const updateRole = async ({
+  value,
+  id,
+}: {
+  value: TCreateOrUpdateRoleForm;
+  id: string;
+}): Promise<void> => {
+  await updateRoleAndPermissionsById(id, value.name, value.permissionIds);
+};
+
+export const deleteRole = async (id: string): Promise<void> => {
+  await deleteRoleById(id);
 };
