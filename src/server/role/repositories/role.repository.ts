@@ -2,7 +2,7 @@ import { db } from "@/libs/drizzle/connection";
 import { rolePermissions, roles } from "@/libs/drizzle/schema";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TMetaItem } from "@/types/meta";
-import { asc, eq, sql } from "drizzle-orm";
+import { count, desc, eq, sql } from "drizzle-orm";
 
 export const rolePagination = async (
   meta: TMetaItem,
@@ -20,16 +20,16 @@ export const rolePagination = async (
   const data = await query
     .limit(perPage)
     .offset(offset)
-    .orderBy(roles.createdAt, asc(roles.createdAt));
+    .orderBy(roles.createdAt, desc(roles.createdAt));
 
-  const count = await db
-    .select({ id: roles.id })
+  const dataCount = await db
+    .select({ count: count(roles.id) })
     .from(roles)
-    .then((res) => res.length);
+    .then((res) => res[0].count);
 
   return {
     roles: data,
-    count: count,
+    count: dataCount,
   };
 };
 
