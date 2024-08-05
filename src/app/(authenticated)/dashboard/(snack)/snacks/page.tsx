@@ -1,7 +1,7 @@
 "use server";
 import type { ReactElement } from "react";
 import { DashboardSnacksModule } from "../_modules";
-import { getSnacks } from "../_actions/get-snacks";
+import { getSnacks } from "@/server/snack/actions/snack.action";
 
 const DashboardSnacks = async ({
   searchParams,
