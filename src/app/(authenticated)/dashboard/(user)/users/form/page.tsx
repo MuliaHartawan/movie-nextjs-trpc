@@ -1,7 +1,7 @@
 import { PageProps } from "@/types/app";
-import { getRoles } from "@/server/role/actions/get-roles";
 import { DashboardCreateUsersModule } from "../../_components/form";
 import { getUser } from "@/server/user/actions/user.action";
+import { getRoles } from "@/server/role/actions/role.action";
 
 const DashboardCreateUsersPage = async (props: PageProps) => {
   const userId = props.searchParams.id?.toString() ?? "";

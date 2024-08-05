@@ -46,7 +46,9 @@ export const getUser = async (from?: string) => {
 };
 
 export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
+  // Simulate error
   if (value.fullname === "error") throw new Error("fullname can not be error");
+
   const role = await findOneRoleById(value.roleId);
   if (!role) {
     return {
@@ -79,68 +81,52 @@ export const updateUserAction = async ({
   value: TCreateOrUpdateUserRequest;
   id: string;
 }) => {
-  try {
-    const user = await findOneUserById(id);
-    if (!user) {
-      throw "User tidak ditemukan";
-    }
+  const user = await findOneUserById(id);
+  if (!user) {
+    throw "User tidak ditemukan";
+  }
 
-    // Check if role exists
-    const role = await findOneRoleById(value.roleId);
-    if (!role) {
-      return {
-        error: {
-          message: "Role tidak ditemukan",
-        },
-      };
-    }
-
-    // Check if email exists and is not the same as the current user
-    const email = await findOneUserByEmail(value.email);
-    if (email && email.id !== id) {
-      return {
-        error: {
-          message: "Email sudah digunakan",
-        },
-      };
-    }
-
-    user.fullname = value.fullname;
-    user.address = value.address;
-    user.password = await hashPassword(value.password);
-    user.email = value.email;
-    user.roleId = value.roleId;
-
-    await updateUserById(id, user);
-
-    return {
-      success: {
-        message: "User berhasil diubah",
-      },
-    };
-  } catch (error) {
+  // Check if role exists
+  const role = await findOneRoleById(value.roleId);
+  if (!role) {
     return {
       error: {
-        message: error as string,
+        message: "Role tidak ditemukan",
       },
     };
   }
+
+  // Check if email exists and is not the same as the current user
+  const email = await findOneUserByEmail(value.email);
+  if (email && email.id !== id) {
+    return {
+      error: {
+        message: "Email sudah digunakan",
+      },
+    };
+  }
+
+  user.fullname = value.fullname;
+  user.address = value.address;
+  user.password = await hashPassword(value.password);
+  user.email = value.email;
+  user.roleId = value.roleId;
+
+  await updateUserById(id, user);
+
+  return {
+    success: {
+      message: "User berhasil diubah",
+    },
+  };
 };
 
 export const deleteUserAction = async (from: string) => {
-  try {
-    await deleteUserById(from);
+  await deleteUserById(from);
 
-    return {
-      success: {
-        message: "User berhasil dihapus",
-      },
-    };
-  } catch (error) {
-    return {
-      error: {
-        message: error as string,
-      },
-    };
-  }
+  return {
+    success: {
+      message: "User berhasil dihapus",
+    },
+  };
 };

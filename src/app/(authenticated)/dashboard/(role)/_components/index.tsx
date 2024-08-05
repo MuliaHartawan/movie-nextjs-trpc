@@ -10,7 +10,7 @@ import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { Role } from "@/libs/drizzle/schema";
 import { useFilter } from "@/utils/filter";
-import { deleteRoleAction } from "@/server/role/actions/delete-role";
+import { deleteRole } from "@/server/role/actions/role.action";
 
 export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
   data,
@@ -41,7 +41,7 @@ export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
               icon={<DeleteOutlined style={{ color: "red" }} />}
               type="link"
               onClick={() => {
-                deleteRoleAction(record?.id as string);
+                deleteRole(record?.id as string);
                 router.refresh();
                 message.success("Role berhasil dihapus");
               }}

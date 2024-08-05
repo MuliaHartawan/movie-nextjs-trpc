@@ -1,6 +1,6 @@
 import { TMetaItem } from "@/types/meta";
 import { db } from "@/libs/drizzle/connection";
-import { asc, count, eq, sql } from "drizzle-orm";
+import { count, desc, eq, sql } from "drizzle-orm";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { users } from "@/libs/drizzle/schema";
 
@@ -20,7 +20,7 @@ export const userPagination = async (
   const data = await query
     .limit(perPage)
     .offset(offset)
-    .orderBy(users.createdAt, asc(users.createdAt));
+    .orderBy(users.createdAt, desc(users.createdAt));
 
   const dataCount = await db
     .select({ count: count(users.id) })
