@@ -1,7 +1,15 @@
+"use server";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
 import { calculateTotalPages, metaResponsePrefix } from "@/utils";
-import { snackPagination } from "../repositories/snack.repository";
+import {
+  createNewSnack,
+  deleteSnackById,
+  findOneSnackById,
+  snackPagination,
+  updateSnackById,
+} from "../repositories/snack.repository";
+import { TCreateOrUpdateSnackForm } from "../form-validations/create-or-update-snack.form";
 
 export const getSnacks = async (meta: TMetaItem): Promise<TMetaResponse<Snack[]>> => {
   const page = meta.page;
@@ -26,4 +34,40 @@ export const getSnacks = async (meta: TMetaItem): Promise<TMetaResponse<Snack[]>
   };
 
   return metaResponsePrefix(metaPrefix);
+};
+
+export const getSnack = async (from: string) => {
+  const snack = await findOneSnackById(from);
+
+  if (!snack) {
+    throw new Error("Snack tidak ditemukan");
+  }
+
+  return snack;
+};
+
+export const createSnackAction = async (value: TCreateOrUpdateSnackForm) => {
+  await createNewSnack({
+    name: value.name,
+    cost: value.cost,
+    expiryDate: new Date(value.expiryDate),
+  });
+};
+
+export const updateSnackAction = async ({
+  value,
+  id,
+}: {
+  value: TCreateOrUpdateSnackForm;
+  id: string;
+}) => {
+  await updateSnackById(id, {
+    name: value.name,
+    cost: value.cost,
+    expiryDate: new Date(value.expiryDate),
+  });
+};
+
+export const deleteSnackAction = async (id: string) => {
+  await deleteSnackById(id);
 };

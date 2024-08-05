@@ -1,7 +1,7 @@
 "use client";
 
+import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { Page, Section } from "admiral";
-import { Snack } from "../_actions/get-snacks";
 import { Descriptions } from "antd";
 import { FC, ReactElement } from "react";
 

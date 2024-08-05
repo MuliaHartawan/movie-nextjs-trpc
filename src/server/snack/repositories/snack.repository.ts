@@ -2,7 +2,7 @@ import { db } from "@/libs/drizzle/connection";
 import { snacks } from "@/libs/drizzle/schema";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { TMetaItem } from "@/types/meta";
-import { count, desc, sql } from "drizzle-orm";
+import { count, desc, eq, sql } from "drizzle-orm";
 
 export const snackPagination = async (
   meta: TMetaItem,
@@ -31,4 +31,22 @@ export const snackPagination = async (
     snacks: data,
     count: dataCount,
   };
+};
+
+export const findOneSnackById = async (id: string): Promise<Snack | undefined> => {
+  return await db.query.snacks.findFirst({
+    where: eq(snacks.id, id),
+  });
+};
+
+export const createNewSnack = async (data: Snack): Promise<void> => {
+  await db.insert(snacks).values(data);
+};
+
+export const updateSnackById = async (id: string, data: Snack): Promise<void> => {
+  await db.update(snacks).set(data).where(eq(snacks.id, id));
+};
+
+export const deleteSnackById = async (id: string): Promise<void> => {
+  await db.delete(snacks).where(eq(snacks.id, id));
 };
