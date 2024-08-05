@@ -2,10 +2,10 @@
 
 import { Page } from "admiral";
 import { Button, Col, DatePicker, Form, Input, Row } from "antd";
-import { Snack } from "../_actions/get-snacks";
 import { useSnackAction } from "../_hooks";
 import dayjs from "dayjs";
 import { FC, ReactElement, useState } from "react";
+import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 
 export const DashboardCreateSnacksModule: FC<{
   data?: Snack;

@@ -36,7 +36,7 @@ export const getSnacks = async (meta: TMetaItem): Promise<TMetaResponse<Snack[]>
   return metaResponsePrefix(metaPrefix);
 };
 
-export const getSnack = async (from: string) => {
+export const getSnackAction = async (from: string) => {
   const snack = await findOneSnackById(from);
 
   if (!snack) {

@@ -1,7 +1,7 @@
 import { PageProps } from "@/types/app";
-import { getSnackAction } from "../../_actions/get-snack";
 import { DashboardCreateSnacksModule } from "../../_modules/form";
 import { ReactElement } from "react";
+import { getSnackAction } from "@/server/snack/actions/snack.action";
 
 const DashboardCreateSnacksPage = async (props: PageProps): Promise<ReactElement> => {
   const snacksId = props.searchParams.id?.toString() ?? "";
