@@ -40,7 +40,7 @@ export const getUsers = async (meta: TMetaItem): Promise<TMetaResponse<User[]>> 
 };
 
 export const getUser = async (from?: string) => {
-  if (!from) throw new Error("id is required");
+  if (!from) return undefined;
   const user = await findOneUserById(from);
   return user;
 };
@@ -51,27 +51,17 @@ export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
 
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    return {
-      status: "error",
-      error: "Role tidak ditemukan",
-    };
+    throw new Error("Role tidak ditemukan");
   }
   const email = await findOneUserByEmail(value.email);
   if (email) {
-    return {
-      status: "error",
-      error: "Email sudah digunakan",
-    };
+    throw new Error("Email sudah digunakan");
   }
   const password = await hashPassword(value.password);
   await createUser({
     ...value,
     password,
   } as User);
-  return {
-    status: "success",
-    message: "User created successfully",
-  };
 };
 
 export const updateUserAction = async ({
@@ -89,21 +79,13 @@ export const updateUserAction = async ({
   // Check if role exists
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    return {
-      error: {
-        message: "Role tidak ditemukan",
-      },
-    };
+    throw new Error("Role tidak ditemukan");
   }
 
   // Check if email exists and is not the same as the current user
   const email = await findOneUserByEmail(value.email);
   if (email && email.id !== id) {
-    return {
-      error: {
-        message: "Email sudah digunakan",
-      },
-    };
+    throw new Error("Email sudah digunakan");
   }
 
   user.fullname = value.fullname;
@@ -113,20 +95,8 @@ export const updateUserAction = async ({
   user.roleId = value.roleId;
 
   await updateUserById(id, user);
-
-  return {
-    success: {
-      message: "User berhasil diubah",
-    },
-  };
 };
 
 export const deleteUserAction = async (from: string) => {
   await deleteUserById(from);
-
-  return {
-    success: {
-      message: "User berhasil dihapus",
-    },
-  };
 };
