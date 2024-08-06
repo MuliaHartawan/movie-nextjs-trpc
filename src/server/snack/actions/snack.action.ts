@@ -9,7 +9,7 @@ import {
   snackPagination,
   updateSnackById,
 } from "../repositories/snack.repository";
-import { TCreateOrUpdateSnackForm } from "../form-validations/create-or-update-snack.form";
+import { TCreateOrUpdateSnackValidation } from "../validations/create-or-update-snack.validation";
 
 export const getSnacks = async (meta: TMetaItem): Promise<TMetaResponse<Snack[]>> => {
   const page = meta.page;
@@ -46,7 +46,7 @@ export const getSnackAction = async (from: string) => {
   return snack;
 };
 
-export const createSnackAction = async (value: TCreateOrUpdateSnackForm) => {
+export const createSnackAction = async (value: TCreateOrUpdateSnackValidation) => {
   await createNewSnack({
     name: value.name,
     cost: value.cost,
@@ -58,7 +58,7 @@ export const updateSnackAction = async ({
   value,
   id,
 }: {
-  value: TCreateOrUpdateSnackForm;
+  value: TCreateOrUpdateSnackValidation;
   id: string;
 }) => {
   await updateSnackById(id, {
