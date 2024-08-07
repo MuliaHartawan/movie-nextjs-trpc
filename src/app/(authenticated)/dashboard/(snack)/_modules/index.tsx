@@ -7,7 +7,7 @@ import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
-import { makeSource } from "@/utils";
+import { makeSource } from "@/utils/index";
 import { useFilter } from "@/utils/filter";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";

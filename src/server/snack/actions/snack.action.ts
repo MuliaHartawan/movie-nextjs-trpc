@@ -1,7 +1,7 @@
 "use server";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils";
+import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import {
   createNewSnack,
   deleteSnackById,

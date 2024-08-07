@@ -8,7 +8,7 @@ import {
   updateRoleAndPermissionsById,
   deleteRoleById,
 } from "../repositories/role.repository";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils";
+import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TCreateOrUpdateRoleForm } from "../entities/validation";
 

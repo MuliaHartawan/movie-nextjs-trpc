@@ -11,7 +11,7 @@ import Link from "next/link";
 import { TheraIcon } from "@/components/svg-tsx/thera-icon";
 import UserProfile from "../user-profile";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { hasCommonElements } from "@/utils";
+import { hasCommonElements } from "@/utils/index";
 
 export type TMainLayoutProps = {
   title?: string;
