@@ -13,6 +13,7 @@ const nextConfig = {
   transpilePackages: ["admiral"],
   webpack: (config) => {
     config.resolve.alias["@"] = path.join(__dirname, "src");
+    config.resolve.alias["@/components"] = path.join(__dirname, "src/app/_components");
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
     return config;
