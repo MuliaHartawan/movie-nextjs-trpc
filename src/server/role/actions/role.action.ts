@@ -39,7 +39,7 @@ export const getRolesWithSearch = async (search: string): Promise<Role[] | TMeta
   return await findRolesWithSearch(search);
 };
 
-export const getRole = async (from: string): Promise<Role | undefined> => {
+export const getRoleAction = async (from: string): Promise<Role | undefined> => {
   return await findOneRoleWithPermissionsById(from);
 };
 
