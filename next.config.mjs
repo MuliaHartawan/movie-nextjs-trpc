@@ -12,7 +12,7 @@ const nextConfig = {
   },
   transpilePackages: ["admiral"],
   webpack: (config) => {
-    config.resolve.alias["@"] = path.join(__dirname, "");
+    config.resolve.alias["@"] = path.join(__dirname, "src");
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
     return config;
@@ -31,4 +31,3 @@ export default withSentryConfig(nextConfig, {
   automaticVercelMonitors: true,
   productionBrowserSourceMaps: true,
 });
-
