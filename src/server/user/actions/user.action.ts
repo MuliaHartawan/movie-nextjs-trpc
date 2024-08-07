@@ -1,7 +1,7 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
 import { TMetaItem, TMetaResponse } from "@/types/meta";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils";
+import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import {
   createUser,
