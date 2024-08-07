@@ -20,7 +20,8 @@ export const DashboardCreateSnacksModule: FC<{
     if (snackId) {
       await updateSnackMutation.mutateAsync({
         value: {
-          ...values,
+          name: values.name,
+          cost: +values.cost,
           expiryDate: dayjs(values.expiryDate).format("YYYY-MM-DD"),
         },
         id: snackId,
@@ -28,7 +29,8 @@ export const DashboardCreateSnacksModule: FC<{
       setLoading(false);
     } else {
       await addSnackMutation.mutateAsync({
-        ...values,
+        name: values.name,
+        cost: +values.cost,
         expiryDate: dayjs(values.expiryDate).format("YYYY-MM-DD"),
       });
       setLoading(false);

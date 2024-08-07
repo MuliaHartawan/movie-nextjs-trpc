@@ -5,7 +5,7 @@ export const createOrUpdateSnackSchema = z.object({
     .string({ required_error: "Nama Wajib Diisi", message: "Nama harus berupa string" })
     .min(1, { message: "Nama wajib diisi" }),
   cost: z
-    .number({ required_error: "Biaya Wajib Diisi", message: "Biaya harus berupa andka" })
+    .number({ required_error: "Biaya Wajib Diisi", message: "Biaya harus berupa angka" })
     .min(1, { message: "Biaya wajib diisi" }),
   expiryDate: z
     .string({ required_error: "Tanggal kadaluarsa wajib diisi" })
