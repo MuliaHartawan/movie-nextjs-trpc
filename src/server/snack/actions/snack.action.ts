@@ -51,6 +51,7 @@ export const getSnackAction = async (from: string) => {
 };
 
 export const createSnackAction = async (value: TCreateOrUpdateSnackValidation) => {
+  console.log("value", value);
   // Validation
   validate(createOrUpdateSnackSchema, value);
 
