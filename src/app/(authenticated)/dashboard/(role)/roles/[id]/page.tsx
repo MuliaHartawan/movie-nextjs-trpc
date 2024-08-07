@@ -1,9 +1,9 @@
 import { PageProps } from "@/types/app";
 import { DashboardDetailRolesModule } from "../../_components/detail";
-import { getRole } from "@/server/role/actions/role.action";
+import { getRoleAction } from "@/server/role/actions/role.action";
 
 const DashboardDetailRolesPage = async (props: PageProps) => {
-  const data = await getRole(props.params.id);
+  const data = await getRoleAction(props.params.id);
   return <DashboardDetailRolesModule data={data} />;
 };
 
