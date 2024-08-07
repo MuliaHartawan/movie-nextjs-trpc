@@ -1,16 +1,16 @@
 "use client";
 import Datatable from "admiral/table/datatable/index";
-import { Snack } from "../_actions/get-snacks";
 import { FC } from "react";
 import { TMetaResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { deleteSnackAction } from "../_actions/delete-snack";
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils";
 import { useFilter } from "@/utils/filter";
+import { Snack } from "@/libs/drizzle/schemas/snack.schema";
+import { deleteSnackAction } from "@/server/snack/actions/snack.action";
 
 const { confirm } = Modal;
 export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ data }) => {
@@ -62,7 +62,7 @@ export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ da
                   icon: <DeleteOutlined />,
                   cancelText: "Cancel",
                   onOk() {
-                    deleteSnackAction(row?.id);
+                    deleteSnackAction(row?.id as string);
                     router.refresh();
                     message.success("Snack berhasil dihapus");
                   },

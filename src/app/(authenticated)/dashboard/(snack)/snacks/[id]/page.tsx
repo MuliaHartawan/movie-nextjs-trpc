@@ -1,11 +1,11 @@
 import { PageProps } from "@/types/app";
-import { getSnackAction } from "../../_actions/get-snack";
 import { DashboardDetailSnacksModule } from "../../_modules/detail";
 import { ReactElement } from "react";
+import { getSnack } from "@/server/snack/actions/snack.action";
 
 const DashboardDetailSnacksPage = async (props: PageProps): Promise<ReactElement> => {
-  const data = await getSnackAction(props?.params?.id);
-  return <DashboardDetailSnacksModule data={data.success?.data} />;
+  const data = await getSnack(props?.params?.id);
+  return <DashboardDetailSnacksModule data={data} />;
 };
 
 export default DashboardDetailSnacksPage;

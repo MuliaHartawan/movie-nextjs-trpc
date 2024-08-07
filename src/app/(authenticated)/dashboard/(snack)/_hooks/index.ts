@@ -1,18 +1,17 @@
 import { useActionMutation } from "@/libs/action-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { createSnackAction } from "../_actions/create-snack";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
-import { updateSnackAction } from "../_actions/update-snack";
+import { createSnackAction, updateSnackAction } from "@/server/snack/actions/snack.action";
 
 export const useSnackAction = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const addSnackMutation = useActionMutation(createSnackAction, {
-    onSuccess: ({ success }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["snacks"] });
-      message.success(success.message);
+      message.success("Snack berhasil ditambahkan");
       router.push("/dashboard/snacks");
     },
     onError: (error: Error) => {
@@ -22,9 +21,9 @@ export const useSnackAction = () => {
   });
 
   const updateSnackMutation = useActionMutation(updateSnackAction, {
-    onSuccess: ({ success }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["snacks"] });
-      message.success(success.message);
+      message.success("Snack berhasil diubah");
       router.push("/dashboard/snacks");
     },
     onError: (error: Error) => {

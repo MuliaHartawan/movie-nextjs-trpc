@@ -12,4 +12,4 @@ export const createOrUpdateSnackSchema = z.object({
     .date("Tanggal kadaluarsa harus berupa tanggal"),
 });
 
-export type TCreateOrUpdateSnackForm = z.infer<typeof createOrUpdateSnackSchema>;
+export type TCreateOrUpdateSnackValidation = z.infer<typeof createOrUpdateSnackSchema>;
