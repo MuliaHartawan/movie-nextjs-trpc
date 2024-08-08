@@ -22,9 +22,6 @@ export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> 
   const metaPrefix: TMetaResponse<Role[]> = {
     data: data.roles as Role[],
     meta: {
-      code: 200,
-      status: "success",
-      message: "Berhasil menampilkan roles",
       page,
       perPage,
       totalPage,

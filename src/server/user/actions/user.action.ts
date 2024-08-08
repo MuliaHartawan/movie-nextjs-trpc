@@ -25,9 +25,6 @@ export const getUsers = async (meta: TMetaItem): Promise<TMetaResponse<User[]>> 
   const metaPrefix: TMetaResponse<User[]> = {
     data: data.users,
     meta: {
-      code: 200,
-      status: "success",
-      message: "Berhasil menampilkan order",
       page,
       perPage,
       totalPage,

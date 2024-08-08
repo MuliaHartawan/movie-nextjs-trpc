@@ -26,9 +26,6 @@ export const getSnacks = async (meta: TMetaItem): Promise<TMetaResponse<Snack[]>
   const metaPrefix: TMetaResponse<Snack[]> = {
     data: data.snacks,
     meta: {
-      // code: 200,
-      // status: "success",
-      // message: "Berhasil menampilkan snack",
       page,
       perPage,
       totalPage,
