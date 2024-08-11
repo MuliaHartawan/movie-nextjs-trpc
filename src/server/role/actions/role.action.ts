@@ -1,5 +1,5 @@
 "use server";
-import { TMetaItem, TMetaResponse } from "@/types/meta";
+import { TMetaItem, TPaginationResponse } from "@/types/meta";
 import {
   findOneRoleWithPermissionsById,
   findRolesWithSearch,
@@ -12,14 +12,14 @@ import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TCreateOrUpdateRoleForm } from "../entities/validation";
 
-export const getRoles = async (meta: TMetaItem): Promise<TMetaResponse<Role[]>> => {
+export const getRoles = async (meta: TMetaItem): Promise<TPaginationResponse<Role[]>> => {
   const page = meta.page;
   const perPage = meta.perPage;
   const data = await rolePagination(meta);
   const totalPage = calculateTotalPages(data.count, perPage);
   const nextPage = page < totalPage ? page + 1 : null;
   const prevPage = page > 1 ? page - 1 : null;
-  const metaPrefix: TMetaResponse<Role[]> = {
+  const metaPrefix: TPaginationResponse<Role[]> = {
     data: data.roles as Role[],
     meta: {
       code: 200,

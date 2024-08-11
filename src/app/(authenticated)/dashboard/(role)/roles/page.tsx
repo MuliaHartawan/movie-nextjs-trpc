@@ -2,7 +2,7 @@
 import type { ReactElement } from "react";
 import { PageProps } from "@/types/app";
 import { Role } from "@/libs/drizzle/schema";
-import { TMetaResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { DashboardRolesModule } from "../_components";
 import { getRoles } from "@/server/role/actions/role.action";
 
@@ -12,7 +12,7 @@ const DashboardRoles = async (props: PageProps): Promise<ReactElement> => {
     perPage: Number(props.searchParams?.perPage || 10),
     search: String(props.searchParams?.search || ""),
   });
-  return <DashboardRolesModule data={data as TMetaResponse<Role[]>} />;
+  return <DashboardRolesModule data={data as TPaginationResponse<Role[]>} />;
 };
 
 export default DashboardRoles;

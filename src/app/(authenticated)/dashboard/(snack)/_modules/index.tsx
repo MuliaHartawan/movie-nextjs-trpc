@@ -1,7 +1,7 @@
 "use client";
 import Datatable from "admiral/table/datatable/index";
 import { FC } from "react";
-import { TMetaResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";
 
 const { confirm } = Modal;
-export const DashboardSnacksModule: FC<{ data: TMetaResponse<Snack[]> }> = ({ data }) => {
+export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> = ({ data }) => {
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
 

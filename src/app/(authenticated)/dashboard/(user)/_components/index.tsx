@@ -1,6 +1,6 @@
 "use client";
 import type { FC, ReactElement } from "react";
-import { TMetaResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -12,7 +12,7 @@ import { useFilter } from "@/utils/filter";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 
-export const DashboardUsersModule: FC<{ data: TMetaResponse<User[]> }> = ({
+export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();

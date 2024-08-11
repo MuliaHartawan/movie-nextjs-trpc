@@ -1,5 +1,5 @@
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { TMetaItem, TMetaResponse } from "@/types/meta";
+import { TMetaItem, TPaginationResponse } from "@/types/meta";
 import { TablePaginationConfig } from "antd";
 
 export const metaResponsePrefix = <T>({
@@ -8,7 +8,7 @@ export const metaResponsePrefix = <T>({
 }: {
   data: T;
   meta: TMetaItem;
-}): TMetaResponse<T> => {
+}): TPaginationResponse<T> => {
   return {
     data,
     meta,
@@ -79,7 +79,7 @@ export const paginationTransform = (t?: TMetaItem): TablePaginationConfig => {
   };
 };
 
-export const makeSource = <T>(data?: TMetaResponse<T>) => {
+export const makeSource = <T>(data?: TPaginationResponse<T>) => {
   return {
     data: data?.data,
     meta: paginationTransform(data?.meta),

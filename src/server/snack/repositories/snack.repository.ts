@@ -1,8 +1,10 @@
 import { db } from "@/libs/drizzle/connection";
 import { snacks } from "@/libs/drizzle/schema";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
-import { TMetaItem } from "@/types/meta";
+import { TMetaItem, TPaginationResponse } from "@/types/meta";
+import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
+import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 
 export const snackPagination = async (
   meta: TMetaItem,
@@ -30,6 +32,33 @@ export const snackPagination = async (
   return {
     snacks: data,
     count: dataCount,
+  };
+};
+
+export const snackPaginationNew = async (
+  queryParam: TIndexSnackQueryParam,
+): Promise<TPaginationResponse<Snack[]>> => {
+  const query = db.select().from(snacks);
+
+  if (queryParam.search) {
+    query.where(sql`lower(${snacks.name}) like lower('%' || ${queryParam.search} || '%')`);
+  }
+
+  const data = await query
+    .limit(queryParam.perPage)
+    .offset(countOffset(queryParam))
+    .orderBy(snacks.createdAt, desc(snacks.createdAt));
+
+  const dataCount = await db
+    .select({ count: count(snacks.id) })
+    .from(snacks)
+    .then((res) => res[0].count);
+
+  const meta = mapMeta(dataCount, queryParam);
+
+  return {
+    data,
+    meta,
   };
 };
 

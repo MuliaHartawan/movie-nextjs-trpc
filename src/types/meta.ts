@@ -1,3 +1,4 @@
+// TODO: Need replace this in user & role index
 export type TMetaItem = {
   code?: number;
   status?: string;
@@ -10,7 +11,19 @@ export type TMetaItem = {
   prevPage?: number | null;
 };
 
-export type TMetaResponse<T, M = TMetaItem> = {
+export type TPaginateRequest = {
+  perPage: number;
+  page: number;
+};
+
+export type TPaginationMeta = {
+  page: number | 1;
+  perPage: number | 10;
+  total: number;
+  totalPage: number;
+};
+
+export type TPaginationResponse<T, M = TMetaItem> = {
   data: T;
   meta: M;
 };
