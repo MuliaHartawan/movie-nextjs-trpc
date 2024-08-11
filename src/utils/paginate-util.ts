@@ -1,4 +1,4 @@
-import { TMetaItem, TPaginationMeta, TPaginateRequest } from "@/types/meta";
+import { TPaginationMeta, TPaginateRequest } from "@/types/meta";
 
 const defaultPage = 1;
 const defaultPerPage = 10;

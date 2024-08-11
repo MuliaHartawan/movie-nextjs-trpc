@@ -7,35 +7,6 @@ import { count, desc, eq, sql } from "drizzle-orm";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 
 export const snackPagination = async (
-  meta: TMetaItem,
-): Promise<{ snacks: Snack[]; count: number }> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const offset = (page - 1) * perPage;
-  const search = meta?.search;
-  const query = db.select().from(snacks);
-
-  if (search) {
-    query.where(sql`lower(${snacks.name}) like lower('%' || ${search} || '%')`);
-  }
-
-  const data = await query
-    .limit(perPage)
-    .offset(offset)
-    .orderBy(snacks.createdAt, desc(snacks.createdAt));
-
-  const dataCount = await db
-    .select({ count: count(snacks.id) })
-    .from(snacks)
-    .then((res) => res[0].count);
-
-  return {
-    snacks: data,
-    count: dataCount,
-  };
-};
-
-export const snackPaginationNew = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
   const query = db.select().from(snacks);

@@ -1,13 +1,11 @@
 "use server";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
+import { TPaginationResponse } from "@/types/meta";
 import {
   createNewSnack,
   deleteSnackById,
   findOneSnackById,
   snackPagination,
-  snackPaginationNew,
   updateSnackById,
 } from "../repositories/snack.repository";
 import {
@@ -20,7 +18,7 @@ import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 export const getSnacksAction = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
-  return snackPaginationNew(queryParam);
+  return snackPagination(queryParam);
 };
 
 export const getSnackAction = async (from: string) => {
