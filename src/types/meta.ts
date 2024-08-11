@@ -1,8 +1,5 @@
 // TODO: Need replace this in user & role index
 export type TMetaItem = {
-  code?: number;
-  status?: string;
-  message?: string;
   page: number | 1;
   perPage: number | 10;
   totalPage?: number;
