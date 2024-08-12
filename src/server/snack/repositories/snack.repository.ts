@@ -1,25 +1,23 @@
 import { db } from "@/libs/drizzle/connection";
 import { snacks } from "@/libs/drizzle/schema";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
-import { TMetaItem } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
+import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
+import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 
 export const snackPagination = async (
-  meta: TMetaItem,
-): Promise<{ snacks: Snack[]; count: number }> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const offset = (page - 1) * perPage;
-  const search = meta?.search;
+  queryParam: TIndexSnackQueryParam,
+): Promise<TPaginationResponse<Snack[]>> => {
   const query = db.select().from(snacks);
 
-  if (search) {
-    query.where(sql`lower(${snacks.name}) like lower('%' || ${search} || '%')`);
+  if (queryParam.search) {
+    query.where(sql`lower(${snacks.name}) like lower('%' || ${queryParam.search} || '%')`);
   }
 
   const data = await query
-    .limit(perPage)
-    .offset(offset)
+    .limit(queryParam.perPage)
+    .offset(countOffset(queryParam))
     .orderBy(snacks.createdAt, desc(snacks.createdAt));
 
   const dataCount = await db
@@ -27,9 +25,11 @@ export const snackPagination = async (
     .from(snacks)
     .then((res) => res[0].count);
 
+  const meta = mapMeta(dataCount, queryParam);
+
   return {
-    snacks: data,
-    count: dataCount,
+    data,
+    meta,
   };
 };
 

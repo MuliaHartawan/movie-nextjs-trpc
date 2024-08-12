@@ -1,7 +1,7 @@
 "use client";
 import Datatable from "admiral/table/datatable/index";
 import { FC, ReactElement } from "react";
-import { TMetaResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -12,7 +12,7 @@ import { Role } from "@/libs/drizzle/schema";
 import { useFilter } from "@/utils/filter";
 import { deleteRole } from "@/server/role/actions/role.action";
 
-export const DashboardRolesModule: FC<{ data?: TMetaResponse<Role[]> }> = ({
+export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = ({
   data,
 }): ReactElement => {
   const router = useRouter();
