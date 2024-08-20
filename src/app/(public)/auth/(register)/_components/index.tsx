@@ -1,5 +1,4 @@
 "use client";
-import { GoogleIcon } from "@/components/svg-tsx/google-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
