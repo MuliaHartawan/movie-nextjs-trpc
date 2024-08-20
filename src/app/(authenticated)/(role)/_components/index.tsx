@@ -33,7 +33,7 @@ export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = 
         return (
           <Flex>
             <Button
-              href={`/dashboard/roles/${record?.id}`}
+              href={`/roles/${record?.id}`}
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
@@ -46,11 +46,7 @@ export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = 
                 message.success("Role berhasil dihapus");
               }}
             />
-            <Button
-              href={`/dashboard/roles/form?id=${record?.id}`}
-              type="link"
-              icon={<EditOutlined />}
-            />
+            <Button href={`/roles/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
           </Flex>
         );
       },
@@ -67,11 +63,11 @@ export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = 
         },
         {
           label: "Roles",
-          path: "/dashboard/roles",
+          path: "/roles",
         },
       ]}
       topActions={
-        <Button href="/dashboard/roles/form" icon={<PlusCircleOutlined />}>
+        <Button href="/roles/form" icon={<PlusCircleOutlined />}>
           Add Roles
         </Button>
       }

@@ -48,7 +48,7 @@ export const DashboardCreateSnacksModule: FC<{
         },
         {
           label: "Snacks",
-          path: "/dashboard/snacks",
+          path: "/snacks",
         },
       ]}
     >

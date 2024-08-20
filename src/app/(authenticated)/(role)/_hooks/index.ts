@@ -12,7 +12,7 @@ export const useRoleAction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Roles"] });
       message.success("Berhasil menambahkan Role");
-      router.push("/dashboard/roles");
+      router.push("/roles");
     },
     onError: (error: Error) => {
       message.error(error.message);
@@ -23,7 +23,7 @@ export const useRoleAction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Roles"] });
       message.success("Berhasil memperbarui Role");
-      router.push("/dashboard/roles");
+      router.push("/roles");
     },
     onError: (error: Error) => {
       message.error(error.message);

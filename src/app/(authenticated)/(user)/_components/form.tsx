@@ -53,7 +53,7 @@ export const DashboardCreateUsersModule: FC<{
         },
         {
           label: "Users",
-          path: "/dashboard/Users",
+          path: "/Users",
         },
       ]}
     >

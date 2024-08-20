@@ -16,11 +16,11 @@ export const DashboardDetailUserModule: FC<{ data?: User }> = ({ data }): ReactE
         },
         {
           label: "User",
-          path: "/dashboard/users",
+          path: "/users",
         },
         {
           label: data?.fullname ?? "",
-          path: `/dashboard/users/${data?.id}`,
+          path: `/users/${data?.id}`,
         },
       ]}
     >

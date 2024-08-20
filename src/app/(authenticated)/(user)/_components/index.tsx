@@ -45,7 +45,7 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
         return (
           <Flex>
             <Button
-              href={`/dashboard/users/${record?.id}`}
+              href={`/users/${record?.id}`}
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
@@ -58,11 +58,7 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
                 message.success("User berhasil dihapus");
               }}
             />
-            <Button
-              href={`/dashboard/users/form?id=${record?.id}`}
-              type="link"
-              icon={<EditOutlined />}
-            />
+            <Button href={`/users/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
           </Flex>
         );
       },
@@ -79,11 +75,11 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
         },
         {
           label: "Users",
-          path: "/dashboard/users",
+          path: "/users",
         },
       ]}
       topActions={
-        <Button href="/dashboard/users/form" icon={<PlusCircleOutlined />}>
+        <Button href="/users/form" icon={<PlusCircleOutlined />}>
           Add Users
         </Button>
       }

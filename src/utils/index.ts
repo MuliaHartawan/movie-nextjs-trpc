@@ -32,41 +32,41 @@ export const permissionMapper = [
   },
 
   {
-    url: "/dashboard/snacks",
+    url: "/snacks",
     permissions: [PERMISSIONS.SNACK_READ],
   },
   {
-    url: "/dashboard/snacks/form",
+    url: "/snacks/form",
     permissions: [PERMISSIONS.SNACK_CREATE, PERMISSIONS.SNACK_UPDATE],
   },
   {
-    url: "/dashboard/snacks/detail",
+    url: "/snacks/detail",
     permissions: [PERMISSIONS.SNACK_DETAIL],
   },
 
   {
-    url: "/dashboard/users",
+    url: "/users",
     permissions: [PERMISSIONS.USER_READ],
   },
   {
-    url: "/dashboard/users/form",
+    url: "/users/form",
     permissions: [PERMISSIONS.USER_CREATE, PERMISSIONS.USER_UPDATE],
   },
   {
-    url: "/dashboard/users/detail",
+    url: "/users/detail",
     permissions: [PERMISSIONS.USER_DETAIL],
   },
 
   {
-    url: "/dashboard/roles",
+    url: "/roles",
     permissions: [PERMISSIONS.ROLE_READ],
   },
   {
-    url: "/dashboard/roles/form",
+    url: "/roles/form",
     permissions: [PERMISSIONS.ROLE_CREATE, PERMISSIONS.ROLE_UPDATE],
   },
   {
-    url: "/dashboard/roles/detail",
+    url: "/roles/detail",
     permissions: [PERMISSIONS.ROLE_DETAIL],
   },
 ];

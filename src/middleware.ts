@@ -1,6 +1,6 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { permissionMapper } from "./src/utils";
+import { permissionMapper } from "./utils";
 
 export async function middleware(req: NextRequest, _event: NextFetchEvent) {
   const session = await getToken({
@@ -28,7 +28,15 @@ export async function middleware(req: NextRequest, _event: NextFetchEvent) {
     return NextResponse.next();
   }
 
-  if (url.pathname.startsWith("/dashboard") && !session) {
+  if (
+    !(
+      url.pathname.startsWith("/auth/login") ||
+      url.pathname.startsWith("/auth/otp") ||
+      url.pathname.startsWith("/auth/forgot") ||
+      url.pathname.startsWith("/auth/register")
+    ) &&
+    !session
+  ) {
     return NextResponse.redirect(loginUrl);
   }
 
