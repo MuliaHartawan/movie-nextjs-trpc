@@ -12,7 +12,7 @@ export const useUserAction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Users"] });
       message.success("Berhasil menambahkan User");
-      router.push("/dashboard/users");
+      router.push("/users");
     },
     onError: (error: Error) => {
       message.error(error.message);
@@ -23,7 +23,7 @@ export const useUserAction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Users"] });
       message.success("Berhasil memperbarui User");
-      router.push("/dashboard/users");
+      router.push("/users");
     },
     onError: (error: Error) => {
       message.error(error.message);

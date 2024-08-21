@@ -47,7 +47,7 @@ export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> =
         return (
           <Flex>
             <Button
-              href={`/dashboard/snacks/${row?.id}`}
+              href={`/snacks/${row?.id}`}
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
@@ -69,11 +69,7 @@ export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> =
                 });
               }}
             />
-            <Button
-              href={`/dashboard/snacks/form?id=${row?.id}`}
-              type="link"
-              icon={<EditOutlined />}
-            />
+            <Button href={`/snacks/form?id=${row?.id}`} type="link" icon={<EditOutlined />} />
           </Flex>
         );
       },
@@ -90,11 +86,11 @@ export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> =
         },
         {
           label: "Snacks",
-          path: "/dashboard/snacks",
+          path: "/snacks",
         },
       ]}
       topActions={
-        <Button href="/dashboard/snacks/form" icon={<PlusCircleOutlined />}>
+        <Button href="/snacks/form" icon={<PlusCircleOutlined />}>
           Add Snack
         </Button>
       }

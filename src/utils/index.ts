@@ -1,4 +1,5 @@
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { ROUTE } from "@/libs/constant/route";
 import { TMetaItem, TPaginationResponse } from "@/types/meta";
 import { TablePaginationConfig } from "antd";
 
@@ -27,46 +28,46 @@ export function hasCommonElements<T>(arr1: T[], arr2: T[]): boolean {
 
 export const permissionMapper = [
   {
-    url: "/dashboard",
+    url: ROUTE.DASHBOARD,
     permissions: [PERMISSIONS.DASHBOARD],
   },
 
   {
-    url: "/dashboard/snacks",
+    url: ROUTE.SNACKS,
     permissions: [PERMISSIONS.SNACK_READ],
   },
   {
-    url: "/dashboard/snacks/form",
+    url: ROUTE.SNACKS_FORM,
     permissions: [PERMISSIONS.SNACK_CREATE, PERMISSIONS.SNACK_UPDATE],
   },
   {
-    url: "/dashboard/snacks/detail",
+    url: ROUTE.SNACKS_DETAIL,
     permissions: [PERMISSIONS.SNACK_DETAIL],
   },
 
   {
-    url: "/dashboard/users",
+    url: ROUTE.USERS,
     permissions: [PERMISSIONS.USER_READ],
   },
   {
-    url: "/dashboard/users/form",
+    url: ROUTE.USERS_FORM,
     permissions: [PERMISSIONS.USER_CREATE, PERMISSIONS.USER_UPDATE],
   },
   {
-    url: "/dashboard/users/detail",
+    url: ROUTE.USERS_DETAIL,
     permissions: [PERMISSIONS.USER_DETAIL],
   },
 
   {
-    url: "/dashboard/roles",
+    url: ROUTE.ROLES,
     permissions: [PERMISSIONS.ROLE_READ],
   },
   {
-    url: "/dashboard/roles/form",
+    url: ROUTE.ROLES_FORM,
     permissions: [PERMISSIONS.ROLE_CREATE, PERMISSIONS.ROLE_UPDATE],
   },
   {
-    url: "/dashboard/roles/detail",
+    url: ROUTE.ROLES_DETAIL,
     permissions: [PERMISSIONS.ROLE_DETAIL],
   },
 ];

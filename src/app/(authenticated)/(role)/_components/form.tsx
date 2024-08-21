@@ -52,7 +52,7 @@ export const DashboardCreateRolesModule: FC<{ data?: Role; roleId: string }> = (
         },
         {
           label: "Roles",
-          path: "/dashboard/Roles",
+          path: "/Roles",
         },
       ]}
     >

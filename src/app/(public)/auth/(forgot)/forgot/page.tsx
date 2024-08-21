@@ -1,7 +1,7 @@
 "use server";
 import { NextPage } from "next";
 import { ReactElement } from "react";
-import { ForgotFormModule } from "../_modules";
+import { ForgotFormModule } from "../_components";
 
 const AuthForgotPage: NextPage = async (): Promise<ReactElement> => {
   return <ForgotFormModule />;

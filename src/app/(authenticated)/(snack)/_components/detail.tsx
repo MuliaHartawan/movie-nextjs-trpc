@@ -16,11 +16,11 @@ export const DashboardDetailSnacksModule: FC<{ data?: Snack }> = ({ data }): Rea
         },
         {
           label: "Snacks",
-          path: "/dashboard/snacks",
+          path: "/snacks",
         },
         {
           label: data?.name as string,
-          path: `/dashboard/snacks/${data?.id}`,
+          path: `/snacks/${data?.id}`,
         },
       ]}
     >

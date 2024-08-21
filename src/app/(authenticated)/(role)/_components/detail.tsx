@@ -16,11 +16,11 @@ export const DashboardDetailRolesModule: FC<{ data?: Role }> = ({ data }): React
         },
         {
           label: "Roles",
-          path: "/dashboard/roles",
+          path: "/roles",
         },
         {
           label: data?.name as string,
-          path: `/dashboard/roles/${data?.id}`,
+          path: `/roles/${data?.id}`,
         },
       ]}
     >

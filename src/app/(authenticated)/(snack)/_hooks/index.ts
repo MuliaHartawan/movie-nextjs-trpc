@@ -12,7 +12,7 @@ export const useSnackAction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["snacks"] });
       message.success("Snack berhasil ditambahkan");
-      router.push("/dashboard/snacks");
+      router.push("/snacks");
     },
     onError: (error: Error) => {
       message.error(error.message);
@@ -24,7 +24,7 @@ export const useSnackAction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["snacks"] });
       message.success("Snack berhasil diubah");
-      router.push("/dashboard/snacks");
+      router.push("/snacks");
     },
     onError: (error: Error) => {
       message.error(error.message);
