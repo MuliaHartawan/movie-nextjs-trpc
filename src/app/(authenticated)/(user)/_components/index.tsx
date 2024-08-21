@@ -11,13 +11,22 @@ import { makeSource } from "@/utils/index";
 import { useFilter } from "@/utils/filter";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { deleteUserAction } from "@/server/user/actions/user.action";
+import { checkPermission } from "@/utils/permission";
+import { useSession } from "next-auth/react";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = ({
   data,
 }): ReactElement => {
+  const session = useSession();
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
-
+  console.log(
+    checkPermission({
+      userPermissions: session.data?.user?.role?.permissions || [],
+      permissions: ["Uhuy"],
+    }),
+  );
   const columns: ColumnsType<User> = [
     {
       dataIndex: "fullname",
@@ -44,11 +53,16 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
       render: (_, record) => {
         return (
           <Flex>
-            <Button
-              href={`/users/${record?.id}`}
-              type="link"
-              icon={<EyeOutlined style={{ color: "green" }} />}
-            />
+            {checkPermission({
+              userPermissions: session.data?.user?.role?.permissions || [],
+              permissions: [PERMISSIONS.USER_DETAIL],
+            }) && (
+              <Button
+                href={`/users/${record?.id}`}
+                type="link"
+                icon={<EyeOutlined style={{ color: "green" }} />}
+              />
+            )}
             <Button
               icon={<DeleteOutlined style={{ color: "red" }} />}
               type="link"
