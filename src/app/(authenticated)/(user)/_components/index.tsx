@@ -14,6 +14,7 @@ import { deleteUserAction } from "@/server/user/actions/user.action";
 import { checkPermission } from "@/utils/permission";
 import { useSession } from "next-auth/react";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { Guard } from "@/components/guard";
 
 export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = ({
   data,
@@ -48,20 +49,14 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
       render: (_, record) => {
         return (
           <Flex>
-            {checkPermission({
-              userPermissions: session.data?.user?.role?.permissions || [],
-              permissions: [PERMISSIONS.USER_DETAIL],
-            }) && (
+            <Guard permissions={[PERMISSIONS.USER_READ]}>
               <Button
                 href={`/users/${record?.id}`}
                 type="link"
                 icon={<EyeOutlined style={{ color: "green" }} />}
               />
-            )}
-            {checkPermission({
-              userPermissions: session.data?.user?.role?.permissions || [],
-              permissions: [PERMISSIONS.USER_UPDATE],
-            }) && (
+            </Guard>
+            <Guard permissions={[PERMISSIONS.USER_DELETE]}>
               <Button
                 icon={<DeleteOutlined style={{ color: "red" }} />}
                 type="link"
@@ -71,13 +66,10 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
                   message.success("User berhasil dihapus");
                 }}
               />
-            )}
-            {checkPermission({
-              userPermissions: session.data?.user?.role?.permissions || [],
-              permissions: [PERMISSIONS.USER_UPDATE],
-            }) && (
+            </Guard>
+            <Guard permissions={[PERMISSIONS.USER_DETAIL]}>
               <Button href={`/users/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
-            )}
+            </Guard>
           </Flex>
         );
       },
@@ -98,14 +90,11 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
         },
       ]}
       topActions={
-        checkPermission({
-          userPermissions: session.data?.user?.role?.permissions || [],
-          permissions: [PERMISSIONS.USER_CREATE],
-        }) && (
+        <Guard permissions={[PERMISSIONS.USER_CREATE]}>
           <Button href="/users/form" icon={<PlusCircleOutlined />}>
             Add Users
           </Button>
-        )
+        </Guard>
       }
     >
       <Datatable

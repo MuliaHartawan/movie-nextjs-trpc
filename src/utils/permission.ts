@@ -1,6 +1,6 @@
 type TPermissionChecker = {
   permissions: Array<string>;
-  userPermissions: Array<string>;
+  userPermissions?: Array<string>;
   customCondition?: boolean;
 };
 
@@ -13,13 +13,9 @@ export function hasCommonElements<T>(arr1: T[], arr2: T[]): boolean {
 export const checkPermission = ({
   permissions,
   userPermissions,
-  customCondition = false,
+  customCondition = true,
 }: TPermissionChecker): boolean => {
+  if (!userPermissions) return false;
   const hasPermission = hasCommonElements(permissions, userPermissions);
-
-  if (customCondition) {
-    return hasPermission && customCondition;
-  }
-
-  return hasPermission;
+  return hasPermission && customCondition;
 };
