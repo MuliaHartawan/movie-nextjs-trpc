@@ -21,12 +21,7 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
   const session = useSession();
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
-  console.log(
-    checkPermission({
-      userPermissions: session.data?.user?.role?.permissions || [],
-      permissions: ["Uhuy"],
-    }),
-  );
+
   const columns: ColumnsType<User> = [
     {
       dataIndex: "fullname",
@@ -63,16 +58,26 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
                 icon={<EyeOutlined style={{ color: "green" }} />}
               />
             )}
-            <Button
-              icon={<DeleteOutlined style={{ color: "red" }} />}
-              type="link"
-              onClick={() => {
-                deleteUserAction(record?.id as string);
-                router.refresh();
-                message.success("User berhasil dihapus");
-              }}
-            />
-            <Button href={`/users/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
+            {checkPermission({
+              userPermissions: session.data?.user?.role?.permissions || [],
+              permissions: [PERMISSIONS.USER_UPDATE],
+            }) && (
+              <Button
+                icon={<DeleteOutlined style={{ color: "red" }} />}
+                type="link"
+                onClick={() => {
+                  deleteUserAction(record?.id as string);
+                  router.refresh();
+                  message.success("User berhasil dihapus");
+                }}
+              />
+            )}
+            {checkPermission({
+              userPermissions: session.data?.user?.role?.permissions || [],
+              permissions: [PERMISSIONS.USER_UPDATE],
+            }) && (
+              <Button href={`/users/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
+            )}
           </Flex>
         );
       },
@@ -93,9 +98,14 @@ export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = (
         },
       ]}
       topActions={
-        <Button href="/users/form" icon={<PlusCircleOutlined />}>
-          Add Users
-        </Button>
+        checkPermission({
+          userPermissions: session.data?.user?.role?.permissions || [],
+          permissions: [PERMISSIONS.USER_CREATE],
+        }) && (
+          <Button href="/users/form" icon={<PlusCircleOutlined />}>
+            Add Users
+          </Button>
+        )
       }
     >
       <Datatable
