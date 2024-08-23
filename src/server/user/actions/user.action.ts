@@ -13,6 +13,7 @@ import {
 } from "../repositories/user.repository";
 import { TCreateOrUpdateUserRequest } from "../entities/create-or-update.validation";
 import { findOneRoleById } from "@/server/role/repositories/role.repository";
+import { withPermissionChecker } from "@/utils/permission";
 
 export const getUsers = async (meta: TMetaItem): Promise<TPaginationResponse<User[]>> => {
   const page = meta.page;

@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import { checkEmail, checkPassword, getRoleData, getUserData } from "./login";
+import { checkEmail, checkPassword, getUserData } from "./login";
 import type { NextAuthConfig } from "next-auth";
 import { schema } from "@/app/(public)/auth/(login)/_entities/schema";
 
@@ -32,12 +32,6 @@ export const authConfig = {
         }
 
         const userData = await getUserData(data?.email);
-
-        const isEmailVerified = userData?.emailVerifiedAt;
-
-        if (!isEmailVerified) {
-          throw "Email belum terverifikasi";
-        }
 
         if (userData) {
           return {
