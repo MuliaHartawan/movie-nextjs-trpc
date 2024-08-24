@@ -1,7 +1,6 @@
 import { db } from "@/libs/drizzle/connection";
 import { rolePermissions, roles } from "@/libs/drizzle/schema";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { TIndexSnackQueryParam } from "@/server/snack/validations/index-snack.validation";
 import { TPaginationResponse } from "@/types/meta";
 import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
