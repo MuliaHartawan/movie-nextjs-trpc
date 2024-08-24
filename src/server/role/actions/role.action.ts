@@ -1,5 +1,5 @@
 "use server";
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import {
   findOneRoleWithPermissionsById,
   findRolesWithSearch,
@@ -10,12 +10,15 @@ import {
 } from "../repositories/role.repository";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TCreateOrUpdateRoleForm } from "../entities/validation";
+import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 
-export const getRolesAction = async (meta: TMetaItem): Promise<TPaginationResponse<Role[]>> => {
-  return await rolePagination(meta);
+export const getRolesAction = async (
+  queryParam: TIndexRoleQueryParam,
+): Promise<TPaginationResponse<Role[]>> => {
+  return await rolePagination(queryParam);
 };
 
-export const getRolesWithSearch = async (search: string): Promise<Role[] | TMetaItem> => {
+export const getRolesWithSearch = async (search: string): Promise<Role[]> => {
   return await findRolesWithSearch(search);
 };
 

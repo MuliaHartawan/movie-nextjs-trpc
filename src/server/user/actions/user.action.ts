@@ -1,6 +1,6 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import {
   createUser,
@@ -12,9 +12,12 @@ import {
 } from "../repositories/user.repository";
 import { TCreateOrUpdateUserRequest } from "../entities/create-or-update.validation";
 import { findOneRoleById } from "@/server/role/repositories/role.repository";
+import { TIndexUserQueryParam } from "../validations/index-user.validation";
 
-export const getUsersAction = async (meta: TMetaItem): Promise<TPaginationResponse<User[]>> => {
-  return userPagination(meta);
+export const getUsersAction = async (
+  queryParam: TIndexUserQueryParam,
+): Promise<TPaginationResponse<User[]>> => {
+  return userPagination(queryParam);
 };
 
 export const getUser = async (from?: string) => {

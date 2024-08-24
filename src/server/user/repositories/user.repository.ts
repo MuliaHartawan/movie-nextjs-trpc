@@ -1,13 +1,13 @@
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { db } from "@/libs/drizzle/connection";
 import { count, desc, eq, sql } from "drizzle-orm";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { users } from "@/libs/drizzle/schema";
-import { TIndexSnackQueryParam } from "@/server/snack/validations/index-snack.validation";
 import { countOffset, mapMeta } from "@/utils/paginate-util";
+import { TIndexUserQueryParam } from "../validations/index-user.validation";
 
 export const userPagination = async (
-  queryParam: TIndexSnackQueryParam,
+  queryParam: TIndexUserQueryParam,
 ): Promise<TPaginationResponse<User[]>> => {
   const query = db.select().from(users);
 

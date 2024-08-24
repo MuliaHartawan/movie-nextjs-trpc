@@ -5,9 +5,10 @@ import { TIndexSnackQueryParam } from "@/server/snack/validations/index-snack.va
 import { TPaginationResponse } from "@/types/meta";
 import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
+import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 
 export const rolePagination = async (
-  queryParam: TIndexSnackQueryParam,
+  queryParam: TIndexRoleQueryParam,
 ): Promise<TPaginationResponse<Role[]>> => {
   const query = db.select().from(roles);
 
