@@ -8,28 +8,11 @@ import {
   updateRoleAndPermissionsById,
   deleteRoleById,
 } from "../repositories/role.repository";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TCreateOrUpdateRoleForm } from "../entities/validation";
 
-export const getRoles = async (meta: TMetaItem): Promise<TPaginationResponse<Role[]>> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const data = await rolePagination(meta);
-  const totalPage = calculateTotalPages(data.count, perPage);
-  const nextPage = page < totalPage ? page + 1 : null;
-  const prevPage = page > 1 ? page - 1 : null;
-  const metaPrefix: TPaginationResponse<Role[]> = {
-    data: data.roles as Role[],
-    meta: {
-      page,
-      perPage,
-      totalPage,
-      nextPage,
-      prevPage,
-    },
-  };
-  return metaResponsePrefix(metaPrefix);
+export const getRolesAction = async (meta: TMetaItem): Promise<TPaginationResponse<Role[]>> => {
+  return await rolePagination(meta);
 };
 
 export const getRolesWithSearch = async (search: string): Promise<Role[] | TMetaItem> => {
