@@ -1,7 +1,6 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
 import { TMetaItem, TPaginationResponse } from "@/types/meta";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import {
   createUser,
@@ -13,28 +12,9 @@ import {
 } from "../repositories/user.repository";
 import { TCreateOrUpdateUserRequest } from "../entities/create-or-update.validation";
 import { findOneRoleById } from "@/server/role/repositories/role.repository";
-import { withPermissionChecker } from "@/utils/permission";
 
-export const getUsers = async (meta: TMetaItem): Promise<TPaginationResponse<User[]>> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const data = await userPagination(meta);
-  const totalPage = calculateTotalPages(data.count, perPage);
-  const nextPage = page < totalPage ? page + 1 : null;
-  const prevPage = page > 1 ? page - 1 : null;
-
-  const metaPrefix: TPaginationResponse<User[]> = {
-    data: data.users,
-    meta: {
-      page,
-      perPage,
-      totalPage,
-      nextPage,
-      prevPage,
-    },
-  };
-
-  return metaResponsePrefix(metaPrefix);
+export const getUsersAction = async (meta: TMetaItem): Promise<TPaginationResponse<User[]>> => {
+  return userPagination(meta);
 };
 
 export const getUser = async (from?: string) => {
