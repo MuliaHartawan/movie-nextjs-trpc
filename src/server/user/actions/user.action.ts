@@ -10,9 +10,13 @@ import {
   updateUserById,
   userPagination,
 } from "../repositories/user.repository";
-import { TCreateOrUpdateUserRequest } from "../entities/create-or-update.validation";
+import {
+  createOrUpdateUserSchema,
+  TCreateOrUpdateUserValidation,
+} from "../validations/create-or-update.validation";
 import { findOneRoleById } from "@/server/role/repositories/role.repository";
 import { TIndexUserQueryParam } from "../validations/index-user.validation";
+import { validate } from "@/utils/zod-validate";
 
 export const getUsersAction = async (
   queryParam: TIndexUserQueryParam,
@@ -26,7 +30,10 @@ export const getUser = async (from?: string) => {
   return user;
 };
 
-export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
+export const createUserAction = async (value: TCreateOrUpdateUserValidation) => {
+  // Validation
+  validate(createOrUpdateUserSchema, value);
+
   // Simulate error
   if (value.fullname === "error") throw new Error("fullname can not be error");
 
@@ -49,9 +56,12 @@ export const updateUserAction = async ({
   value,
   id,
 }: {
-  value: TCreateOrUpdateUserRequest;
+  value: TCreateOrUpdateUserValidation;
   id: string;
 }) => {
+  // Validation
+  validate(createOrUpdateUserSchema, value);
+
   const user = await findOneUserById(id);
   if (!user) {
     throw "User tidak ditemukan";
