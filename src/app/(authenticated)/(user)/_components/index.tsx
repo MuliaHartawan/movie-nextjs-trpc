@@ -11,15 +11,12 @@ import { makeSource } from "@/utils/index";
 import { useFilter } from "@/utils/filter";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { deleteUserAction } from "@/server/user/actions/user.action";
-import { checkPermission } from "@/utils/permission";
-import { useSession } from "next-auth/react";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
 
 export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = ({
   data,
 }): ReactElement => {
-  const session = useSession();
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
 
