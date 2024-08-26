@@ -15,6 +15,8 @@ import {
 } from "../validations/create-or-update-role.validation";
 import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 import { validate } from "@/utils/zod-validate";
+import { serverCheckPermission } from "@/utils/permission";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 export const getRolesAction = async (
   queryParam: TIndexRoleQueryParam,
@@ -23,14 +25,23 @@ export const getRolesAction = async (
 };
 
 export const getRolesWithSearch = async (search: string): Promise<Role[]> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.ROLE_READ]);
+
   return await findRolesWithSearch(search);
 };
 
 export const getRoleAction = async (from: string): Promise<Role | undefined> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.ROLE_DETAIL]);
+
   return await findOneRoleWithPermissionsById(from);
 };
 
 export const createRole = async (value: TCreateOrUpdateRoleValidation): Promise<void> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.ROLE_CREATE]);
+
   // Validation
   validate(createOrUpdateRoleSchema, value);
 
@@ -44,6 +55,9 @@ export const updateRole = async ({
   value: TCreateOrUpdateRoleValidation;
   id: string;
 }): Promise<void> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.ROLE_UPDATE]);
+
   // Validation
   validate(createOrUpdateRoleSchema, value);
 
@@ -51,5 +65,8 @@ export const updateRole = async ({
 };
 
 export const deleteRole = async (id: string): Promise<void> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.ROLE_DELETE]);
+
   await deleteRoleById(id);
 };
