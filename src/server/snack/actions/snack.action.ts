@@ -14,14 +14,22 @@ import {
 } from "../validations/create-or-update-snack.validation";
 import { validate } from "@/utils/zod-validate";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
+import { serverCheckPermission } from "@/utils/permission";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 export const getSnacksAction = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.SNACK_READ]);
+
   return snackPagination(queryParam);
 };
 
 export const getSnackAction = async (from: string) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.SNACK_DETAIL]);
+
   const snack = await findOneSnackById(from);
 
   if (!snack) {
@@ -32,6 +40,9 @@ export const getSnackAction = async (from: string) => {
 };
 
 export const createSnackAction = async (value: TCreateOrUpdateSnackValidation) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.SNACK_CREATE]);
+
   // Validation
   validate(createOrUpdateSnackSchema, value);
 
@@ -49,6 +60,9 @@ export const updateSnackAction = async ({
   value: TCreateOrUpdateSnackValidation;
   id: string;
 }) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.SNACK_UPDATE]);
+
   // Validation
   validate(createOrUpdateSnackSchema, value);
 
@@ -60,5 +74,8 @@ export const updateSnackAction = async ({
 };
 
 export const deleteSnackAction = async (id: string) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.SNACK_DELETE]);
+
   await deleteSnackById(id);
 };
