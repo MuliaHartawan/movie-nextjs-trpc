@@ -17,20 +17,31 @@ import {
 import { findOneRoleById } from "@/server/role/repositories/role.repository";
 import { TIndexUserQueryParam } from "../validations/index-user.validation";
 import { validate } from "@/utils/zod-validate";
+import { serverCheckPermission } from "@/utils/permission";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 export const getUsersAction = async (
   queryParam: TIndexUserQueryParam,
 ): Promise<TPaginationResponse<User[]>> => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.USER_READ]);
+
   return userPagination(queryParam);
 };
 
 export const getUser = async (from?: string) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.USER_DETAIL]);
+
   if (!from) return undefined;
   const user = await findOneUserById(from);
   return user;
 };
 
 export const createUserAction = async (value: TCreateOrUpdateUserValidation) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.USER_CREATE]);
+
   // Validation
   validate(createOrUpdateUserSchema, value);
 
@@ -59,6 +70,9 @@ export const updateUserAction = async ({
   value: TCreateOrUpdateUserValidation;
   id: string;
 }) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.USER_UPDATE]);
+
   // Validation
   validate(createOrUpdateUserSchema, value);
 
@@ -89,5 +103,8 @@ export const updateUserAction = async ({
 };
 
 export const deleteUserAction = async (from: string) => {
+  // Permission authorization
+  await serverCheckPermission([PERMISSIONS.USER_DELETE]);
+
   await deleteUserById(from);
 };
