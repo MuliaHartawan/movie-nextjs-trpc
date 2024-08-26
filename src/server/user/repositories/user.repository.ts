@@ -1,25 +1,23 @@
-import { TMetaItem } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import { db } from "@/libs/drizzle/connection";
 import { count, desc, eq, sql } from "drizzle-orm";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { users } from "@/libs/drizzle/schema";
+import { countOffset, mapMeta } from "@/utils/paginate-util";
+import { TIndexUserQueryParam } from "../validations/index-user.validation";
 
 export const userPagination = async (
-  meta: TMetaItem,
-): Promise<{ users: User[]; count: number }> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const offset = (page - 1) * perPage;
-  const search = meta?.search;
+  queryParam: TIndexUserQueryParam,
+): Promise<TPaginationResponse<User[]>> => {
   const query = db.select().from(users);
 
-  if (search) {
-    query.where(sql`lower(${users.fullname}) like lower('%' || ${search} || '%')`);
+  if (queryParam.search) {
+    query.where(sql`lower(${users.fullname}) like lower('%' || ${queryParam.search} || '%')`);
   }
 
   const data = await query
-    .limit(perPage)
-    .offset(offset)
+    .limit(queryParam.perPage)
+    .offset(countOffset(queryParam))
     .orderBy(users.createdAt, desc(users.createdAt));
 
   const dataCount = await db
@@ -27,9 +25,11 @@ export const userPagination = async (
     .from(users)
     .then((res) => res[0].count);
 
+  const meta = mapMeta(dataCount, queryParam);
+
   return {
-    users: data,
-    count: dataCount,
+    data,
+    meta,
   };
 };
 

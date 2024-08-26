@@ -4,10 +4,10 @@ import { PageProps } from "@/types/app";
 import { Role } from "@/libs/drizzle/schema";
 import { TPaginationResponse } from "@/types/meta";
 import { DashboardRolesModule } from "../_components";
-import { getRoles } from "@/server/role/actions/role.action";
+import { getRolesAction } from "@/server/role/actions/role.action";
 
 const DashboardRoles = async (props: PageProps): Promise<ReactElement> => {
-  const data = await getRoles({
+  const data = await getRolesAction({
     page: Number(props.searchParams?.page || 1),
     perPage: Number(props.searchParams?.perPage || 10),
     search: String(props.searchParams?.search || ""),

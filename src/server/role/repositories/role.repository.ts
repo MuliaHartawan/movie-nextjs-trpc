@@ -1,25 +1,23 @@
 import { db } from "@/libs/drizzle/connection";
 import { rolePermissions, roles } from "@/libs/drizzle/schema";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { TMetaItem } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
+import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
+import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 
 export const rolePagination = async (
-  meta: TMetaItem,
-): Promise<{ roles: Role[]; count: number }> => {
-  const page = meta?.page || 1;
-  const perPage = meta?.perPage || 8;
-  const offset = (page - 1) * perPage;
-  const search = meta?.search;
+  queryParam: TIndexRoleQueryParam,
+): Promise<TPaginationResponse<Role[]>> => {
   const query = db.select().from(roles);
 
-  if (search) {
-    query.where(sql`lower(${roles.name}) like lower('%' || ${search} || '%')`);
+  if (queryParam.search) {
+    query.where(sql`lower(${roles.name}) like lower('%' || ${queryParam.search} || '%')`);
   }
 
   const data = await query
-    .limit(perPage)
-    .offset(offset)
+    .limit(queryParam.perPage)
+    .offset(countOffset(queryParam))
     .orderBy(roles.createdAt, desc(roles.createdAt));
 
   const dataCount = await db
@@ -27,9 +25,11 @@ export const rolePagination = async (
     .from(roles)
     .then((res) => res[0].count);
 
+  const meta = mapMeta(dataCount, queryParam);
+
   return {
-    roles: data,
-    count: dataCount,
+    data,
+    meta,
   };
 };
 

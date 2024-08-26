@@ -6,7 +6,7 @@ import { FC, ReactElement, useState } from "react";
 import { useUserAction } from "../_hooks";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { User } from "@/libs/drizzle/schemas/user.schema";
-import { TCreateOrUpdateUserRequest } from "@/server/user/entities/create-or-update.validation";
+import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
 
 export const DashboardCreateUsersModule: FC<{
   data?: User;
@@ -17,7 +17,7 @@ export const DashboardCreateUsersModule: FC<{
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const handleAddOrUpdateUser = async (values: TCreateOrUpdateUserRequest) => {
+  const handleAddOrUpdateUser = async (values: TCreateOrUpdateUserValidation) => {
     setLoading(true);
     try {
       if (userId) {

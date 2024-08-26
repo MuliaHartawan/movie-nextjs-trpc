@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, ReactElement, useEffect, useState } from "react";
 import { Button } from "../button";
-import { TMetaItem } from "@/types/meta";
+import { TPaginationMeta } from "@/types/meta";
 import { ChangeEventHandler, DetailedHTMLProps, HTMLAttributes } from "react";
 import {
   useReactTable,
@@ -19,7 +19,7 @@ export type TTable<T extends Record<string, any>> = DetailedHTMLProps<
   HTMLAttributes<HTMLTableElement>,
   HTMLTableElement
 > & {
-  meta?: TMetaItem;
+  meta?: TPaginationMeta;
   handleSearch?: ChangeEventHandler<HTMLInputElement>;
   createLink?: string;
   createLabel?: string;
@@ -29,7 +29,7 @@ export type TTable<T extends Record<string, any>> = DetailedHTMLProps<
 };
 
 export type TPagination = {
-  meta?: TMetaItem;
+  meta?: TPaginationMeta;
 };
 
 export const Pagination: FC<TPagination> = (props): ReactElement => {

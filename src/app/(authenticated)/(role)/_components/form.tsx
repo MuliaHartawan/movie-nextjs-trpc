@@ -5,7 +5,7 @@ import { FC, ReactElement, useState } from "react";
 import { useRoleAction } from "../_hooks";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { TCreateOrUpdateRoleForm } from "@/server/role/entities/validation";
+import { TCreateOrUpdateRoleValidation } from "@/server/role/validations/create-or-update-role.validation";
 
 export const DashboardCreateRolesModule: FC<{ data?: Role; roleId: string }> = ({
   data,
@@ -15,7 +15,7 @@ export const DashboardCreateRolesModule: FC<{ data?: Role; roleId: string }> = (
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const handleAddOrUpdateRole = async (values: TCreateOrUpdateRoleForm) => {
+  const handleAddOrUpdateRole = async (values: TCreateOrUpdateRoleValidation) => {
     const { name, permissionIds } = values;
     setLoading(true);
     if (roleId) {

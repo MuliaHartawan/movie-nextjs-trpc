@@ -1,5 +1,5 @@
 "use server";
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
+import { TPaginationResponse } from "@/types/meta";
 import {
   findOneRoleWithPermissionsById,
   findRolesWithSearch,
@@ -8,31 +8,21 @@ import {
   updateRoleAndPermissionsById,
   deleteRoleById,
 } from "../repositories/role.repository";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { TCreateOrUpdateRoleForm } from "../entities/validation";
+import {
+  createOrUpdateRoleSchema,
+  TCreateOrUpdateRoleValidation,
+} from "../validations/create-or-update-role.validation";
+import { TIndexRoleQueryParam } from "../validations/index-role.validation";
+import { validate } from "@/utils/zod-validate";
 
-export const getRoles = async (meta: TMetaItem): Promise<TPaginationResponse<Role[]>> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const data = await rolePagination(meta);
-  const totalPage = calculateTotalPages(data.count, perPage);
-  const nextPage = page < totalPage ? page + 1 : null;
-  const prevPage = page > 1 ? page - 1 : null;
-  const metaPrefix: TPaginationResponse<Role[]> = {
-    data: data.roles as Role[],
-    meta: {
-      page,
-      perPage,
-      totalPage,
-      nextPage,
-      prevPage,
-    },
-  };
-  return metaResponsePrefix(metaPrefix);
+export const getRolesAction = async (
+  queryParam: TIndexRoleQueryParam,
+): Promise<TPaginationResponse<Role[]>> => {
+  return await rolePagination(queryParam);
 };
 
-export const getRolesWithSearch = async (search: string): Promise<Role[] | TMetaItem> => {
+export const getRolesWithSearch = async (search: string): Promise<Role[]> => {
   return await findRolesWithSearch(search);
 };
 
@@ -40,7 +30,10 @@ export const getRoleAction = async (from: string): Promise<Role | undefined> => 
   return await findOneRoleWithPermissionsById(from);
 };
 
-export const createRole = async (value: TCreateOrUpdateRoleForm): Promise<void> => {
+export const createRole = async (value: TCreateOrUpdateRoleValidation): Promise<void> => {
+  // Validation
+  validate(createOrUpdateRoleSchema, value);
+
   await createRoleAndPermissions(value.name, value.permissionIds);
 };
 
@@ -48,9 +41,12 @@ export const updateRole = async ({
   value,
   id,
 }: {
-  value: TCreateOrUpdateRoleForm;
+  value: TCreateOrUpdateRoleValidation;
   id: string;
 }): Promise<void> => {
+  // Validation
+  validate(createOrUpdateRoleSchema, value);
+
   await updateRoleAndPermissionsById(id, value.name, value.permissionIds);
 };
 

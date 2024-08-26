@@ -1,6 +1,6 @@
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { ROUTE } from "@/libs/constant/route";
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
+import { TPaginationMeta, TPaginationResponse } from "@/types/meta";
 import { TablePaginationConfig } from "antd";
 
 export const metaResponsePrefix = <T>({
@@ -8,7 +8,7 @@ export const metaResponsePrefix = <T>({
   meta,
 }: {
   data: T;
-  meta: TMetaItem;
+  meta: TPaginationMeta;
 }): TPaginationResponse<T> => {
   return {
     data,
@@ -72,7 +72,7 @@ export const permissionMapper = [
   },
 ];
 
-export const paginationTransform = (t?: TMetaItem): TablePaginationConfig => {
+export const paginationTransform = (t?: TPaginationMeta): TablePaginationConfig => {
   return {
     current: t?.page,
     pageSize: t?.perPage,

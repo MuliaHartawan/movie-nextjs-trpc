@@ -1,7 +1,6 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
-import { TMetaItem, TPaginationResponse } from "@/types/meta";
-import { calculateTotalPages, metaResponsePrefix } from "@/utils/index";
+import { TPaginationResponse } from "@/types/meta";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import {
   createUser,
@@ -11,30 +10,18 @@ import {
   updateUserById,
   userPagination,
 } from "../repositories/user.repository";
-import { TCreateOrUpdateUserRequest } from "../entities/create-or-update.validation";
+import {
+  createOrUpdateUserSchema,
+  TCreateOrUpdateUserValidation,
+} from "../validations/create-or-update.validation";
 import { findOneRoleById } from "@/server/role/repositories/role.repository";
-import { withPermissionChecker } from "@/utils/permission";
+import { TIndexUserQueryParam } from "../validations/index-user.validation";
+import { validate } from "@/utils/zod-validate";
 
-export const getUsers = async (meta: TMetaItem): Promise<TPaginationResponse<User[]>> => {
-  const page = meta.page;
-  const perPage = meta.perPage;
-  const data = await userPagination(meta);
-  const totalPage = calculateTotalPages(data.count, perPage);
-  const nextPage = page < totalPage ? page + 1 : null;
-  const prevPage = page > 1 ? page - 1 : null;
-
-  const metaPrefix: TPaginationResponse<User[]> = {
-    data: data.users,
-    meta: {
-      page,
-      perPage,
-      totalPage,
-      nextPage,
-      prevPage,
-    },
-  };
-
-  return metaResponsePrefix(metaPrefix);
+export const getUsersAction = async (
+  queryParam: TIndexUserQueryParam,
+): Promise<TPaginationResponse<User[]>> => {
+  return userPagination(queryParam);
 };
 
 export const getUser = async (from?: string) => {
@@ -43,7 +30,10 @@ export const getUser = async (from?: string) => {
   return user;
 };
 
-export const createUserAction = async (value: TCreateOrUpdateUserRequest) => {
+export const createUserAction = async (value: TCreateOrUpdateUserValidation) => {
+  // Validation
+  validate(createOrUpdateUserSchema, value);
+
   // Simulate error
   if (value.fullname === "error") throw new Error("fullname can not be error");
 
@@ -66,9 +56,12 @@ export const updateUserAction = async ({
   value,
   id,
 }: {
-  value: TCreateOrUpdateUserRequest;
+  value: TCreateOrUpdateUserValidation;
   id: string;
 }) => {
+  // Validation
+  validate(createOrUpdateUserSchema, value);
+
   const user = await findOneUserById(id);
   if (!user) {
     throw "User tidak ditemukan";

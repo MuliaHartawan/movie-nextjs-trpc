@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createOrUpdateUserValidation = z.object({
+export const createOrUpdateUserSchema = z.object({
   fullname: z
     .string({ required_error: "Nama Wajib Diisi", message: "Nama harus berupa string" })
     .min(1, { message: "Nama wajib diisi" })
@@ -19,4 +19,4 @@ export const createOrUpdateUserValidation = z.object({
     .uuid({ message: "Role tidak valid" }),
 });
 
-export type TCreateOrUpdateUserRequest = z.infer<typeof createOrUpdateUserValidation>;
+export type TCreateOrUpdateUserValidation = z.infer<typeof createOrUpdateUserSchema>;
