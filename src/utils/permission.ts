@@ -1,3 +1,5 @@
+import { auth } from "@/libs/auth/auth";
+
 type TPermissionChecker = {
   permissions: Array<string>;
   userPermissions?: Array<string>;
@@ -20,13 +22,14 @@ export const checkPermission = ({
   return hasPermission && customCondition;
 };
 
-export const serverCheckPermission = ({
-  permissions,
-  userPermissions,
-}: TPermissionChecker): void => {
-  if (!userPermissions) throw new Error("Forbidden");
+export const serverCheckPermission = async (permissions: Array<string>): Promise<void> => {
+  const session = await auth();
+  const userPermissions = session?.user?.role?.permissions;
 
   // Check if user has permission
+  if (!userPermissions) throw new Error("Forbidden");
+
+  // Check if user has matching permission
   const hasPermission = hasCommonElements(permissions, userPermissions);
   if (!hasPermission) throw new Error("Forbidden");
 };

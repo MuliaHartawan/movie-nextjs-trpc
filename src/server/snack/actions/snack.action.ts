@@ -15,29 +15,20 @@ import {
 import { validate } from "@/utils/zod-validate";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 import { serverCheckPermission } from "@/utils/permission";
-import { auth } from "@/libs/auth/auth";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 export const getSnacksAction = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
   // Permission authorization
-  const session = await auth();
-  serverCheckPermission({
-    permissions: [PERMISSIONS.SNACK_READ],
-    userPermissions: session?.user.role.permissions,
-  });
+  await serverCheckPermission([PERMISSIONS.SNACK_READ]);
 
   return snackPagination(queryParam);
 };
 
 export const getSnackAction = async (from: string) => {
   // Permission authorization
-  const session = await auth();
-  serverCheckPermission({
-    permissions: [PERMISSIONS.SNACK_DETAIL],
-    userPermissions: session?.user.role.permissions,
-  });
+  await serverCheckPermission([PERMISSIONS.SNACK_DETAIL]);
 
   const snack = await findOneSnackById(from);
 
@@ -50,11 +41,7 @@ export const getSnackAction = async (from: string) => {
 
 export const createSnackAction = async (value: TCreateOrUpdateSnackValidation) => {
   // Permission authorization
-  const session = await auth();
-  serverCheckPermission({
-    permissions: [PERMISSIONS.SNACK_CREATE],
-    userPermissions: session?.user.role.permissions,
-  });
+  await serverCheckPermission([PERMISSIONS.SNACK_CREATE]);
 
   // Validation
   validate(createOrUpdateSnackSchema, value);
@@ -74,11 +61,7 @@ export const updateSnackAction = async ({
   id: string;
 }) => {
   // Permission authorization
-  const session = await auth();
-  serverCheckPermission({
-    permissions: [PERMISSIONS.SNACK_UPDATE],
-    userPermissions: session?.user.role.permissions,
-  });
+  await serverCheckPermission([PERMISSIONS.SNACK_UPDATE]);
 
   // Validation
   validate(createOrUpdateSnackSchema, value);
@@ -92,11 +75,7 @@ export const updateSnackAction = async ({
 
 export const deleteSnackAction = async (id: string) => {
   // Permission authorization
-  const session = await auth();
-  serverCheckPermission({
-    permissions: [PERMISSIONS.SNACK_DELETE],
-    userPermissions: session?.user.role.permissions,
-  });
+  await serverCheckPermission([PERMISSIONS.SNACK_DELETE]);
 
   await deleteSnackById(id);
 };
