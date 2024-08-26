@@ -19,3 +19,16 @@ export const checkPermission = ({
   const hasPermission = hasCommonElements(permissions, userPermissions);
   return hasPermission && customCondition;
 };
+
+export const serverCheckPermission = ({
+  permissions,
+  userPermissions,
+}: TPermissionChecker): void => {
+  console.log("userPermissions", userPermissions);
+  if (!userPermissions) throw new Error("Forbidden");
+
+  // Check if user has permission
+  const hasPermission = hasCommonElements(permissions, userPermissions);
+  console.log("hasPermission", hasPermission);
+  if (!hasPermission) throw new Error("Forbidden");
+};
