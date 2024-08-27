@@ -62,7 +62,7 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
   }
   const email = await findOneUserByEmail(value.email);
   if (email) {
-    throw new NotFoundException("Email sudah digunakan");
+    throw new UnprocessableEntityException("Email sudah digunakan");
   }
   const password = await hashPassword(value.password);
   await createUser({
