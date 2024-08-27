@@ -1,8 +1,10 @@
-class UnprocessableEntityException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "UnprocessableEntityException";
-  }
-}
+import { CustomError } from "@/types/cutom-error";
 
-export default UnprocessableEntityException;
+export function unprocessableEntityException(message: string): CustomError {
+  return {
+    errorType: "UnprocessableEntityException",
+    message,
+    errorCode: 422,
+    stack: new Error().stack,
+  };
+}

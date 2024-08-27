@@ -1,8 +1,10 @@
-class NotFoundException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "NotFoundException";
-  }
-}
+import { CustomError } from "@/types/cutom-error";
 
-export default NotFoundException;
+export function notFoundException(message: string): CustomError {
+  return {
+    errorType: "NotFoundException",
+    message,
+    errorCode: 400,
+    stack: new Error().stack,
+  };
+}
