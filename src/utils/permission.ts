@@ -1,4 +1,5 @@
 import { auth } from "@/libs/auth/auth";
+import { forbiddenException } from "../errors/ForbiddenException";
 
 type TPermissionChecker = {
   permissions: Array<string>;
@@ -27,9 +28,9 @@ export const serverCheckPermission = async (permissions: Array<string>): Promise
   const userPermissions = session?.user?.role?.permissions;
 
   // Check if user has permission
-  if (!userPermissions) throw new Error("Forbidden");
+  if (!userPermissions) throw forbiddenException("Tidak ada permission");
 
   // Check if user has matching permission
   const hasPermission = hasCommonElements(permissions, userPermissions);
-  if (!hasPermission) throw new Error("Forbidden");
+  if (!hasPermission) throw forbiddenException("Tidak memiliki permission");
 };
