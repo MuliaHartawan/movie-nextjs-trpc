@@ -53,9 +53,7 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
   validate(createOrUpdateUserSchema, value);
 
   // Simulate error
-  if (value.fullname === "error")
-    // throw new UnprocessableEntityException("fullname can not be error");
-    throw unprocessableEntityException("fullname can not be error");
+  if (value.fullname === "error") throw unprocessableEntityException("fullname can not be error");
 
   const role = await findOneRoleById(value.roleId);
   if (!role) {
