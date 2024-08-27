@@ -1,8 +1,10 @@
-export class ServiceUnavailableException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "ServiceUnavailableException";
-  }
-}
+import { CustomError } from "@/types/cutom-error";
 
-export default ServiceUnavailableException;
+export function serviceUnavailableException(message: string): CustomError {
+  return {
+    errorType: "ServiceUnavailableException",
+    message,
+    errorCode: 503,
+    instance: new Error("ServiceUnavailableException"),
+  };
+}

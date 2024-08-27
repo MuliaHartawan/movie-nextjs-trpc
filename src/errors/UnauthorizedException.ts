@@ -1,8 +1,10 @@
-class UnauthorizedException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "UnauthorizedException";
-  }
-}
+import { CustomError } from "@/types/cutom-error";
 
-export default UnauthorizedException;
+export function unauthorizedException(message: string): CustomError {
+  return {
+    errorType: "UnauthorizedException",
+    message,
+    errorCode: 401,
+    instance: new Error("UnauthorizedException"),
+  };
+}

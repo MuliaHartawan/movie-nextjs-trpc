@@ -1,8 +1,10 @@
-class InternalServerErrorException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "InternalServerErrorException";
-  }
-}
+import { CustomError } from "@/types/cutom-error";
 
-export default InternalServerErrorException;
+export function internalServerErrorException(message: string): CustomError {
+  return {
+    errorType: "InternalServerErrorException",
+    message,
+    errorCode: 500,
+    instance: new Error("InternalServerErrorException"),
+  };
+}

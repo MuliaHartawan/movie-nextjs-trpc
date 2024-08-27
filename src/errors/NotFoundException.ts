@@ -4,7 +4,7 @@ export function notFoundException(message: string): CustomError {
   return {
     errorType: "NotFoundException",
     message,
-    errorCode: 400,
-    stack: new Error().stack,
+    errorCode: 404,
+    instance: new Error("NotFoundException"),
   };
 }

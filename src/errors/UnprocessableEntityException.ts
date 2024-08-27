@@ -5,6 +5,6 @@ export function unprocessableEntityException(message: string): CustomError {
     errorType: "UnprocessableEntityException",
     message,
     errorCode: 422,
-    stack: new Error().stack,
+    instance: new Error("UnprocessableEntityException"),
   };
 }

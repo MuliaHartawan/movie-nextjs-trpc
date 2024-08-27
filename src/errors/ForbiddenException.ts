@@ -1,8 +1,10 @@
-class ForbiddenException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "ForbiddenException";
-  }
-}
+import { CustomError } from "@/types/cutom-error";
 
-export default ForbiddenException;
+export function forbiddenException(message: string): CustomError {
+  return {
+    errorType: "ForbiddenException",
+    message,
+    errorCode: 403,
+    instance: new Error("ForbiddenException"),
+  };
+}
