@@ -29,5 +29,5 @@ export const serverCheckPermission = async (permissions: Array<string>): Promise
 
   const hasPermission = checkPermission({ permissions, userPermissions });
 
-  if (!hasPermission) throw forbiddenException("Tidak memiliki permission");
+  if (!hasPermission) throw forbiddenException("Tidak memiliki hak akses");
 };
