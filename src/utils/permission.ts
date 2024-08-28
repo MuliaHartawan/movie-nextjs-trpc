@@ -27,10 +27,7 @@ export const serverCheckPermission = async (permissions: Array<string>): Promise
   const session = await auth();
   const userPermissions = session?.user?.role?.permissions;
 
-  // Check if user has permission
-  if (!userPermissions) throw forbiddenException("Tidak ada permission");
+  const hasPermission = checkPermission({ permissions, userPermissions });
 
-  // Check if user has matching permission
-  const hasPermission = hasCommonElements(permissions, userPermissions);
   if (!hasPermission) throw forbiddenException("Tidak memiliki permission");
 };
