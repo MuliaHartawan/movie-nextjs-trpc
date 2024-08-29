@@ -1,10 +1,10 @@
 "use server";
 import { NextPage } from "next";
 import { ReactElement } from "react";
-import { LoginFormModule } from "../_components";
+import { LoginFormComponent } from "../_components";
 
 const AuthLoginPage: NextPage = async (): Promise<ReactElement> => {
-  return <LoginFormModule />;
+  return <LoginFormComponent />;
 };
 
 export default AuthLoginPage;

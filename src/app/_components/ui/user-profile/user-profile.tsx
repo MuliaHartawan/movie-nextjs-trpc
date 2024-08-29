@@ -1,4 +1,4 @@
-import { Dropdown, Typography, Space, Flex, Modal, Avatar } from "antd";
+import { Dropdown, Space, Flex, Modal, Avatar } from "antd";
 import {
   DownOutlined,
   ExclamationCircleFilled,
@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { logOut } from "@/libs/auth/login";
 
-const UserProfile = () => {
+export const UserProfile = () => {
   const { confirm } = Modal;
 
   const showConfirmModal = () => {
@@ -21,6 +21,7 @@ const UserProfile = () => {
       },
     });
   };
+
   return (
     <Dropdown
       menu={{
@@ -50,5 +51,3 @@ const UserProfile = () => {
     </Dropdown>
   );
 };
-
-export default UserProfile;

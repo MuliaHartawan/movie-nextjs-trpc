@@ -1,17 +1,16 @@
 "use client";
 
-import React, { Suspense, useMemo } from "react";
+import Link from "next/link";
+import { Suspense, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { LayoutWithHeader } from "admiral";
 import { TBreadcrumbsItem } from "admiral/breadcrumb";
-import Loading from "@/app/(public)/auth/(otp)/otp/loading";
 import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@ant-design/icons";
-import Link from "next/link";
-import { TheraIcon } from "@/components/svg-tsx/thera-icon";
-import UserProfile from "../user-profile";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { hasCommonElements } from "@/utils/index";
+import { UserProfile } from "../user-profile";
+import Image from "next/image";
 
 export type TMainLayoutProps = {
   title?: string;
@@ -47,7 +46,7 @@ const NavbarMenu = [
   },
 ];
 
-const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
+export const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
   const router = usePathname();
   const { data: session } = useSession();
 
@@ -89,35 +88,22 @@ const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
   }, [activeMenuKey, filteredNavbarMenu]);
 
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <LayoutWithHeader
-          header={{
-            brandLogo: (
-              <figure className="w-full flex justify-center items-center gap-x-3 py-6">
-                <TheraIcon width={"40"} height={"40"} />
-                <figcaption
-                  className={`text-lg text-gray-700 tracking-wider transition-all duration-600`}
-                >
-                  Next Fullstack
-                </figcaption>
-              </figure>
-            ),
-            menu: <UserProfile />,
-          }}
-          sidebar={{
-            width: 250,
-            defaultSelectedKeys: [activeMenuKey],
-            defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
-            menu: filteredNavbarMenu,
-            theme: "light",
-          }}
-        >
-          {children}
-        </LayoutWithHeader>
-      </Suspense>
-    </>
+    <Suspense fallback={"Loading..."}>
+      <LayoutWithHeader
+        header={{
+          brandLogo: <span>NextJS Fullstack</span>,
+          menu: <UserProfile />,
+        }}
+        sidebar={{
+          width: 250,
+          defaultSelectedKeys: [activeMenuKey],
+          defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
+          menu: filteredNavbarMenu,
+          theme: "light",
+        }}
+      >
+        {children}
+      </LayoutWithHeader>
+    </Suspense>
   );
 };
-
-export default MainLayout;

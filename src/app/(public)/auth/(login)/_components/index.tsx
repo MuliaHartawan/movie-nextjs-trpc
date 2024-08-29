@@ -1,95 +1,66 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { FC, ReactElement } from "react";
-import { useForm } from "react-hook-form";
-import { TLoginForm, schema } from "../_entities/schema";
+
+import type { FormProps } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 import { loginByCredentials } from "../_actions/login-action";
-import { useNotifyStore } from "@/libs/store/notify";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
-export const LoginFormModule: FC = (): ReactElement => {
-  const { push } = useRouter();
-  const { setNotify, notify } = useNotifyStore();
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm<TLoginForm>({
-    resolver: zodResolver(schema),
-    mode: "all",
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await loginByCredentials(data);
-    if (res.success) {
-      setNotify({
-        ...notify,
-        show: true,
-        type: "success",
-        message: res?.success?.message as string,
-      });
-      push("/dashboard");
-    }
-
-    if (res.error) {
-      setNotify({
-        ...notify,
-        show: true,
-        type: "error",
-        message: res?.error?.message as string,
-      });
-    }
-  });
-
-  return (
-    <form
-      onSubmit={onSubmit}
-      className="w-full max-w-[594px] p-6 bg-white shadow-md h-auto rounded-xl flex flex-col gap-y-6 justify-center"
-    >
-      <div className="flex flex-col">
-        <h1 className="text-3xl font-bold">Masuk</h1>
-      </div>
-      <div className="flex flex-col gap-y-4">
-        <Input
-          control={control}
-          name="email"
-          type="email"
-          placeholder="Masukkan Email"
-          required
-          label="Email"
-          autoComplete="email"
-        />
-        <Input
-          control={control}
-          name="password"
-          type="password"
-          placeholder="Masukkan Kata Sandi"
-          required
-          label="Kata Sandi"
-          autoComplete="current-password"
-        />
-        <div className="w-full flex justify-end">
-          <Link className="text-xs sm:text-sm font-semibold text-green-700" href="/auth/forgot">
-            Lupa kata sandi?
-          </Link>
-        </div>
-        <Button disabled={!isValid}>Masuk</Button>
-        <div className="w-full flex justify-center">
-          <div className="text-xs sm:text-sm text-gray-500">
-            Belum Mempunyai Akun?{" "}
-            <Link className="text-green-700 text-xs sm:text-sm" href="/auth/register">
-              Daftar Disini
-            </Link>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
+type FieldType = {
+  email: string;
+  password: string;
+  remember?: string;
 };
+
+const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const res = await loginByCredentials(values);
+  if (res.success) {
+    redirect("/dashboard");
+  }
+};
+
+const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
+  console.log("Failed:", errorInfo);
+};
+
+export const LoginFormComponent: React.FC = () => (
+  <Form
+    name="basic"
+    labelCol={{ span: 8 }}
+    wrapperCol={{ span: 16 }}
+    style={{ maxWidth: 600 }}
+    initialValues={{ remember: true }}
+    onFinish={onFinish}
+    onFinishFailed={onFinishFailed}
+    autoComplete="off"
+  >
+    <Form.Item<FieldType>
+      label="Email"
+      name="email"
+      rules={[{ required: true, message: "Please input your username!" }]}
+    >
+      <Input />
+    </Form.Item>
+
+    <Form.Item<FieldType>
+      label="Password"
+      name="password"
+      rules={[{ required: true, message: "Please input your password!" }]}
+    >
+      <Input.Password />
+    </Form.Item>
+
+    <Form.Item<FieldType>
+      name="remember"
+      valuePropName="checked"
+      wrapperCol={{ offset: 8, span: 16 }}
+    >
+      <Checkbox>Remember me</Checkbox>
+    </Form.Item>
+
+    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </Form.Item>
+  </Form>
+);

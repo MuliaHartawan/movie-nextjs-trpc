@@ -5,6 +5,12 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "react-hooks/rules-of-hook": "off"
+    "react-hooks/rules-of-hook": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   }
 }
