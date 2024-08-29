@@ -1,4 +1,4 @@
-import { Flex, Layout } from "antd";
+import { Flex } from "antd";
 import { FC, PropsWithChildren, ReactElement } from "react";
 
 const AuthTemplate: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {

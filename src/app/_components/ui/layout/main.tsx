@@ -10,7 +10,6 @@ import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@a
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { hasCommonElements } from "@/utils/index";
 import { UserProfile } from "../user-profile";
-import Image from "next/image";
 
 export type TMainLayoutProps = {
   title?: string;
