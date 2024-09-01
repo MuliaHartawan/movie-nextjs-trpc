@@ -1,4 +1,4 @@
-import { CustomError, CustomException } from "@/types/cutom-error";
+import { CustomException } from "@/types/cutom-exception";
 
 export class NotFoundException extends CustomException {
   constructor(message: string, errors?: string[]) {
