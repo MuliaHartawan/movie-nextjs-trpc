@@ -19,8 +19,8 @@ import { TIndexUserQueryParam } from "../validations/index-user.validation";
 import { validate } from "@/utils/zod-validate";
 import { serverCheckPermission } from "@/utils/permission";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { notFoundException } from "../../../errors/NotFoundException";
-import { unprocessableEntityException } from "../../../errors/UnprocessableEntityException";
+import NotFoundException from "../../../errors/NotFoundException";
+import UnprocessableEntityException from "../../../errors/UnprocessableEntityException";
 
 export const getUsersAction = async (
   queryParam: TIndexUserQueryParam,
@@ -39,7 +39,7 @@ export const getUser = async (from?: string) => {
   const user = await findOneUserById(from);
 
   if (!user) {
-    throw notFoundException("User tidak ditemukan");
+    throw new NotFoundException("User tidak ditemukan");
   }
 
   return user;
@@ -53,15 +53,16 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
   validate(createOrUpdateUserSchema, value);
 
   // Simulate error
-  if (value.fullname === "error") throw unprocessableEntityException("fullname can not be error");
+  if (value.fullname === "error")
+    throw new UnprocessableEntityException("fullname can not be error");
 
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw notFoundException("Role tidak ditemukan");
+    throw new NotFoundException("Role tidak ditemukan");
   }
   const email = await findOneUserByEmail(value.email);
   if (email) {
-    throw unprocessableEntityException("Email sudah digunakan");
+    throw new UnprocessableEntityException("Email sudah digunakan");
   }
   const password = await hashPassword(value.password);
   await createUser({
@@ -85,19 +86,19 @@ export const updateUserAction = async ({
 
   const user = await findOneUserById(id);
   if (!user) {
-    throw notFoundException("User tidak ditemukan");
+    throw new NotFoundException("User tidak ditemukan");
   }
 
   // Check if role exists
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw notFoundException("Role tidak ditemukan");
+    throw new NotFoundException("Role tidak ditemukan");
   }
 
   // Check if email exists and is not the same as the current user
   const email = await findOneUserByEmail(value.email);
   if (email && email.id !== id) {
-    throw unprocessableEntityException("Email sudah digunakan");
+    throw new UnprocessableEntityException("Email sudah digunakan");
   }
 
   user.fullname = value.fullname;
@@ -106,12 +107,19 @@ export const updateUserAction = async ({
   user.email = value.email;
   user.roleId = value.roleId;
 
-  await updateUserById(id, user);
+  const affectedRows = await updateUserById(id, user);
+  if (!affectedRows || affectedRows === 0) {
+    throw new NotFoundException("Gagal memperbarui user");
+  }
 };
 
 export const deleteUserAction = async (from: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.USER_DELETE]);
 
-  await deleteUserById(from);
+  const affectedRows = await deleteUserById(from);
+
+  if (!affectedRows || affectedRows === 0) {
+    throw new NotFoundException("Gagal menghapus user");
+  }
 };
