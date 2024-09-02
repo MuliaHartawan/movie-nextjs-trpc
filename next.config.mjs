@@ -11,6 +11,15 @@ const nextConfig = {
     outputFileTracingIncludes: { "/": ["./node_modules/argon2/prebuilds/linux-x64/*.musl.*"] },
   },
   transpilePackages: ["admiral"],
+  redirects: async () => {
+    return [
+      {
+        source: "/",
+        destination: "/auth/login",
+        permanent: true,
+      },
+    ];
+  },
   webpack: (config) => {
     config.resolve.alias["@/components"] = path.join(__dirname, "src/app/_components");
     config.resolve.alias["@/app"] = path.join(__dirname, "src/app");

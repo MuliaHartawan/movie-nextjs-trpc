@@ -34,6 +34,7 @@ export const DashboardCreateUsersModule: FC<{
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const roleOptions = Array.isArray(roles)
