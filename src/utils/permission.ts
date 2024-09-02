@@ -1,5 +1,5 @@
 import { auth } from "@/libs/auth/auth";
-import { forbiddenException } from "../errors/ForbiddenException";
+import ForbiddenException from "../errors/ForbiddenException";
 
 type TPermissionChecker = {
   permissions: Array<string>;
@@ -29,5 +29,5 @@ export const serverCheckPermission = async (permissions: Array<string>): Promise
 
   const hasPermission = checkPermission({ permissions, userPermissions });
 
-  if (!hasPermission) throw forbiddenException("Tidak memiliki hak akses");
+  if (!hasPermission) throw new ForbiddenException("Tidak memiliki hak akses");
 };

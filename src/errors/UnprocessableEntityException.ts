@@ -1,10 +1,10 @@
-import { CustomError } from "@/types/cutom-error";
+import { CustomException } from "@/types/cutom-exception";
 
-export function unprocessableEntityException(message: string): CustomError {
-  return {
-    errorType: "UnprocessableEntityException",
-    message,
-    errorCode: 422,
-    instance: new Error("UnprocessableEntityException"),
-  };
+export class UnprocessableEntityException extends CustomException {
+  constructor(message: string, errors?: string[]) {
+    super(422, message, errors || []);
+    this.name = "UnprocessableEntityException";
+  }
 }
+
+export default UnprocessableEntityException;

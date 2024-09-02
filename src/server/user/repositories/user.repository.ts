@@ -42,13 +42,13 @@ export const findOneUserByEmail = async (email: string): Promise<User | undefine
 };
 
 export const createUser = async (data: User): Promise<void> => {
-  db.insert(users).values(data);
+  await db.insert(users).values(data);
 };
 
-export const updateUserById = async (id: string, data: Partial<User>): Promise<void> => {
-  db.update(users).set(data).where(eq(users.id, id));
+export const updateUserById = async (id: string, data: Partial<User>): Promise<number | null> => {
+  return (await db.update(users).set(data).where(eq(users.id, id))).rowCount;
 };
 
-export const deleteUserById = async (id: string): Promise<void> => {
-  db.delete(users).where(eq(users.id, id));
+export const deleteUserById = async (id: string): Promise<number | null> => {
+  return (await db.delete(users).where(eq(users.id, id))).rowCount;
 };
