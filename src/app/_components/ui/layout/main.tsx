@@ -10,12 +10,14 @@ import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@a
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { hasCommonElements } from "@/utils/index";
 import { UserProfile } from "../user-profile";
+import { Session } from "next-auth";
 
 export type TMainLayoutProps = {
   title?: string;
   children: React.ReactNode;
   breadcrumbs?: TBreadcrumbsItem[];
   topActions?: React.ReactNode;
+  session?: Session | null;
 };
 
 const NavbarMenu = [
@@ -45,9 +47,8 @@ const NavbarMenu = [
   },
 ];
 
-export const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
+export const MainLayout: React.FC<TMainLayoutProps> = ({ children, session }) => {
   const router = usePathname();
-  const { data: session } = useSession();
 
   const userPermissions = useMemo(
     () => session?.user?.role?.permissions || [],
@@ -91,7 +92,7 @@ export const MainLayout: React.FC<TMainLayoutProps> = ({ children }) => {
       <LayoutWithHeader
         header={{
           brandLogo: <span>NextJS Fullstack</span>,
-          menu: <UserProfile />,
+          menu: <UserProfile session={session} />,
         }}
         sidebar={{
           width: 250,
