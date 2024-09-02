@@ -6,9 +6,12 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { logOut } from "@/libs/auth/login";
+import { Session } from "next-auth";
 
-export const UserProfile = () => {
+export const UserProfile = ({ session }: { session?: Session | null }) => {
   const { confirm } = Modal;
+
+  const fullname = session?.user?.fullname;
 
   const showConfirmModal = () => {
     confirm({
@@ -43,7 +46,7 @@ export const UserProfile = () => {
             <Avatar size="default" style={{ backgroundColor: "green" }} data-testid="avatar">
               <UserOutlined size={24} />
             </Avatar>
-
+            {fullname}
             <DownOutlined style={{ marginLeft: "10px" }} />
           </Flex>
         </Space>
