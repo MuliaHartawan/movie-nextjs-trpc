@@ -3,7 +3,6 @@ import type { FC, PropsWithChildren, ReactElement } from "react";
 import { Montserrat } from "next/font/google";
 import { AuthProvider } from "@/libs/auth/provider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { QueryProvider } from "@/libs/action-query/provider";
 
 const monserrat = Montserrat({
@@ -17,7 +16,6 @@ export const metadata: Metadata = {
 };
 
 const RootLayout: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {
-  const queryClient = new QueryClient();
   return (
     <html lang="en">
       <body className={monserrat.className}>
