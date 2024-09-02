@@ -18,6 +18,7 @@ const nextConfig = {
     config.resolve.alias["@/libs"] = path.join(__dirname, "src/libs");
     config.resolve.alias["@/server"] = path.join(__dirname, "src/server");
     config.resolve.alias["@/utils"] = path.join(__dirname, "src/utils");
+    config.resolve.alias["@/types"] = path.join(__dirname, "src/types");
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
     return config;
