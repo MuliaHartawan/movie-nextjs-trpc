@@ -7,6 +7,7 @@ import {
   deleteUserById,
   findOneUserByEmail,
   findOneUserById,
+  isEmailAlreadyUsed,
   updateUserById,
   userPagination,
 } from "../repositories/user.repository";
@@ -54,15 +55,16 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
 
   // Simulate error
   if (value.fullname === "error")
-    throw new UnprocessableEntityException("fullname can not be error");
+    throw new UnprocessableEntityException("fullname can not be error", [{ path: ["fullname"] }]);
 
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw new NotFoundException("Role tidak ditemukan");
+    throw new NotFoundException("Role tidak ditemukan", [{ path: ["roleId"] }]);
   }
-  const email = await findOneUserByEmail(value.email);
-  if (email) {
-    throw new UnprocessableEntityException("Email sudah digunakan");
+  // const email = await findOneUserByEmail(value.email);
+  const isEmailUsed = await isEmailAlreadyUsed(value.email);
+  if (isEmailUsed === true) {
+    throw new UnprocessableEntityException("Email sudah digunakan", [{ path: ["email"] }]);
   }
   const password = await hashPassword(value.password);
   await createUser({
@@ -84,32 +86,28 @@ export const updateUserAction = async ({
   // Validation
   validate(createOrUpdateUserSchema, value);
 
-  const user = await findOneUserById(id);
-  if (!user) {
-    throw new NotFoundException("User tidak ditemukan");
-  }
-
   // Check if role exists
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw new NotFoundException("Role tidak ditemukan");
+    throw new UnprocessableEntityException("Role tidak ditemukan", [{ path: ["roleId"] }]);
   }
 
   // Check if email exists and is not the same as the current user
   const email = await findOneUserByEmail(value.email);
   if (email && email.id !== id) {
-    throw new UnprocessableEntityException("Email sudah digunakan");
+    throw new UnprocessableEntityException("Email sudah digunakan", [{ path: ["email"] }]);
   }
 
-  user.fullname = value.fullname;
-  user.address = value.address;
-  user.password = await hashPassword(value.password);
-  user.email = value.email;
-  user.roleId = value.roleId;
+  const affectedRows = await updateUserById(id, {
+    fullname: value.fullname,
+    address: value.address,
+    password: await hashPassword(value.password),
+    email: value.email,
+    roleId: value.roleId,
+  });
 
-  const affectedRows = await updateUserById(id, user);
   if (!affectedRows || affectedRows === 0) {
-    throw new NotFoundException("Gagal memperbarui user");
+    throw new UnprocessableEntityException("Gagal memperbarui user");
   }
 };
 
@@ -120,6 +118,6 @@ export const deleteUserAction = async (from: string) => {
   const affectedRows = await deleteUserById(from);
 
   if (!affectedRows || affectedRows === 0) {
-    throw new NotFoundException("Gagal menghapus user");
+    throw new UnprocessableEntityException("Gagal menghapus user");
   }
 };

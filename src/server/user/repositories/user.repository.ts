@@ -1,6 +1,6 @@
 import { TPaginationResponse } from "@/types/meta";
 import { db } from "@/libs/drizzle/connection";
-import { count, desc, eq, sql } from "drizzle-orm";
+import { and, count, desc, eq, ne, sql } from "drizzle-orm";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { users } from "@/libs/drizzle/schema";
 import { countOffset, mapMeta } from "@/utils/paginate-util";
@@ -39,6 +39,21 @@ export const findOneUserById = async (id: string): Promise<User | undefined> => 
 
 export const findOneUserByEmail = async (email: string): Promise<User | undefined> => {
   return (await db.select().from(users).where(eq(users.email, email)).limit(1)).at(0);
+};
+
+export const isEmailAlreadyUsed = async (email: string, userEmail?: string): Promise<boolean> => {
+  const result = (
+    await db
+      .select({
+        exists: sql<number>`1`,
+      })
+      .from(users)
+      .where(and(eq(users.email, email), userEmail ? ne(users.email, email) : undefined))
+  ).at(0);
+
+  if (result?.exists) return true;
+
+  return false;
 };
 
 export const createUser = async (data: User): Promise<void> => {

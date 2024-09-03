@@ -57,8 +57,6 @@ export const getUserData = async (email?: string | null) => {
       },
     });
 
-    console.log(user);
-
     return user;
   } catch (err) {
     throw err;

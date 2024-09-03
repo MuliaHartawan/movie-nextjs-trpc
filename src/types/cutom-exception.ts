@@ -2,9 +2,9 @@ export class CustomException extends Error {
   errorCode: number;
   message: string;
   name: string;
-  errors?: string[]; // Has field errors
+  errors?: Array<FieldErrorType>; // Has field errors
 
-  constructor(errorCode: number, message: string, errors: string[]) {
+  constructor(errorCode: number, message: string, errors: Array<FieldErrorType>) {
     super(message);
     this.errorCode = errorCode;
     this.errors = errors;
@@ -12,3 +12,7 @@ export class CustomException extends Error {
     this.name = "CustomException";
   }
 }
+
+export type FieldErrorType = {
+  path: string[];
+};
