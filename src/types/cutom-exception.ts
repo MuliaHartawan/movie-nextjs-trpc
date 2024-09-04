@@ -7,7 +7,7 @@ export class CustomException extends Error {
   constructor(errorCode: number, message: string, errors: Array<FieldErrorType>) {
     super(message);
     this.errorCode = errorCode;
-    this.errors = errors;
+
     this.message = message;
     this.name = "CustomException";
   }
