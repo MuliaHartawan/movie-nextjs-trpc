@@ -50,7 +50,7 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
   await serverCheckPermission([PERMISSIONS.USER_CREATE]);
 
   // Validation
-  validate(createOrUpdateUserSchema, value);
+  await validate(createOrUpdateUserSchema, value);
 
   // Simulate error
   if (value.fullname === "error")
@@ -82,7 +82,7 @@ export const updateUserAction = async ({
   await serverCheckPermission([PERMISSIONS.USER_UPDATE]);
 
   // Validation
-  validate(createOrUpdateUserSchema, value);
+  await validate(createOrUpdateUserSchema, value);
 
   const user = await findOneUserById(id);
   if (!user) {
