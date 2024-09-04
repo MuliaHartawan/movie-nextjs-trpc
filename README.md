@@ -43,7 +43,20 @@ cp .env.example .env.local
 
 Follow the instruction on file `.env.local` to set the specific environment variables.
 
-### 4. Database Setup (SOON)
+### 4. Database Setup
+
+In this boilerplate, we use PostgreSQL as the database. You can set up your database by following these steps:
+
+1. Create a new database.
+2. Update the `.env.local` file with the database connection details.
+3. Run the database migrations:
+
+```bash
+pnpm db:push
+```
+
+Please read [Drizzle-ORM documentation](https://orm.drizzle.team/docs/overview)
+
 
 ### 5. Run the Development Server
 
