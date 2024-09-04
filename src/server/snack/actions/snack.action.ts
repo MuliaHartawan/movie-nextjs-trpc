@@ -44,7 +44,7 @@ export const createSnackAction = async (value: TCreateOrUpdateSnackValidation) =
   await serverCheckPermission([PERMISSIONS.SNACK_CREATE]);
 
   // Validation
-  validate(createOrUpdateSnackSchema, value);
+  await validate(createOrUpdateSnackSchema, value);
 
   await createNewSnack({
     name: value.name,
@@ -64,7 +64,7 @@ export const updateSnackAction = async ({
   await serverCheckPermission([PERMISSIONS.SNACK_UPDATE]);
 
   // Validation
-  validate(createOrUpdateSnackSchema, value);
+  await validate(createOrUpdateSnackSchema, value);
 
   await updateSnackById(id, {
     name: value.name,
