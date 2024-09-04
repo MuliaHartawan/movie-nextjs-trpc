@@ -33,7 +33,7 @@ pnpm install
 ### 3. Environment Variables
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 Follow the instruction on file `.env` to set the specific environment variables.
