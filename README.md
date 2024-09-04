@@ -10,8 +10,10 @@ Since this approach is not designed for high-performance applications, it is rec
 
 ## System Requirements
 
-- Node.js >= 18
-- npm or yarn or pnpm
+- Next 14
+- Node.js >= 20
+- Postgres 15
+- pnpm
 
 ## Setup
 
@@ -25,25 +27,21 @@ cd your-repo-directory
 ### 2. Install Dependencies
 
 ```bash
-# Using npm
-npm install
-
-# Using yarn
-yarn install
-
-# Using pnpm
 pnpm install
 ```
 
 ### 3. Environment Variables
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-Follow the instruction on file `.env.local` to set the specific environment variables.
+Follow the instruction on file `.env` to set the specific environment variables.
 
-### 4. Database Setup (SOON)
+### 4. Database Setup
+
+- Using Docker `docker pull postgres:15`
+- Update your database credential in `.env` file
 
 ### 5. Run the Development Server
 
