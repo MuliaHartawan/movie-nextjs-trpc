@@ -43,7 +43,7 @@ export const createRole = async (value: TCreateOrUpdateRoleValidation): Promise<
   await serverCheckPermission([PERMISSIONS.ROLE_CREATE]);
 
   // Validation
-  validate(createOrUpdateRoleSchema, value);
+  await validate(createOrUpdateRoleSchema, value);
 
   await createRoleAndPermissions(value.name, value.permissionIds);
 };
@@ -59,7 +59,7 @@ export const updateRole = async ({
   await serverCheckPermission([PERMISSIONS.ROLE_UPDATE]);
 
   // Validation
-  validate(createOrUpdateRoleSchema, value);
+  await validate(createOrUpdateRoleSchema, value);
 
   await updateRoleAndPermissionsById(id, value.name, value.permissionIds);
 };
