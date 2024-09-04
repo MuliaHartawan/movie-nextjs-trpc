@@ -1,6 +1,49 @@
-## NextJS Fullstack RnD
+# NextJS Fullstack Boilerplate
 
-First, run the development server:
+## Project Description
+
+This is a full-stack boilerplate application built with Next.js that utilizes React Server Actions for server-side logic.
+
+### (!)Important
+
+Since this approach is not designed for high-performance applications, it is recommended to use this project for small to medium-sized projects.
+
+## System Requirements
+
+- Next 14
+- Node.js >= 20
+- Postgres 15
+- pnpm
+
+## Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://your-repo-url.git
+cd your-repo-directory
+```
+
+### 2. Install Dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Environment Variables
+
+```bash
+cp .env.example .env
+```
+
+Follow the instruction on file `.env` to set the specific environment variables.
+
+### 4. Database Setup
+
+- Using Docker `docker pull postgres:15`
+- Update your database credential in `.env` file
+
+### 5. Run the Development Server
 
 ```bash
 npm run dev
@@ -12,11 +55,84 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+.
+├── src/
+│   ├── app/
+│   |   ├── _components/
+│   |   ├── (authenticated)/
+│   |   |   ├── (module-name)/
+│   |   |   |   ├── _components/
+│   |   |   |   ├── _hooks/
+│   |   |   |   ├── path/
+│   |   |   |   |   ├── page.tsx
+│   |   ├── (public)/
+│   |   |   ├── (module-name)/
+│   |   |   |   ├── _components/
+│   |   |   |   ├── _hooks/
+│   |   |   |   ├── path/
+│   |   |   |   |   ├── page.tsx
+│   |   ├── api/
+│   ├── common/
+|   |   ├── enums/
+|   |   ├── types/
+│   ├── libs/
+│   ├── server/
+│   |   ├── module-name/
+│   |   |   ├── actions/
+│   |   |   ├── repositories/
+│   |   |   ├── validations/
+
+│   ├── types/
+│   ├── utils/
+│   ├── middleware.ts
+│   └── ...
+```
+
+### Key Directories
+
+- **`src/app/`**: Contains the application logic, including components, pages, and API routes.
+  - **`src/app/_components/`**: Contains shared components used throughout the application.
+  - **`src/app/(authenticated)/`**: Contains components and pages that require authentication. See [Modules Structure](#modules-structure) for more details.
+  - **`src/app/(public)/`**: Contains components and pages that are publicly accessible. See [Modules Structure](#modules-structure) for more details.
+  - **`src/app/api/`**: Contains API routes.
+- **`src/common/`**: Contains common utilities, types, and enums.
+- **`src/libs/`**: Contains libraries and utilities used throughout the application.
+- **`src/server/`**: Contains server-side logic, including React Server Actions.
+  - **`src/server/(module-name)/`**: Contains server-side logic for a specific module.
+    - **`src/server/(module-name)/actions/`**: Contains server-action functions that ready to be called from the client.
+    - **`src/server/(module-name)/repositories/`**: Contains repositories for getting data from the database.
+    - **`src/server/(module-name)/validations/`**: Contains validation rules.
+- **`src/types/`**: Contains type definitions used throughout the application.
+- **`src/utils/`**: Contains utility functions used throughout the application.
+- **`src/middleware.ts`**: Contains middleware functions used throughout the application.
+
+#### Modules Structure
+
+- Module name should be inside brackets, e.g. `(module-name)`.
+- Each module will have its own directories:
+  - **`_components/`**: Contains components used within the module.
+  - **`_hooks/`**: Contains hooks used within the module.
+  - **`path/`**: Contains the page components for the module. Follow the [NextJS routing rules](https://nextjs.org/docs/app/building-your-application/routing).
+
+## Integration
+
+### Authentication
+
+- **Google OAuth**: Configured via `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` in the `.env.local` file.
+- **Auth.js**: Utilized for authentication, with the secret stored in `AUTH_SECRET`.
+
+### Database
+
+- **PostgreSQL**: Connection details are configured via `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, and `DB_SSL` in the `.env.local` file.
+
+### Error Tracking
+
+- **Sentry**: Configured via `SENTRY_DSN`, `SENTRY_TOKEN`, `SENTRY_URL`, and `SENTRY_PROJECT` in the `.env.local` file. See `sentry.client.config.ts`, `sentry.edge.config.ts`, and `sentry.server.config.ts` for more details.
 
 ## Learn More
 
@@ -29,6 +145,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
