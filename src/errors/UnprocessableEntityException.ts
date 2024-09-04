@@ -1,7 +1,7 @@
-import { CustomException } from "@/types/cutom-exception";
+import { CustomException, FieldErrorType } from "@/types/cutom-exception";
 
 export class UnprocessableEntityException extends CustomException {
-  constructor(message: string, errors?: string[]) {
+  constructor(message: string, errors?: Array<FieldErrorType>) {
     super(422, message, errors || []);
     this.name = "UnprocessableEntityException";
   }
