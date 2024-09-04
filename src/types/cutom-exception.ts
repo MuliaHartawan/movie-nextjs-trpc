@@ -15,4 +15,5 @@ export class CustomException extends Error {
 
 export type FieldErrorType = {
   path: string[];
+  message: string;
 };

@@ -55,16 +55,22 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
 
   // Simulate error
   if (value.fullname === "error")
-    throw new UnprocessableEntityException("fullname can not be error", [{ path: ["fullname"] }]);
+    throw new UnprocessableEntityException("fullname can not be error", [
+      { path: ["fullname"], message: "fullname can not be error" },
+    ]);
 
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw new NotFoundException("Role tidak ditemukan", [{ path: ["roleId"] }]);
+    throw new NotFoundException("Role tidak ditemukan", [
+      { path: ["roleId"], message: "Role tidak ditemukan" },
+    ]);
   }
 
   const isEmailUsed = await isEmailAlreadyUsed(value.email);
   if (isEmailUsed === true) {
-    throw new UnprocessableEntityException("Email sudah digunakan", [{ path: ["email"] }]);
+    throw new UnprocessableEntityException("Email sudah digunakan", [
+      { path: ["email"], message: "Email sudah digunakan" },
+    ]);
   }
   const password = await hashPassword(value.password);
   await createUser({
@@ -89,13 +95,17 @@ export const updateUserAction = async ({
   // Check if role exists
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw new UnprocessableEntityException("Role tidak ditemukan", [{ path: ["roleId"] }]);
+    throw new UnprocessableEntityException("Role tidak ditemukan", [
+      { path: ["roleId"], message: "Role tidak ditemukan" },
+    ]);
   }
 
   // Check if email exists and is not the same as the current user
   const email = await findOneUserByEmail(value.email);
   if (email && email.id !== id) {
-    throw new UnprocessableEntityException("Email sudah digunakan", [{ path: ["email"] }]);
+    throw new UnprocessableEntityException("Email sudah digunakan", [
+      { path: ["email"], message: "Email sudah digunakan" },
+    ]);
   }
 
   const affectedRows = await updateUserById(id, {
