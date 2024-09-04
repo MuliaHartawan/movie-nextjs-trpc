@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import * as dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: [".env", ".env.local"] });
 
 export const config = {
   randUuidV4: uuidv4(),

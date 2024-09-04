@@ -33,15 +33,24 @@ pnpm install
 ### 3. Environment Variables
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 Follow the instruction on file `.env` to set the specific environment variables.
 
 ### 4. Database Setup
 
-- Using Docker `docker pull postgres:15`
-- Update your database credential in `.env` file
+In this boilerplate, we use PostgreSQL as the database. You can set up your database by following these steps:
+
+1. Create a new database.
+2. Update the `.env.local` file with the database connection details.
+3. Run the database migrations:
+
+```bash
+pnpm db:push
+```
+
+Please read [Drizzle-ORM documentation](https://orm.drizzle.team/docs/overview)
 
 ### 5. Run the Development Server
 
