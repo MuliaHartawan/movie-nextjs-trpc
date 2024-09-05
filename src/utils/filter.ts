@@ -115,7 +115,7 @@ export const useFilter = () => {
     _setFilter((old) => ({ ...old, ...cloneData }));
 
     const pathnameWithQuery = withQuery(pathname, { ...filter, ...cloneData });
-    router.push(pathnameWithQuery, { scroll: false });
+    router.replace(pathnameWithQuery, { scroll: false });
   };
 
   const implementDataTable: IDataTableProps<any, any>["onChange"] = (
