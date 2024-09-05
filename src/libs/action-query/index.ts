@@ -23,7 +23,7 @@ export const useActionQuery = <
   const newClientActionQueryFn = async (): Promise<TQueryFnData> => {
     const response = await wrapServerAction(queryFn);
     if (response.status === "error") {
-      throw new Error(response.error);
+      throw response.error;
     }
     return response.data;
   };
@@ -51,7 +51,7 @@ export const useActionMutation = <
   const newClientActionMutationFn = async (variables: TVariables): Promise<TData> => {
     const response = await wrapServerActionWithParams(mutationFn, variables);
     if (response.status === "error") {
-      throw new Error(response.error);
+      throw response.error;
     }
     return response.data;
   };

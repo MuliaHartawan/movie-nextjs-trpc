@@ -2,7 +2,7 @@
 
 import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement } from "react";
 import { useUserAction } from "../_hooks";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { User } from "@/libs/drizzle/schemas/user.schema";
@@ -13,28 +13,19 @@ export const DashboardCreateUsersModule: FC<{
   userId: string;
   roles?: Role[];
 }> = ({ data, userId, roles }): ReactElement => {
-  const { updateUserMutation, addUserMutation } = useUserAction();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
 
-  const handleAddOrUpdateUser = async (values: TCreateOrUpdateUserValidation) => {
-    setLoading(true);
-    try {
-      if (userId) {
-        await updateUserMutation.mutateAsync({
-          value: values,
-          id: userId,
-        });
-        setLoading(false);
-      } else {
-        await addUserMutation.mutateAsync(values);
-        setLoading(false);
-      }
-      form.resetFields();
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
+  const { updateUserMutation, addUserMutation } = useUserAction({ form });
+
+  const handleAdd = (values: TCreateOrUpdateUserValidation) => {
+    addUserMutation.mutateAsync(values);
+  };
+
+  const handleUpdate = (values: TCreateOrUpdateUserValidation) => {
+    updateUserMutation.mutateAsync({
+      value: values,
+      id: userId,
+    });
   };
 
   const roleOptions = Array.isArray(roles)
@@ -60,7 +51,7 @@ export const DashboardCreateUsersModule: FC<{
     >
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
-          <Form form={form} onFinish={handleAddOrUpdateUser} layout="vertical">
+          <Form form={form} onFinish={userId ? handleUpdate : handleAdd} layout="vertical">
             <Form.Item
               label="Full Name"
               name="fullname"
@@ -82,7 +73,11 @@ export const DashboardCreateUsersModule: FC<{
               <Select placeholder="Select Role" options={roleOptions} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={addUserMutation.isPending || updateUserMutation.isPending}
+              >
                 Submit
               </Button>
             </Form.Item>
