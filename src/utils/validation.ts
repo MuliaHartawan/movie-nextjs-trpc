@@ -7,7 +7,7 @@ export const formErrorHandling = <Values = any>(
 ) => {
   form.setFields(
     customException.errors?.map((value) => ({
-      name: value.path[0],
+      name: value.path,
       errors: [value.message],
     })) || [],
   );
