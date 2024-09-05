@@ -2,48 +2,30 @@
 
 import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement } from "react";
 import { useUserAction } from "../_hooks";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
-import { CustomException } from "@/types/cutom-exception";
-import { formErrorHandling } from "@/utils/validation";
 
 export const DashboardCreateUsersModule: FC<{
   data?: User;
   userId: string;
   roles?: Role[];
 }> = ({ data, userId, roles }): ReactElement => {
-  const { updateUserMutation, addUserMutation } = useUserAction();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+
+  const { updateUserMutation, addUserMutation } = useUserAction({ form });
 
   const handleAdd = (values: TCreateOrUpdateUserValidation) => {
-    setLoading(true);
-    addUserMutation
-      .mutateAsync(values)
-      .catch((err) => {
-        formErrorHandling(form, err as CustomException);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    addUserMutation.mutateAsync(values);
   };
 
   const handleUpdate = (values: TCreateOrUpdateUserValidation) => {
-    setLoading(true);
-    updateUserMutation
-      .mutateAsync({
-        value: values,
-        id: userId,
-      })
-      .catch((err) => {
-        formErrorHandling(form, err as CustomException);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    updateUserMutation.mutateAsync({
+      value: values,
+      id: userId,
+    });
   };
 
   const roleOptions = Array.isArray(roles)
@@ -91,7 +73,11 @@ export const DashboardCreateUsersModule: FC<{
               <Select placeholder="Select Role" options={roleOptions} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={addUserMutation.isPending || updateUserMutation.isPending}
+              >
                 Submit
               </Button>
             </Form.Item>
