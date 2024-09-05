@@ -1,10 +1,13 @@
 import { useActionMutation } from "@/libs/action-query";
 import { createUserAction, updateUserAction } from "@/server/user/actions/user.action";
+import { CustomException } from "@/types/cutom-exception";
+import { formErrorHandling } from "@/utils/validation";
 import { useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
+import { FormInstance } from "antd/lib";
 import { useRouter } from "next/navigation";
 
-export const useUserAction = () => {
+export const useUserAction = ({ form }: { form?: FormInstance }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -16,6 +19,7 @@ export const useUserAction = () => {
     },
     onError: (error: Error) => {
       message.error(error.message);
+      if (form) formErrorHandling(form, error as CustomException);
     },
   });
 
@@ -27,6 +31,7 @@ export const useUserAction = () => {
     },
     onError: (error: Error) => {
       message.error(error.message);
+      if (form) formErrorHandling(form, error as CustomException);
     },
   });
 
