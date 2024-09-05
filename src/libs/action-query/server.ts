@@ -1,5 +1,7 @@
 "use server";
+import { CustomException } from "@/types/cutom-exception";
 import { ActionResponse, ServerActionFunction } from "./type";
+import UnprocessableEntityException from "../../errors/UnprocessableEntityException";
 
 /**
  * Server Action Wrapper with Params
@@ -22,9 +24,23 @@ export const wrapServerActionWithParams = async <TData, TVariables = void>(
       data: response,
     };
   } catch (error) {
+    const errorObj = {} as CustomException;
+    const customException = error as CustomException;
+    if ("errors" in customException) {
+      errorObj["errors"] = customException.errors;
+    }
+    if ("name" in customException) {
+      errorObj["name"] = customException.name;
+    }
+    if ("errorCode" in customException) {
+      errorObj["errorCode"] = customException.errorCode;
+    }
+    if ("message" in customException) {
+      errorObj["message"] = customException.message;
+    }
     return {
       status: "error",
-      error: (error as Error).message,
+      error: errorObj,
     };
   }
 };

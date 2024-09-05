@@ -15,6 +15,7 @@ export const useUserAction = () => {
       router.push("/users");
     },
     onError: (error: Error) => {
+      console.log(error);
       message.error(error.message);
     },
   });

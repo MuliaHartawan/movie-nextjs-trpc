@@ -1,3 +1,5 @@
+import { CustomException } from "@/types/cutom-exception";
+
 export type ActionResponse<T> = ActionResponseSuccess<T> | ActionResponseError;
 
 export type ActionResponseSuccess<T> = {
@@ -7,7 +9,7 @@ export type ActionResponseSuccess<T> = {
 
 export type ActionResponseError = {
   status: "error";
-  error: string;
+  error: CustomException;
 };
 
 export type ServerActionFunction<TData, TVariables> =

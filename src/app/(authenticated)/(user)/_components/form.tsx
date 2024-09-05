@@ -7,6 +7,8 @@ import { useUserAction } from "../_hooks";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
+import { CustomException } from "@/types/cutom-exception";
+import { formErrorHandling } from "@/utils/validation";
 
 export const DashboardCreateUsersModule: FC<{
   data?: User;
@@ -17,24 +19,31 @@ export const DashboardCreateUsersModule: FC<{
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const handleAddOrUpdateUser = async (values: TCreateOrUpdateUserValidation) => {
+  const handleAdd = (values: TCreateOrUpdateUserValidation) => {
     setLoading(true);
-    try {
-      if (userId) {
-        await updateUserMutation.mutateAsync({
-          value: values,
-          id: userId,
-        });
+    addUserMutation
+      .mutateAsync(values)
+      .catch((err) => {
+        formErrorHandling(form, err as CustomException);
+      })
+      .finally(() => {
         setLoading(false);
-      } else {
-        await addUserMutation.mutateAsync(values);
+      });
+  };
+
+  const handleUpdate = (values: TCreateOrUpdateUserValidation) => {
+    setLoading(true);
+    updateUserMutation
+      .mutateAsync({
+        value: values,
+        id: userId,
+      })
+      .catch((err) => {
+        formErrorHandling(form, err as CustomException);
+      })
+      .finally(() => {
         setLoading(false);
-      }
-      form.resetFields();
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
+      });
   };
 
   const roleOptions = Array.isArray(roles)
@@ -60,7 +69,7 @@ export const DashboardCreateUsersModule: FC<{
     >
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
-          <Form form={form} onFinish={handleAddOrUpdateUser} layout="vertical">
+          <Form form={form} onFinish={userId ? handleUpdate : handleAdd} layout="vertical">
             <Form.Item
               label="Full Name"
               name="fullname"
