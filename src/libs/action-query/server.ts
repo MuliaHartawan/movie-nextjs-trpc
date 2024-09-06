@@ -1,7 +1,6 @@
 "use server";
 import { CustomException } from "@/types/cutom-exception";
 import { ActionResponse, ServerActionFunction } from "./type";
-import UnprocessableEntityException from "../../errors/UnprocessableEntityException";
 
 /**
  * Server Action Wrapper with Params
