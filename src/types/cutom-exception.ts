@@ -14,6 +14,6 @@ export class CustomException extends Error {
 }
 
 export type FieldErrorType = {
-  path: string[];
+  path: (string | number)[];
   message: string;
 };

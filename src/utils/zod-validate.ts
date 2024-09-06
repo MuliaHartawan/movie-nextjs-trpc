@@ -6,13 +6,16 @@ export const validate = async <T>(schema: ZodType<T>, data: T): Promise<T | void
     if (error instanceof ZodError) {
       const zodErrors = error.errors;
       const errorMessage = zodErrors.at(0)?.message;
-      const mapZodErrorPath = zodErrors.map((err) => {
-        return err.path.toString();
-      });
 
-      throw new BadRequestException(errorMessage ?? "Invalid input data", [
-        { path: mapZodErrorPath, message: errorMessage ?? "Invalid input data" },
-      ]);
+      throw new BadRequestException(
+        errorMessage ?? "Invalid input data",
+        zodErrors.map((err) => {
+          return {
+            path: err.path,
+            message: err.message,
+          };
+        }),
+      );
     }
   });
 };
