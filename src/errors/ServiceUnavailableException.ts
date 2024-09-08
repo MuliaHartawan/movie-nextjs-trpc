@@ -1,8 +1,8 @@
-import { CustomException, FieldErrorType } from "@/types/cutom-exception";
+import { CustomException } from "@/types/cutom-exception";
 
 export class ServiceUnavailableException extends CustomException {
-  constructor(message: string, errors?: Array<FieldErrorType>) {
-    super(503, message, errors || []);
+  constructor(message: string) {
+    super(503, message, []);
     this.name = "ServiceUnavailableException";
   }
 }

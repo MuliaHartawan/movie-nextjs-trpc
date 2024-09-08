@@ -1,8 +1,8 @@
-import { CustomException, FieldErrorType } from "@/types/cutom-exception";
+import { CustomException } from "@/types/cutom-exception";
 
 export class InternalServerErrorException extends CustomException {
-  constructor(message: string, errors?: Array<FieldErrorType>) {
-    super(500, message, errors || []);
+  constructor(message: string) {
+    super(500, message, []);
     this.name = "InternalServerErrorException";
   }
 }
