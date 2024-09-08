@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma-client-js"
 }
 
 datasource db {
@@ -14,6 +13,7 @@ datasource db {
   url      = env("DB_URL")
 }
 
+// TODO: model naming convention
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
