@@ -14,6 +14,12 @@ importers:
       '@ant-design/nextjs-registry':
         specifier: ^1.0.0
         version: 1.0.0(@ant-design/cssinjs@1.21.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(next@14.2.5(@babel/core@7.24.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@prisma/adapter-pg':
+        specifier: ^5.19.1
+        version: 5.19.1(pg@8.12.0)
+      '@prisma/client':
+        specifier: ^5.19.1
+        version: 5.19.1(prisma@5.19.1)
       '@sentry/nextjs':
         specifier: ^8
         version: 8.20.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.52.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.25.1(@opentelemetry/api@1.9.0))(next@14.2.5(@babel/core@7.24.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.93.0(esbuild@0.21.5))
@@ -37,10 +43,10 @@ importers:
         version: 16.4.5
       drizzle-orm:
         specifier: ^0.32.0
-        version: 0.32.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1)
+        version: 0.32.0(@opentelemetry/api@1.9.0)(@prisma/client@5.19.1(prisma@5.19.1))(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(prisma@5.19.1)(react@18.3.1)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.32.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1))(zod@3.23.8)
+        version: 0.5.1(drizzle-orm@0.32.0(@opentelemetry/api@1.9.0)(@prisma/client@5.19.1(prisma@5.19.1))(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(prisma@5.19.1)(react@18.3.1))(zod@3.23.8)
       framer-motion:
         specifier: ^11.2.13
         version: 11.3.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -171,6 +177,9 @@ importers:
       prettier:
         specifier: ^3.3.2
         version: 3.3.3
+      prisma:
+        specifier: ^5.19.1
+        version: 5.19.1
       storybook:
         specifier: ^8.1.11
         version: 8.2.5(@babel/preset-env@7.24.8(@babel/core@7.24.9))
@@ -1867,6 +1876,38 @@ packages:
         optional: true
       webpack-plugin-serve:
         optional: true
+
+  '@prisma/adapter-pg@5.19.1':
+    resolution: {integrity: sha512-prGe2DWZMS6Z7nB1w9rVma9MfpFWzUI7OdgA0aZYYlAAvu3XEDY6S85XYkg/3Uylan/h2eIMr7eaAIcWwPC0iA==}
+    peerDependencies:
+      pg: ^8.11.3
+
+  '@prisma/client@5.19.1':
+    resolution: {integrity: sha512-x30GFguInsgt+4z5I4WbkZP2CGpotJMUXy+Gl/aaUjHn2o1DnLYNTA+q9XdYmAQZM8fIIkvUiA2NpgosM3fneg==}
+    engines: {node: '>=16.13'}
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+
+  '@prisma/debug@5.19.1':
+    resolution: {integrity: sha512-lAG6A6QnG2AskAukIEucYJZxxcSqKsMK74ZFVfCTOM/7UiyJQi48v6TQ47d6qKG3LbMslqOvnTX25dj/qvclGg==}
+
+  '@prisma/driver-adapter-utils@5.19.1':
+    resolution: {integrity: sha512-98PZ4MWYddRFRlEZXSXGIPeNxtY3ErRH13rir8j31YcqQDPuAWG0dWAjIp1h7NL3uewj+QF5UkDXRnTgoCE4Wg==}
+
+  '@prisma/engines-version@5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3':
+    resolution: {integrity: sha512-xR6rt+z5LnNqTP5BBc+8+ySgf4WNMimOKXRn6xfNRDSpHvbOEmd7+qAOmzCrddEc4Cp8nFC0txU14dstjH7FXA==}
+
+  '@prisma/engines@5.19.1':
+    resolution: {integrity: sha512-kR/PoxZDrfUmbbXqqb8SlBBgCjvGaJYMCOe189PEYzq9rKqitQ2fvT/VJ8PDSe8tTNxhc2KzsCfCAL+Iwm/7Cg==}
+
+  '@prisma/fetch-engine@5.19.1':
+    resolution: {integrity: sha512-pCq74rtlOVJfn4pLmdJj+eI4P7w2dugOnnTXpRilP/6n5b2aZiA4ulJlE0ddCbTPkfHmOL9BfaRgA8o+1rfdHw==}
+
+  '@prisma/get-platform@5.19.1':
+    resolution: {integrity: sha512-sCeoJ+7yt0UjnR+AXZL7vXlg5eNxaFOwC23h0KvW1YIXUoa7+W2ZcAUhoEQBmJTW4GrFqCuZ8YSP0mkDa4k3Zg==}
 
   '@prisma/instrumentation@5.17.0':
     resolution: {integrity: sha512-c1Sle4ji8aasMcYfBBHFM56We4ljfenVtRmS8aY06BllS7SoU6SmJBwG7vil+GHiR0Yrh+t9iBwt4AY0Jr4KNQ==}
@@ -5753,6 +5794,11 @@ packages:
   pretty-format@3.8.0:
     resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
 
+  prisma@5.19.1:
+    resolution: {integrity: sha512-c5K9MiDaa+VAAyh1OiYk76PXOme9s3E992D7kvvIOhCrNsBQfy2mP2QAQtX0WNj140IgG++12kwZpYB9iIydNQ==}
+    engines: {node: '>=16.13'}
+    hasBin: true
+
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
 
@@ -8938,6 +8984,41 @@ snapshots:
       type-fest: 2.19.0
       webpack-hot-middleware: 2.26.1
 
+  '@prisma/adapter-pg@5.19.1(pg@8.12.0)':
+    dependencies:
+      '@prisma/driver-adapter-utils': 5.19.1
+      pg: 8.12.0
+      postgres-array: 3.0.2
+
+  '@prisma/client@5.19.1(prisma@5.19.1)':
+    optionalDependencies:
+      prisma: 5.19.1
+
+  '@prisma/debug@5.19.1': {}
+
+  '@prisma/driver-adapter-utils@5.19.1':
+    dependencies:
+      '@prisma/debug': 5.19.1
+
+  '@prisma/engines-version@5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3': {}
+
+  '@prisma/engines@5.19.1':
+    dependencies:
+      '@prisma/debug': 5.19.1
+      '@prisma/engines-version': 5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3
+      '@prisma/fetch-engine': 5.19.1
+      '@prisma/get-platform': 5.19.1
+
+  '@prisma/fetch-engine@5.19.1':
+    dependencies:
+      '@prisma/debug': 5.19.1
+      '@prisma/engines-version': 5.19.1-2.69d742ee20b815d88e17e54db4a2a7a3b30324e3
+      '@prisma/get-platform': 5.19.1
+
+  '@prisma/get-platform@5.19.1':
+    dependencies:
+      '@prisma/debug': 5.19.1
+
   '@prisma/instrumentation@5.17.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -11234,19 +11315,21 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.32.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1):
+  drizzle-orm@0.32.0(@opentelemetry/api@1.9.0)(@prisma/client@5.19.1(prisma@5.19.1))(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(prisma@5.19.1)(react@18.3.1):
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
+      '@prisma/client': 5.19.1(prisma@5.19.1)
       '@types/pg': 8.11.6
       '@types/react': 18.3.3
       bun-types: 1.1.20
       pg: 8.12.0
       postgres: 3.4.4
+      prisma: 5.19.1
       react: 18.3.1
 
-  drizzle-zod@0.5.1(drizzle-orm@0.32.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1))(zod@3.23.8):
+  drizzle-zod@0.5.1(drizzle-orm@0.32.0(@opentelemetry/api@1.9.0)(@prisma/client@5.19.1(prisma@5.19.1))(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(prisma@5.19.1)(react@18.3.1))(zod@3.23.8):
     dependencies:
-      drizzle-orm: 0.32.0(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(react@18.3.1)
+      drizzle-orm: 0.32.0(@opentelemetry/api@1.9.0)(@prisma/client@5.19.1(prisma@5.19.1))(@types/pg@8.11.6)(@types/react@18.3.3)(bun-types@1.1.20)(pg@8.12.0)(postgres@3.4.4)(prisma@5.19.1)(react@18.3.1)
       zod: 3.23.8
 
   eastasianwidth@0.2.0: {}
@@ -13820,6 +13903,12 @@ snapshots:
       react-is: 18.3.1
 
   pretty-format@3.8.0: {}
+
+  prisma@5.19.1:
+    dependencies:
+      '@prisma/engines': 5.19.1
+    optionalDependencies:
+      fsevents: 2.3.3
 
   process-nextick-args@2.0.1: {}
 
