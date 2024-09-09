@@ -1,8 +1,8 @@
-import { CustomException, FieldErrorType } from "@/types/cutom-exception";
+import { CustomException } from "@/types/cutom-exception";
 
 export class NotFoundException extends CustomException {
-  constructor(message: string, errors?: Array<FieldErrorType>) {
-    super(404, message, errors || []);
+  constructor(message: string) {
+    super(404, message, []);
     this.name = "NotFoundException";
   }
 }

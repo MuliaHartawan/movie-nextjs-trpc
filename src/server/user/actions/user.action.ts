@@ -61,9 +61,7 @@ export const createUserAction = async (value: TCreateOrUpdateUserValidation) => 
 
   const role = await findOneRoleById(value.roleId);
   if (!role) {
-    throw new NotFoundException("Role tidak ditemukan", [
-      { path: ["roleId"], message: "Role tidak ditemukan" },
-    ]);
+    throw new NotFoundException("Role tidak ditemukan");
   }
 
   const isEmailUsed = await isEmailAlreadyUsed(value.email);
