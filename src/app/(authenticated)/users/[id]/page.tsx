@@ -1,6 +1,6 @@
 import { PageProps } from "@/types/app";
 import { ReactElement } from "react";
-import { DashboardDetailUserModule } from "../../_components/detail";
+import { DashboardDetailUserModule } from "./_components";
 import { getUser } from "@/server/user/actions/user.action";
 
 const DashboardDetailUserPage = async (props: PageProps): Promise<ReactElement> => {

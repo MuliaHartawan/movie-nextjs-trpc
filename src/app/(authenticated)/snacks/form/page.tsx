@@ -1,5 +1,5 @@
 import { PageProps } from "@/types/app";
-import { DashboardCreateSnacksModule } from "../../_components/form";
+import { DashboardCreateSnacksModule } from "./_components";
 import { ReactElement } from "react";
 import { getSnackAction } from "@/server/snack/actions/snack.action";
 

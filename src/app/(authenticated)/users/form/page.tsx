@@ -1,5 +1,5 @@
 import { PageProps } from "@/types/app";
-import { DashboardCreateUsersModule } from "../../_components/form";
+import { DashboardCreateUsersModule } from "./_components";
 import { getUser } from "@/server/user/actions/user.action";
 import { getRolesAction } from "@/server/role/actions/role.action";
 

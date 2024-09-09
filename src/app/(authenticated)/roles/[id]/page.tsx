@@ -1,5 +1,5 @@
 import { PageProps } from "@/types/app";
-import { DashboardDetailRolesModule } from "../../_components/detail";
+import { DashboardDetailRolesModule } from "./_components";
 import { getRoleAction } from "@/server/role/actions/role.action";
 
 const DashboardDetailRolesPage = async (props: PageProps) => {

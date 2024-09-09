@@ -3,7 +3,7 @@ import type { ReactElement } from "react";
 import { PageProps } from "@/types/app";
 import { Role } from "@/libs/drizzle/schema";
 import { TPaginationResponse } from "@/types/meta";
-import { DashboardRolesModule } from "../_components";
+import { DashboardRolesModule } from "./_components";
 import { getRolesAction } from "@/server/role/actions/role.action";
 
 const DashboardRoles = async (props: PageProps): Promise<ReactElement> => {

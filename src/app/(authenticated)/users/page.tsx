@@ -2,7 +2,7 @@
 import type { ReactElement } from "react";
 import { PageProps } from "@/types/app";
 import { getUsersAction } from "@/server/user/actions/user.action";
-import { DashboardUsersModule } from "../_components";
+import { DashboardUsersModule } from "./_components";
 
 const DashboardUsers = async (props: PageProps): Promise<ReactElement> => {
   const data = await getUsersAction({
