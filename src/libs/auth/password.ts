@@ -1,5 +1,5 @@
 "use server";
-//import "server-only";
+
 import * as argon2 from "argon2-wasm-edge";
 
 export const hashPassword = async (password: string) => {

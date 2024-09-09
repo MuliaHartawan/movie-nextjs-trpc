@@ -1,6 +1,10 @@
 {
   "name": "nextjs-fullstack",
   "version": "0.1.0",
+  "type": "module",
+  "prisma": {
+    "seed": "tsx prisma/seeders/seed.ts"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +16,8 @@
     "db:gen": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:migrate:status": "prisma migrate status",
-    "db:seed": "tsx ./src/libs/drizzle/seed.ts",
+    "db:seed": "prisma db seed",
+    "db:generate": "prisma generate",
     "story": "storybook dev -p 6006",
     "story:build": "storybook build",
     "test": "jest",
