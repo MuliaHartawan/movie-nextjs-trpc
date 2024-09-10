@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function roleSeeder() {
+  console.log("Seeding roles...");
   const dummyRoles = [
     {
       name: ROLE_DUMMY.ADMIN,
@@ -25,4 +26,6 @@ export async function roleSeeder() {
   await prisma.role.createMany({
     data: dummyRoles,
   });
+
+  console.log("Roles seeded!");
 }

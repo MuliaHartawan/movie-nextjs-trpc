@@ -5,6 +5,7 @@ import { PrismaClient, User } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function userSeeder() {
+  console.log("Seeding users...");
   const users: Omit<User, "id" | "image" | "otp">[] = [];
 
   const roles = await prisma.role.findMany();
@@ -42,4 +43,6 @@ export async function userSeeder() {
   await prisma.user.createMany({
     data: users,
   });
+
+  console.log("Users seeded!");
 }
