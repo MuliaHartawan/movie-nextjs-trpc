@@ -32,32 +32,44 @@ model User {
 }
 
 model Role {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid(7))
   name      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
   Users User[]
-  Permissions Permission[]
+  Permissions RolePermission[]
 
   @@map("roles")
 }
 
 model Permission {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid(7))
   name      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  Roles Role[]
+  Roles RolePermission[]
 
   @@map("permissions")
 }
 
+model RolePermission {
+  roleId String @map("role_id")
+  permissionId String @map("permission_id")
+  
+  // Relations
+  role Role @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+  @@id([roleId, permissionId])
+
+  @@map("role_permissions")
+}
+
 model Snack {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid(7))
   name      String   @unique
   price     Float
   expiredAt DateTime @map("expired_at")

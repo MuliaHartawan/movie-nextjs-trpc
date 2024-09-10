@@ -35,6 +35,14 @@ CREATE TABLE "permissions" (
 );
 
 -- CreateTable
+CREATE TABLE "role_permissions" (
+    "role_id" TEXT NOT NULL,
+    "permission_id" TEXT NOT NULL,
+
+    CONSTRAINT "role_permissions_pkey" PRIMARY KEY ("role_id","permission_id")
+);
+
+-- CreateTable
 CREATE TABLE "snacks" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -44,12 +52,6 @@ CREATE TABLE "snacks" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "snacks_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "_PermissionToRole" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -64,17 +66,11 @@ CREATE UNIQUE INDEX "permissions_name_key" ON "permissions"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "snacks_name_key" ON "snacks"("name");
 
--- CreateIndex
-CREATE UNIQUE INDEX "_PermissionToRole_AB_unique" ON "_PermissionToRole"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_PermissionToRole_B_index" ON "_PermissionToRole"("B");
-
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "roles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_PermissionToRole" ADD CONSTRAINT "_PermissionToRole_A_fkey" FOREIGN KEY ("A") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_PermissionToRole" ADD CONSTRAINT "_PermissionToRole_B_fkey" FOREIGN KEY ("B") REFERENCES "roles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "role_permissions" ADD CONSTRAINT "role_permissions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "permissions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
