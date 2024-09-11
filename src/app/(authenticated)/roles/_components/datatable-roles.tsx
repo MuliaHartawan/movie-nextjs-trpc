@@ -1,20 +1,20 @@
 "use client";
+
 import Datatable from "admiral/table/datatable/index";
 import { FC, ReactElement } from "react";
 import { TPaginationResponse } from "@/types/meta";
-import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
-import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
-import { Role } from "@/libs/drizzle/schema";
 import { useFilter } from "@/utils/filter";
 import { deleteRole } from "@/server/role/actions/role.action";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
 
-export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = ({
-  data,
-}): ReactElement => {
+type Props = { data?: TPaginationResponse<Role[]>; loading: boolean };
+
+export const DatatableRoles: FC<Props> = ({ data, loading }): ReactElement => {
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
 
@@ -54,30 +54,12 @@ export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = 
   ];
 
   return (
-    <Page
-      title="Roles"
-      breadcrumbs={[
-        {
-          label: "Dashboard",
-          path: "/dashboard",
-        },
-        {
-          label: "Roles",
-          path: "/roles",
-        },
-      ]}
-      topActions={
-        <Button href="/roles/form" icon={<PlusCircleOutlined />}>
-          Add Roles
-        </Button>
-      }
-    >
-      <Datatable
-        source={makeSource(data)}
-        columns={columns}
-        onChange={implementDataTable}
-        search={filter.search}
-      />
-    </Page>
+    <Datatable
+      source={makeSource(data)}
+      columns={columns}
+      onChange={implementDataTable}
+      loading={loading}
+      search={filter.search}
+    />
   );
 };
