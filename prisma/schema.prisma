@@ -26,7 +26,7 @@ model User {
   roleId String? @map("role_id")
 
   // Relations
-  Role Role? @relation(fields: [roleId], references: [id])
+  role Role? @relation(fields: [roleId], references: [id])
 
   @@map("users")
 }
@@ -38,8 +38,8 @@ model Role {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  Users User[]
-  Permissions RolePermission[]
+  users User[]
+  rolePermissions RolePermission[]
 
   @@map("roles")
 }
@@ -51,7 +51,7 @@ model Permission {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  Roles RolePermission[]
+  rolePermissions RolePermission[]
 
   @@map("permissions")
 }

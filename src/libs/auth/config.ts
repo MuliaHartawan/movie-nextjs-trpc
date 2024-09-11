@@ -41,9 +41,9 @@ export const authConfig = {
           return {
             ...userData,
             role: {
-              id: userData?.Role?.id as string,
-              name: userData?.Role?.name as string,
-              permissions: userData?.Role?.Permissions?.map(
+              id: userData?.role?.id as string,
+              name: userData?.role?.name as string,
+              permissions: userData?.role?.rolePermissions?.map(
                 (rolePermission) => rolePermission.permission.name,
               ) as string[],
             },

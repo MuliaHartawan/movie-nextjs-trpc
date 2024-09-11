@@ -34,11 +34,10 @@ export const findUserByEmailWithRole = async (email: string) => {
     where: {
       email: email,
     },
-    // TODO: Nama include relationnya aneh
     include: {
-      Role: {
+      role: {
         include: {
-          Permissions: {
+          rolePermissions: {
             include: {
               permission: true,
             },
