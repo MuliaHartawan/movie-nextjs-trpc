@@ -1,23 +1,24 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "fullname" TEXT,
-    "password" TEXT NOT NULL,
-    "otp" TEXT,
-    "image" TEXT DEFAULT 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png',
-    "email_verified_at" TIMESTAMP(3) NOT NULL,
+    "id" VARCHAR NOT NULL,
+    "email" VARCHAR NOT NULL,
+    "fullname" VARCHAR,
+    "address" TEXT,
+    "password" VARCHAR NOT NULL,
+    "otp" VARCHAR,
+    "image" VARCHAR DEFAULT 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png',
+    "email_verified_at" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "role_id" TEXT,
+    "role_id" VARCHAR,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "roles" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "id" VARCHAR NOT NULL,
+    "name" VARCHAR NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -26,8 +27,8 @@ CREATE TABLE "roles" (
 
 -- CreateTable
 CREATE TABLE "permissions" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "id" VARCHAR NOT NULL,
+    "name" VARCHAR NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -36,16 +37,16 @@ CREATE TABLE "permissions" (
 
 -- CreateTable
 CREATE TABLE "role_permissions" (
-    "role_id" TEXT NOT NULL,
-    "permission_id" TEXT NOT NULL,
+    "role_id" VARCHAR NOT NULL,
+    "permission_id" VARCHAR NOT NULL,
 
     CONSTRAINT "role_permissions_pkey" PRIMARY KEY ("role_id","permission_id")
 );
 
 -- CreateTable
 CREATE TABLE "snacks" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "id" VARCHAR NOT NULL,
+    "name" VARCHAR NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "expired_at" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

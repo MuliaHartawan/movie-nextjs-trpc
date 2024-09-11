@@ -9,10 +9,10 @@ import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
 import { useFilter } from "@/utils/filter";
-import { User } from "@/libs/drizzle/schemas/user.schema";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
+import { User } from "@prisma/client";
 
 export const DashboardUsersModule: FC<{ data: TPaginationResponse<User[]> }> = ({
   data,
