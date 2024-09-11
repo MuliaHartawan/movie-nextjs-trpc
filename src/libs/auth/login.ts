@@ -1,8 +1,5 @@
 "use server";
 import "server-only";
-import { eq } from "drizzle-orm";
-import { db } from "../drizzle/connection";
-import { roles, users } from "../drizzle/schema";
 import { verifyPassword } from "./password";
 import { signOut } from "./auth";
 import prisma from "../prisma/prisma";
@@ -46,20 +43,6 @@ export const findUserByEmailWithRole = async (email: string) => {
       },
     },
   });
-};
-
-export const getRoleData = async (roleId?: string | null) => {
-  if (!roleId) return;
-  try {
-    const res = await db
-      .select()
-      .from(roles)
-      .where(eq(roles.id, roleId))
-      .then((res) => res.at(0));
-    return res;
-  } catch (err) {
-    throw err;
-  }
 };
 
 export const logOut = async () => {
