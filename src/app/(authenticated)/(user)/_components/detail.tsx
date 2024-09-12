@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/libs/drizzle/schemas/user.schema";
+import { User } from "@prisma/client";
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
 import { FC, ReactElement } from "react";

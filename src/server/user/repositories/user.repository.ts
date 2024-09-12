@@ -46,16 +46,18 @@ export const userPagination = async (
   };
 };
 
-export const findOneUserById = async (id: string): Promise<User | null> => {
-  return prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
+export const findOneUserById = async (id: string): Promise<User | undefined> => {
+  return (
+    (await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })) ?? undefined
+  );
 };
 
 export const findOneUserByEmail = async (email: string): Promise<User | null> => {
-  const user = prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       email,
     },
@@ -88,7 +90,7 @@ export const createUser = async (data: User): Promise<void> => {
 };
 
 export const updateUserById = async (id: string, data: Partial<User>): Promise<void> => {
-  prisma.user.update({
+  await prisma.user.update({
     where: {
       id,
     },
@@ -97,7 +99,7 @@ export const updateUserById = async (id: string, data: Partial<User>): Promise<v
 };
 
 export const deleteUserById = async (id: string): Promise<void> => {
-  prisma.user.delete({
+  await prisma.user.delete({
     where: {
       id,
     },
