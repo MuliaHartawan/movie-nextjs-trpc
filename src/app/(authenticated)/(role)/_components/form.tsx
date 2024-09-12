@@ -4,8 +4,8 @@ import { Button, Col, Form, Input, Row, Select } from "antd";
 import { FC, ReactElement, useState } from "react";
 import { useRoleAction } from "../_hooks";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TCreateOrUpdateRoleValidation } from "@/server/role/validations/create-or-update-role.validation";
+import { Role } from "@prisma/client";
 
 export const DashboardCreateRolesModule: FC<{ data?: Role; roleId: string }> = ({
   data,

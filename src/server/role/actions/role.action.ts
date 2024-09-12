@@ -8,7 +8,6 @@ import {
   updateRoleAndPermissionsById,
   deleteRoleById,
 } from "../repositories/role.repository";
-import { Role } from "@/libs/drizzle/schemas/role.schema";
 import {
   createOrUpdateRoleSchema,
   TCreateOrUpdateRoleValidation,
@@ -17,6 +16,7 @@ import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 import { validate } from "@/utils/zod-validate";
 import { serverCheckPermission } from "@/utils/permission";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { Role } from "@prisma/client";
 
 export const getRolesAction = async (
   queryParam: TIndexRoleQueryParam,
@@ -31,7 +31,7 @@ export const getRolesWithSearch = async (search: string): Promise<Role[]> => {
   return await findRolesWithSearch(search);
 };
 
-export const getRoleAction = async (from: string): Promise<Role | undefined> => {
+export const getRoleAction = async (from: string): Promise<Role | null> => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.ROLE_DETAIL]);
 

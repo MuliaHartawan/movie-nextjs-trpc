@@ -8,9 +8,9 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
-import { Role } from "@/libs/drizzle/schema";
 import { useFilter } from "@/utils/filter";
 import { deleteRole } from "@/server/role/actions/role.action";
+import { Role } from "@prisma/client";
 
 export const DashboardRolesModule: FC<{ data?: TPaginationResponse<Role[]> }> = ({
   data,
