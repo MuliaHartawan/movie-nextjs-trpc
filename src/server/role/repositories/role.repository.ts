@@ -15,6 +15,7 @@ export const rolePagination = async (
         {
           name: {
             contains: queryParam.search,
+            mode: "insensitive",
           },
         },
       ],
@@ -30,6 +31,7 @@ export const rolePagination = async (
         {
           name: {
             contains: queryParam.search,
+            mode: "insensitive",
           },
         },
       ],
