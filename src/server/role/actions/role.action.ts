@@ -31,7 +31,7 @@ export const getRolesWithSearch = async (search: string): Promise<Role[]> => {
   return await findRolesWithSearch(search);
 };
 
-export const getRoleAction = async (from: string): Promise<Role | null> => {
+export const getRoleAction = async (from: string): Promise<Role | undefined> => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.ROLE_DETAIL]);
 

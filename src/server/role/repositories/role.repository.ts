@@ -62,19 +62,21 @@ export const findOneRoleById = async (id: string): Promise<Role | null> => {
   });
 };
 
-export const findOneRoleWithPermissionsById = async (id: string): Promise<Role | null> => {
-  return await prisma.role.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      rolePermissions: {
-        include: {
-          permission: true,
+export const findOneRoleWithPermissionsById = async (id: string): Promise<Role | undefined> => {
+  return (
+    (await prisma.role.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        rolePermissions: {
+          include: {
+            permission: true,
+          },
         },
       },
-    },
-  });
+    })) ?? undefined
+  );
 };
 
 export const createRoleAndPermissions = async (
@@ -107,7 +109,9 @@ export const updateRoleAndPermissionsById = async (
     data: {
       name,
       rolePermissions: {
-        deleteMany: {},
+        deleteMany: {
+          roleId: id,
+        },
         createMany: {
           data: permissionIds.map((permissionId) => ({
             permissionId,
