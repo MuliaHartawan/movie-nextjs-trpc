@@ -19,20 +19,20 @@ const DashboardCreateRolesPage = () => {
     await createRoleMutation.mutate(value);
   };
 
+  const title = "Add Role";
+  const breadcrumbs = [
+    {
+      label: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      label: "Roles",
+      path: "/Roles",
+    },
+  ];
+
   return (
-    <Page
-      title="Add Role"
-      breadcrumbs={[
-        {
-          label: "Dashboard",
-          path: "/dashboard",
-        },
-        {
-          label: "Roles",
-          path: "/Roles",
-        },
-      ]}
-    >
+    <Page title={title} breadcrumbs={breadcrumbs}>
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
           <FormRoles
