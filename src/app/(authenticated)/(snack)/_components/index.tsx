@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
 import { useFilter } from "@/utils/filter";
-import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";
+import { Snack } from "@prisma/client";
 
 const { confirm } = Modal;
 export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> = ({ data }) => {
@@ -24,19 +24,19 @@ export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> =
       title: "Name",
     },
     {
-      dataIndex: "cost",
-      title: "Cost",
-      key: "cost",
+      dataIndex: "price",
+      title: "Price",
+      key: "price",
       render: (_, row) => {
-        return `Rp ${row?.cost?.toLocaleString()}`;
+        return `Rp ${row?.price?.toLocaleString()}`;
       },
     },
     {
-      dataIndex: "expiryDate",
+      dataIndex: "expiredAt",
       title: "Expiry Date",
-      key: "expiryDate",
+      key: "expiredAt",
       render: (_, row) => {
-        return new Date(row?.expiryDate as Date).toLocaleString();
+        return new Date(row?.expiredAt as Date).toLocaleString();
       },
     },
     {

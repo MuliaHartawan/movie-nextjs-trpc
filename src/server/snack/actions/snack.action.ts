@@ -1,5 +1,5 @@
 "use server";
-import { Snack } from "@/libs/drizzle/schemas/snack.schema";
+
 import { TPaginationResponse } from "@/types/meta";
 import {
   createNewSnack,
@@ -16,6 +16,8 @@ import { validate } from "@/utils/zod-validate";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 import { serverCheckPermission } from "@/utils/permission";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { Snack } from "@prisma/client";
+import NotFoundException from "../../../errors/NotFoundException";
 
 export const getSnacksAction = async (
   queryParam: TIndexSnackQueryParam,
@@ -33,7 +35,7 @@ export const getSnackAction = async (from: string) => {
   const snack = await findOneSnackById(from);
 
   if (!snack) {
-    throw new Error("Snack tidak ditemukan");
+    throw new NotFoundException("Snack tidak ditemukan");
   }
 
   return snack;
@@ -48,9 +50,9 @@ export const createSnackAction = async (value: TCreateOrUpdateSnackValidation) =
 
   await createNewSnack({
     name: value.name,
-    cost: value.cost,
-    expiryDate: new Date(value.expiryDate),
-  });
+    price: value.price,
+    expiredAt: new Date(value.expiredAt),
+  } as Snack);
 };
 
 export const updateSnackAction = async ({
@@ -68,9 +70,9 @@ export const updateSnackAction = async ({
 
   await updateSnackById(id, {
     name: value.name,
-    cost: value.cost,
-    expiryDate: new Date(value.expiryDate),
-  });
+    price: value.price,
+    expiredAt: new Date(value.expiredAt),
+  } as Snack);
 };
 
 export const deleteSnackAction = async (id: string) => {
