@@ -5,7 +5,7 @@ import { Page } from "admiral";
 import { useParams } from "next/navigation";
 import { useRoleQuery } from "./_hooks/role-by-id-query";
 
-const DashboardDetailRolesPage = () => {
+const RolePage = () => {
   const params = useParams();
   const roleId = params.id.toString() ?? "";
 
@@ -34,4 +34,4 @@ const DashboardDetailRolesPage = () => {
   );
 };
 
-export default DashboardDetailRolesPage;
+export default RolePage;

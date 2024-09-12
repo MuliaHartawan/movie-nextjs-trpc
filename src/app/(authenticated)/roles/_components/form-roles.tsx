@@ -17,7 +17,7 @@ export const FormRoles: FC<Props> = ({ formProps, options, loading }) => {
   const [form] = Form.useForm();
 
   return (
-    <Form {...formProps} disabled={loading} form={form} layout="vertical">
+    <Form {...formProps} form={form} layout="vertical">
       <Form.Item label="Name" name="name" rules={[{ required: true, message: "Nama wajib diisi" }]}>
         <Input placeholder="Admin" />
       </Form.Item>

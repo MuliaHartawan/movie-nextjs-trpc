@@ -1,11 +1,47 @@
-import { PageProps } from "@/types/app";
-import { ReactElement } from "react";
-import { DashboardDetailUserModule } from "./_components";
-import { getUser } from "@/server/user/actions/user.action";
+"use client";
 
-const DashboardDetailUserPage = async (props: PageProps): Promise<ReactElement> => {
-  const data = await getUser(props?.params?.id);
-  return <DashboardDetailUserModule data={data} />;
+import { Page, Section } from "admiral";
+import { Descriptions } from "antd";
+import { useUserQuery } from "./_hooks/use-user-query";
+import { useParams } from "next/navigation";
+
+const DetailUserPage = () => {
+  const params = useParams();
+  const userId = typeof params.id === "string" ? params.id : "";
+  const userQuery = useUserQuery(userId);
+
+  const breadcrumbs = [
+    {
+      label: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      label: "User",
+      path: "/users",
+    },
+    {
+      label: userQuery.data?.fullname ?? "",
+      path: `/users/${userQuery.data?.id}`,
+    },
+  ];
+
+  return (
+    <Page title="Detail User" breadcrumbs={breadcrumbs}>
+      <Section loading={userQuery.isLoading} title="Detail User">
+        <Descriptions bordered column={2}>
+          <Descriptions.Item span={2} label="Name">
+            {userQuery.data?.fullname}
+          </Descriptions.Item>
+          <Descriptions.Item span={2} label="Email">
+            {userQuery.data?.email}
+          </Descriptions.Item>
+          <Descriptions.Item span={2} label="Address">
+            {userQuery.data?.address}
+          </Descriptions.Item>
+        </Descriptions>
+      </Section>
+    </Page>
+  );
 };
 
-export default DashboardDetailUserPage;
+export default DetailUserPage;

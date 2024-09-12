@@ -9,7 +9,7 @@ import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { useUpdateRoleMutation } from "./_hooks/update-role-mutation";
 import { TCreateOrUpdateRoleValidation } from "@/server/role/validations/create-or-update-role.validation";
 
-const DashboardCreateRolesPage = () => {
+const UpdateRolePage = () => {
   const params = useParams();
   const roleId = params.id.toString() ?? "";
 
@@ -58,4 +58,4 @@ const DashboardCreateRolesPage = () => {
   );
 };
 
-export default DashboardCreateRolesPage;
+export default UpdateRolePage;

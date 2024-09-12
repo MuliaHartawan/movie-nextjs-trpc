@@ -7,7 +7,7 @@ import { Button } from "antd";
 import { useRolesQuery } from "./_hooks/roles-query";
 import Link from "next/link";
 
-const DashboardRoles = (props: PageProps) => {
+const RolesPage = (props: PageProps) => {
   const { data, isLoading } = useRolesQuery({
     page: Number(props.searchParams?.page || 1),
     perPage: Number(props.searchParams?.perPage || 10),
@@ -38,4 +38,4 @@ const DashboardRoles = (props: PageProps) => {
   );
 };
 
-export default DashboardRoles;
+export default RolesPage;

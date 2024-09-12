@@ -7,7 +7,7 @@ import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { useCreateRoleMutation } from "./_hooks/create-role-mutation";
 import { TCreateOrUpdateRoleValidation } from "@/server/role/validations/create-or-update-role.validation";
 
-const DashboardCreateRolesPage = () => {
+const CreateRolePage = () => {
   const createRoleMutation = useCreateRoleMutation();
 
   const permissionOptions = Object.values(PERMISSIONS).map((value) => ({
@@ -49,4 +49,4 @@ const DashboardCreateRolesPage = () => {
   );
 };
 
-export default DashboardCreateRolesPage;
+export default CreateRolePage;
