@@ -1,25 +1,18 @@
 "use client";
 
-import { FormRoles } from "../_components/form-roles";
+import { FormRole } from "../_components/form-roles";
 import { Col, Row } from "antd";
 import { Page } from "admiral";
-import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { useCreateRoleMutation } from "./_hooks/create-role-mutation";
+import { useCreateRoleMutation } from "./_hooks/use-create-role-mutation";
 import { TCreateOrUpdateRoleValidation } from "@/server/role/validations/create-or-update-role.validation";
 
 const CreateRolePage = () => {
   const createRoleMutation = useCreateRoleMutation();
 
-  const permissionOptions = Object.values(PERMISSIONS).map((value) => ({
-    value: value,
-    label: value,
-  }));
-
   const handleOnFinish = async (value: TCreateOrUpdateRoleValidation) => {
     await createRoleMutation.mutate(value);
   };
 
-  const title = "Add Role";
   const breadcrumbs = [
     {
       label: "Dashboard",
@@ -32,15 +25,12 @@ const CreateRolePage = () => {
   ];
 
   return (
-    <Page title={title} breadcrumbs={breadcrumbs}>
+    <Page title="Add Role" breadcrumbs={breadcrumbs}>
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
-          <FormRoles
-            // TODO: example error handling
+          <FormRole
             formProps={{ onFinish: handleOnFinish }}
-            options={{
-              permissions: permissionOptions,
-            }}
+            error={createRoleMutation.error}
             loading={createRoleMutation.isPending}
           />
         </Col>

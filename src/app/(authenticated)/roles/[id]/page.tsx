@@ -1,35 +1,45 @@
 "use client";
 
-import { SectionDetailRole } from "./_components/section-detail-role";
-import { Page } from "admiral";
+import { Page, Section } from "admiral";
 import { useParams } from "next/navigation";
-import { useRoleQuery } from "./_hooks/role-by-id-query";
+import { useRoleQuery } from "./_hooks/use-role-query";
+import { Descriptions } from "antd";
 
 const RolePage = () => {
   const params = useParams();
   const roleId = params.id.toString() ?? "";
 
-  const { data, isLoading } = useRoleQuery(roleId);
+  const roleQuery = useRoleQuery(roleId);
+
+  const breadcrumbs = [
+    {
+      label: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      label: "Roles",
+      path: "/roles",
+    },
+    {
+      label: roleQuery.data?.name as string,
+      path: `/roles/${roleQuery.data?.id}`,
+    },
+  ];
 
   return (
-    <Page
-      title="Detail Roles"
-      breadcrumbs={[
-        {
-          label: "Dashboard",
-          path: "/dashboard",
-        },
-        {
-          label: "Roles",
-          path: "/roles",
-        },
-        {
-          label: data?.name as string,
-          path: `/roles/${data?.id}`,
-        },
-      ]}
-    >
-      <SectionDetailRole data={data} loading={isLoading} />;
+    <Page title="Detail Roles" breadcrumbs={breadcrumbs}>
+      <Section loading={roleQuery.isLoading} title="Detail Roles">
+        <Descriptions bordered column={2}>
+          <Descriptions.Item span={2} label="Name">
+            {roleQuery.data?.name}
+          </Descriptions.Item>
+          <Descriptions.Item span={2} label="Permission">
+            {roleQuery.data?.rolePermissions?.map((rolePermission) => (
+              <div key={rolePermission.permission?.id}>{rolePermission.permission?.name}</div>
+            ))}
+          </Descriptions.Item>
+        </Descriptions>
+      </Section>
     </Page>
   );
 };

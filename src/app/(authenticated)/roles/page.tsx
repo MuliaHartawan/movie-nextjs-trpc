@@ -1,39 +1,92 @@
 "use client";
-import { PageProps } from "@/types/app";
-import { DatatableRoles } from "./_components/datatable-roles";
-import { Page } from "admiral";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import { useRolesQuery } from "./_hooks/roles-query";
-import Link from "next/link";
 
-const RolesPage = (props: PageProps) => {
+import { DataTable, Page } from "admiral";
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Flex, message } from "antd";
+import { useRolesQuery } from "./_hooks/use-roles-query";
+import Link from "next/link";
+import { makeSource } from "@/utils/index";
+import { deleteRole } from "@/server/role/actions/role.action";
+import { ColumnType } from "antd/es/table";
+import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useFilter } from "@/utils/filter";
+
+const RolesPage = () => {
+  const searchParams = useSearchParams();
+
   const { data, isLoading } = useRolesQuery({
-    page: Number(props.searchParams?.page || 1),
-    perPage: Number(props.searchParams?.perPage || 10),
-    search: String(props.searchParams?.search || ""),
+    page: Number(searchParams.get("page") || 1),
+    perPage: Number(searchParams.get("perPage") || 10),
+    search: String(searchParams.get("search") || ""),
   });
+
+  const router = useRouter();
+  const { implementDataTable, filter } = useFilter();
+
+  const columns: ColumnType<Role>[] = [
+    {
+      dataIndex: "name",
+      key: "name",
+      title: "Name",
+      width: "10%",
+    },
+    {
+      dataIndex: "Action",
+      key: "Action",
+      title: "Action",
+      render: (_, record) => {
+        return (
+          <Flex>
+            <Button
+              href={`/roles/${record?.id}`}
+              type="link"
+              icon={<EyeOutlined style={{ color: "green" }} />}
+            />
+            <Button
+              icon={<DeleteOutlined style={{ color: "red" }} />}
+              type="link"
+              onClick={() => {
+                deleteRole(record?.id as string);
+                router.refresh();
+                message.success("Role berhasil dihapus");
+              }}
+            />
+            <Button href={`/roles/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
+          </Flex>
+        );
+      },
+    },
+  ];
+
+  const breadcrumbs = [
+    {
+      label: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      label: "Roles",
+      path: "/roles",
+    },
+  ];
 
   return (
     <Page
       title="Roles"
-      breadcrumbs={[
-        {
-          label: "Dashboard",
-          path: "/dashboard",
-        },
-        {
-          label: "Roles",
-          path: "/roles",
-        },
-      ]}
+      breadcrumbs={breadcrumbs}
       topActions={
         <Link href="/roles/create">
           <Button icon={<PlusCircleOutlined />}>Add Roles</Button>
         </Link>
       }
     >
-      <DatatableRoles data={data} loading={isLoading} />;
+      <DataTable
+        source={makeSource(data)}
+        columns={columns}
+        onChange={implementDataTable}
+        loading={isLoading}
+        search={filter.search}
+      />
     </Page>
   );
 };

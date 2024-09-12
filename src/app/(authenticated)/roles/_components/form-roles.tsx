@@ -1,7 +1,10 @@
 "use client";
 import { Button, Form, Input, Select } from "antd";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { FormProps } from "antd/lib";
+import { CustomException } from "@/types/cutom-exception";
+import { formErrorHandling } from "@/utils/validation";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 type options = {
   permissions: Array<{ value: string; label: string }>;
@@ -9,12 +12,21 @@ type options = {
 
 type Props = {
   formProps: FormProps;
-  options: options;
   loading: boolean;
+  error: CustomException | null;
 };
 
-export const FormRoles: FC<Props> = ({ formProps, options, loading }) => {
+export const FormRole: FC<Props> = ({ formProps, loading, error }) => {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (error) formErrorHandling(form, error);
+  }, [error]);
+
+  const permissionOptions = Object.values(PERMISSIONS).map((value) => ({
+    value: value,
+    label: value,
+  }));
 
   return (
     <Form {...formProps} form={form} layout="vertical">
@@ -26,7 +38,7 @@ export const FormRoles: FC<Props> = ({ formProps, options, loading }) => {
         name="permissions"
         rules={[{ required: true, message: "Minimal satu permission harus dipilih" }]}
       >
-        <Select mode="multiple" placeholder="Select permissions" options={options.permissions} />
+        <Select mode="multiple" placeholder="Select permissions" options={permissionOptions} />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
