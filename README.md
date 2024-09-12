@@ -51,7 +51,7 @@ In this boilerplate, we use PostgreSQL as the database. You can set up your data
 pnpm db:migrate
 ```
 
-Please read [Drizzle-ORM documentation](https://orm.drizzle.team/docs/overview)
+Please read [Prisma-ORM documentation](https://www.prisma.io/docs/orm/overview)
 
 ### 5. Run the Development Server
 

@@ -1,11 +1,13 @@
 "use client";
 
-import { Role } from "@/libs/drizzle/schemas/role.schema";
+import { RoleWithPermission } from "@/libs/prisma/types/role-with-permission";
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
 import { FC, ReactElement } from "react";
 
-export const DashboardDetailRolesModule: FC<{ data?: Role }> = ({ data }): ReactElement => {
+export const DashboardDetailRolesModule: FC<{ data?: RoleWithPermission }> = ({
+  data,
+}): ReactElement => {
   return (
     <Page
       title="Detail Roles"

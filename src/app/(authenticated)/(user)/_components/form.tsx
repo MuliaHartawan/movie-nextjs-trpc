@@ -4,9 +4,8 @@ import { Page } from "admiral";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { FC, ReactElement } from "react";
 import { useUserAction } from "../_hooks";
-import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
-import { User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 
 export const DashboardCreateUsersModule: FC<{
   data?: User;

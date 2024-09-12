@@ -62,7 +62,7 @@ export const findOneRoleById = async (id: string): Promise<Role | null> => {
   });
 };
 
-export const findOneRoleWithPermissionsById = async (id: string): Promise<Role | undefined> => {
+export const findOneRoleWithPermissionsById = async (id: string) => {
   return (
     (await prisma.role.findUnique({
       where: {
