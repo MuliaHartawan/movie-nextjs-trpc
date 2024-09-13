@@ -68,17 +68,10 @@ export const findOneUserByEmail = async (email: string): Promise<User | null> =>
   return user;
 };
 
-export const isEmailAlreadyUsed = async (email: string, userEmail?: string) => {
+export const isEmailAlreadyUsed = async (email: string) => {
   const registeredEmail = await prisma.user.count({
     where: {
       email,
-      OR: [
-        {
-          email: {
-            not: userEmail,
-          },
-        },
-      ],
     },
   });
 
