@@ -125,16 +125,9 @@ export const updateRoleAndPermissionsById = async (
 };
 
 export const deleteRoleById = async (id: string): Promise<void> => {
-  await prisma.$transaction([
-    prisma.role.delete({
-      where: {
-        id,
-      },
-    }),
-    prisma.rolePermission.deleteMany({
-      where: {
-        roleId: id,
-      },
-    }),
-  ]);
+  prisma.role.delete({
+    where: {
+      id,
+    },
+  });
 };
