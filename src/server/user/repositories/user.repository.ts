@@ -11,6 +11,7 @@ export const userPagination = async (
     take: queryParam.perPage,
     skip: countOffset(queryParam),
     where: {
+      deletedAt: null,
       OR: [
         // Search by fullname
         {

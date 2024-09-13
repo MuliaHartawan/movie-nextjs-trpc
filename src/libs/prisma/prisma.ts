@@ -24,6 +24,27 @@ declare const globalThis: {
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
+// Soft delete middleware
+prisma.$use(async (params, next) => {
+  // Check incoming query type
+  if (params.model === "User")
+    if (params.action === "delete") {
+      // Delete queries
+      // Change action to an update
+      params.action = "update";
+      params.args.data = { deletedAt: new Date() };
+    }
+
+  if (params.action === "deleteMany") {
+    // Delete many queries
+    // Change action to an update
+    params.action = "updateMany";
+    params.args.data = { deletedAt: new Date() };
+  }
+
+  return next(params);
+});
+
 prisma.$on("query", (e: QueryEvent) => {
   console.log("Query: " + e.query);
   console.log("Params: " + e.params);
