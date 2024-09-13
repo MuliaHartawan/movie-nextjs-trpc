@@ -51,6 +51,11 @@ In this boilerplate, we use PostgreSQL as the database. You can set up your data
 pnpm db:migrate
 ```
 
+### 5. Prisma ORM notes
+
+1. Generate maigration run `db:migration:gen`
+2. Don't forget to run `db:generate` after changing Prisma schema or related ones.
+
 Please read [Prisma-ORM documentation](https://www.prisma.io/docs/orm/overview)
 
 ### 5. Run the Development Server
