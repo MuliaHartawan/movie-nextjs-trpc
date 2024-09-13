@@ -1,11 +1,11 @@
 "use server";
 import {
   findOneRoleWithPermissionsById,
-  findRolesWithSearch,
   rolePagination,
   createRoleAndPermissions,
   updateRoleAndPermissionsById,
   deleteRoleById,
+  findRolesBySearch,
 } from "../repositories/role.repository";
 import {
   createOrUpdateRoleSchema,
@@ -20,11 +20,11 @@ export const getRolesAction = async (queryParam: TIndexRoleQueryParam) => {
   return await rolePagination(queryParam);
 };
 
-export const getRolesWithSearch = async (search: string) => {
+export const getRolesBySearch = async (search: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.ROLE_READ]);
 
-  return await findRolesWithSearch(search);
+  return await findRolesBySearch(search);
 };
 
 export const getRoleAction = async (from: string) => {

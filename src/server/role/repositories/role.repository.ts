@@ -46,7 +46,7 @@ export const rolePagination = async (
   };
 };
 
-export const findRolesWithSearch = async (search: string): Promise<Role[]> => {
+export const findRolesBySearch = async (search: string): Promise<Role[]> => {
   return await prisma.role.findMany({
     where: {
       name: {
