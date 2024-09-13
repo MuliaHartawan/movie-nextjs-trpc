@@ -3,11 +3,13 @@ import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 import { Snack } from "@prisma/client";
 import prisma from "@/libs/prisma/prisma";
+import { paginate } from "@/server/utils/prisma";
 
 export const snackPagination = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
-  const data = await prisma.snack.findMany({
+  const { items, count } = await paginate<"Snack", Snack>({
+    model: "Snack",
     take: queryParam.perPage,
     skip: countOffset(queryParam),
     where: {
@@ -25,24 +27,9 @@ export const snackPagination = async (
     },
   });
 
-  const dataCount = await prisma.snack.count({
-    where: {
-      OR: [
-        {
-          name: {
-            contains: queryParam.search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-  });
-
-  const meta = mapMeta(dataCount, queryParam);
-
   return {
-    data,
-    meta,
+    data: items,
+    meta: mapMeta(count, queryParam),
   };
 };
 
