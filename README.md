@@ -129,6 +129,7 @@ Open [http://localhost:3001](http://localhost:3001) with your browser to see the
   - **`path/`**: Contains the page components for the module. Follow the [NextJS routing rules](https://nextjs.org/docs/app/building-your-application/routing).
 
 #### Development Guidelines
+
 - Start Simple: Begin with a simple approach to the feature or task. Avoid unnecessary complexity at the start.
 - Split When Needed: As the code grows, split components, hooks, and logic into smaller pieces only when it becomes necessary for readability or maintainability.
 - No Big Hook: Avoid creating large, multi-purpose hooks. Each hook should be focused and concise.
