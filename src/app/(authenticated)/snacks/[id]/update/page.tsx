@@ -37,7 +37,7 @@ const UpdateSnackPage = (): ReactElement => {
   ];
 
   return (
-    <Page title="Add Snack" breadcrumbs={breadcrumbs}>
+    <Page title="Update Snack" breadcrumbs={breadcrumbs}>
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
           <FormSnack

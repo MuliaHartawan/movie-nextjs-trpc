@@ -32,7 +32,7 @@ const CreateUserPage = () => {
   ];
 
   return (
-    <Page title="Add User" breadcrumbs={breadcrumb}>
+    <Page title="Update User" breadcrumbs={breadcrumb}>
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
           <FormUser

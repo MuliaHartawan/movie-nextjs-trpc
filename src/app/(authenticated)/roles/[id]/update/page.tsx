@@ -35,7 +35,7 @@ const UpdateRolePage = () => {
   ];
 
   return (
-    <Page title="Add Role" breadcrumbs={breadcrumbs}>
+    <Page title="Update Role" breadcrumbs={breadcrumbs}>
       <Row>
         <Col span={12} style={{ margin: "auto" }}>
           <FormRole
