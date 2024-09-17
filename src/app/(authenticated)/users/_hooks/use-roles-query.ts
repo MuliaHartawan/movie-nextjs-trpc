@@ -8,3 +8,18 @@ export const useRolesQuery = (parameter: TIndexRoleQueryParam) => {
     queryFn: () => getRolesAction(parameter),
   });
 };
+
+export const useRolesOptionQuery = (parameter: TIndexRoleQueryParam) => {
+  return useQuery({
+    queryKey: ["roles-option", parameter],
+    queryFn: () => getRolesAction(parameter),
+    select: (rolesQuery) => {
+      return Array.isArray(rolesQuery.data)
+        ? rolesQuery.data.map((value) => ({
+            value: value.id!,
+            label: value.name,
+          }))
+        : [];
+    },
+  });
+};

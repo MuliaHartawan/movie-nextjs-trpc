@@ -5,7 +5,7 @@ import { FC, useEffect } from "react";
 import { FormProps } from "antd/lib";
 import { CustomException } from "@/types/cutom-exception";
 import { formErrorHandling } from "@/utils/validation";
-import { useRolesQuery } from "../_hooks/use-roles-query";
+import { useRolesOptionQuery } from "../_hooks/use-roles-query";
 import { usePaginateFilter } from "@/utils/filter";
 
 type Props = {
@@ -23,14 +23,7 @@ export const FormUser: FC<Props> = ({ formProps, error, loading }) => {
 
   const paginateFilter = usePaginateFilter();
 
-  const rolesQuery = useRolesQuery(paginateFilter);
-
-  const roleOptions = Array.isArray(rolesQuery.data?.data)
-    ? rolesQuery.data?.data.map((value) => ({
-        value: value.id!,
-        label: value.name,
-      }))
-    : [];
+  const rolesOptionQuery = useRolesOptionQuery(paginateFilter);
 
   return (
     <Form {...formProps} form={form} layout="vertical">
@@ -51,7 +44,11 @@ export const FormUser: FC<Props> = ({ formProps, error, loading }) => {
         <Input placeholder="Jalan No.7 Malang" />
       </Form.Item>
       <Form.Item label="Role" name="roleId">
-        <Select placeholder="Select Role" options={roleOptions} loading={rolesQuery.isLoading} />
+        <Select
+          placeholder="Select Role"
+          options={rolesOptionQuery.data}
+          loading={rolesOptionQuery.isLoading}
+        />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
