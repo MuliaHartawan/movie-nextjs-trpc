@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useRolesQuery = (parameter: TIndexRoleQueryParam) => {
   return useQuery({
-    queryKey: ["Roles", parameter],
+    queryKey: ["roles", parameter],
     queryFn: () => getRolesAction(parameter),
   });
 };

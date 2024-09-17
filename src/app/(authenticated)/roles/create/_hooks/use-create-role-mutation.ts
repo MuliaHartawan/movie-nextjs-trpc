@@ -11,7 +11,7 @@ export const useCreateRoleMutation = () => {
 
   const addRoleMutation = useActionMutation(createRole, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["Roles"] });
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
       message.success("Berhasil menambahkan Role");
       router.push("/roles");
     },

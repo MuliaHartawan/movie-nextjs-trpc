@@ -11,7 +11,7 @@ export const useCreateUserMutation = () => {
 
   return useActionMutation(createUserAction, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["Users"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       message.success("Berhasil menambahkan User");
       router.push("/users");
     },

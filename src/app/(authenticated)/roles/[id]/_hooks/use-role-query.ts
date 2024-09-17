@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useRoleQuery = (from: string) => {
   return useQuery({
-    queryKey: ["Roles", from],
+    queryKey: ["role", from],
     queryFn: () => getRoleAction(from),
   });
 };
