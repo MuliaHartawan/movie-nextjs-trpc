@@ -6,7 +6,7 @@ import { FormProps } from "antd/lib";
 import { CustomException } from "@/types/cutom-exception";
 import { formErrorHandling } from "@/utils/validation";
 import { useRolesQuery } from "../_hooks/use-roles-query";
-import { useSearchParams } from "next/navigation";
+import { usePaginateFilter } from "@/utils/filter";
 
 type Props = {
   formProps: FormProps;
@@ -21,13 +21,9 @@ export const FormUser: FC<Props> = ({ formProps, error, loading }) => {
     if (error) formErrorHandling(form, error);
   }, [error]);
 
-  const searchParams = useSearchParams();
+  const paginateFilter = usePaginateFilter();
 
-  const rolesQuery = useRolesQuery({
-    page: Number(searchParams.get("page") || 1),
-    perPage: Number(searchParams.get("perPage") || 10),
-    search: String(searchParams.get("search") || ""),
-  });
+  const rolesQuery = useRolesQuery(paginateFilter);
 
   const roleOptions = Array.isArray(rolesQuery.data?.data)
     ? rolesQuery.data?.data.map((value) => ({

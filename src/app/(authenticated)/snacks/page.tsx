@@ -4,10 +4,10 @@ import { FC } from "react";
 import { Page } from "admiral";
 import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
-import { useFilter } from "@/utils/filter";
+import { useFilter, usePaginateFilter } from "@/utils/filter";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";
 import { useSnacksQuery } from "./_hooks/use-snacks-query";
@@ -18,13 +18,10 @@ const { confirm } = Modal;
 const SnacksPage = () => {
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
-  const searchParams = useSearchParams();
 
-  const snacksQuery = useSnacksQuery({
-    page: Number(searchParams.get("page") || 1),
-    perPage: Number(searchParams.get("perPage") || 10),
-    search: String(searchParams.get("search") || ""),
-  });
+  const paginateFilter = usePaginateFilter();
+
+  const snacksQuery = useSnacksQuery(paginateFilter);
 
   const columns: ColumnType<Snack>[] = [
     {

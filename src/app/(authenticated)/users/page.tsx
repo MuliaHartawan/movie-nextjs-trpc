@@ -3,11 +3,11 @@
 import { Page } from "admiral";
 import { Button, Flex, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
-import { useFilter } from "@/utils/filter";
+import { useFilter, usePaginateFilter } from "@/utils/filter";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
@@ -19,13 +19,9 @@ const UsersPage = () => {
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
 
-  const searchParams = useSearchParams();
+  const paginateFilter = usePaginateFilter();
 
-  const { data } = useUsersQuery({
-    page: Number(searchParams.get("page") || 1),
-    perPage: Number(searchParams.get("perPage") || 10),
-    search: String(searchParams.get("search") || ""),
-  });
+  const { data } = useUsersQuery(paginateFilter);
 
   const columns: ColumnsType<User> = [
     {

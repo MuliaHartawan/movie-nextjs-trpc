@@ -9,17 +9,13 @@ import { makeSource } from "@/utils/index";
 import { deleteRole } from "@/server/role/actions/role.action";
 import { ColumnType } from "antd/es/table";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useFilter } from "@/utils/filter";
+import { useRouter } from "next/navigation";
+import { useFilter, usePaginateFilter } from "@/utils/filter";
 
 const RolesPage = () => {
-  const searchParams = useSearchParams();
+  const paginateFilter = usePaginateFilter();
 
-  const { data, isLoading } = useRolesQuery({
-    page: Number(searchParams.get("page") || 1),
-    perPage: Number(searchParams.get("perPage") || 10),
-    search: String(searchParams.get("search") || ""),
-  });
+  const { data, isLoading } = useRolesQuery(paginateFilter);
 
   const router = useRouter();
   const { implementDataTable, filter } = useFilter();
