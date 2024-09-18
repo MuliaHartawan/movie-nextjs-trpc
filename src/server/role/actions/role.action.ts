@@ -41,7 +41,7 @@ export const createRole = async (value: TCreateOrUpdateRoleValidation) => {
   // Validation
   await validate(createOrUpdateRoleSchema, value);
 
-  await createRoleAndPermissions(value.name, value.permissionIds);
+  await createRoleAndPermissions({ name: value.name, permissionIds: value.permissionIds });
 };
 
 export const updateRole = async ({
@@ -57,7 +57,10 @@ export const updateRole = async ({
   // Validation
   await validate(createOrUpdateRoleSchema, value);
 
-  await updateRoleAndPermissionsById(id, value.name, value.permissionIds);
+  await updateRoleAndPermissionsById(id, {
+    name: value.name,
+    permissionIds: value.permissionIds,
+  });
 };
 
 export const deleteRole = async (id: string) => {
