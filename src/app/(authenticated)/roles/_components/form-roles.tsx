@@ -1,9 +1,9 @@
 "use client";
 import { Button, Form, Input, Select } from "antd";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { FormProps } from "antd/lib";
 import { CustomException } from "@/types/cutom-exception";
-import { formErrorHandling } from "@/utils/validation";
+import { useFormErrorHandling } from "@/utils/validation";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 type options = {
@@ -19,9 +19,7 @@ type Props = {
 export const FormRole: FC<Props> = ({ formProps, loading, error }) => {
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    if (error) formErrorHandling(form, error);
-  }, [error]);
+  useFormErrorHandling(form, error);
 
   const permissionOptions = Object.values(PERMISSIONS).map((value) => ({
     value: value,
