@@ -264,3 +264,14 @@ const normalize = (data: Record<string, unknown>): Record<string, TFilter> => {
   );
   return cloneData;
 };
+
+// TODO: rename to useDatatableParams
+export const usePaginateFilter = () => {
+  const searchParams = useSearchParams();
+
+  return {
+    page: Number(searchParams.get("page") || 1),
+    perPage: Number(searchParams.get("perPage") || 10),
+    search: String(searchParams.get("search") || ""),
+  };
+};

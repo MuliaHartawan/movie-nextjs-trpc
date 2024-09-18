@@ -88,22 +88,20 @@ export const MainLayout: React.FC<TMainLayoutProps> = ({ children, session }) =>
   }, [activeMenuKey, filteredNavbarMenu]);
 
   return (
-    <Suspense fallback={"Loading..."}>
-      <LayoutWithHeader
-        header={{
-          brandLogo: <span>NextJS Fullstack</span>,
-          menu: <UserProfile session={session} />,
-        }}
-        sidebar={{
-          width: 250,
-          defaultSelectedKeys: [activeMenuKey],
-          defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
-          menu: filteredNavbarMenu,
-          theme: "light",
-        }}
-      >
-        {children}
-      </LayoutWithHeader>
-    </Suspense>
+    <LayoutWithHeader
+      header={{
+        brandLogo: <span>NextJS Fullstack</span>,
+        menu: <UserProfile session={session} />,
+      }}
+      sidebar={{
+        width: 250,
+        defaultSelectedKeys: [activeMenuKey],
+        defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
+        menu: filteredNavbarMenu,
+        theme: "light",
+      }}
+    >
+      {children}
+    </LayoutWithHeader>
   );
 };

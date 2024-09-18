@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkEmail, checkPassword, getUserData } from "./login";
 import type { NextAuthConfig } from "next-auth";
-import { schema } from "@/app/(public)/auth/(login)/_entities/schema";
+import { schema } from "@/app/(public)/auth/login/_entities/schema";
 
 export const authConfig = {
   providers: [
