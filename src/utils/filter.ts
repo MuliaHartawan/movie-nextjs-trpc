@@ -153,3 +153,13 @@ export const useFilter = () => {
     implementDataTable,
   };
 };
+
+export const usePaginateFilter = () => {
+  const searchParams = useSearchParams();
+
+  return {
+    page: Number(searchParams.get("page") || 1),
+    perPage: Number(searchParams.get("perPage") || 10),
+    search: String(searchParams.get("search") || ""),
+  };
+};
