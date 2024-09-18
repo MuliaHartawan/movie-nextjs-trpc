@@ -96,12 +96,12 @@ export async function rolePermissionSeeder() {
         permissionId: permissionData.id,
       });
     }
-
-    // Create role permissions
-    await prisma.rolePermission.createMany({
-      data: newRolePermissions,
-    });
-
-    console.log("Role permissions seeded");
   }
+
+  // Create role permissions
+  await prisma.rolePermission.createMany({
+    data: newRolePermissions,
+  });
+
+  console.log("Role permissions seeded");
 }
