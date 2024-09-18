@@ -5,7 +5,7 @@ import { Button, Form, Input } from "antd";
 import { TLoginForm } from "./_entities/schema";
 import { useLoginByCredentialsMutation } from "./_hooks/use-login-by-credentials-mutation";
 
-const FormLogin: React.FC = () => {
+const LoginPage: React.FC = () => {
   const loginByCredentialMutation = useLoginByCredentialsMutation();
 
   const onFinish: FormProps<TLoginForm>["onFinish"] = async (values) => {
@@ -46,4 +46,4 @@ const FormLogin: React.FC = () => {
   );
 };
 
-export default FormLogin;
+export default LoginPage;
