@@ -18,6 +18,7 @@
       }
     ],
     "paths": {
+      "@/hooks/*": ["./src/app/_hooks/*"],
       "@/app/*": ["./src/app/*"],
       "@/common/*": ["./src/common/*"],
       "@/libs/*": ["./src/libs/*"],

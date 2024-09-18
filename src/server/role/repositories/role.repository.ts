@@ -2,9 +2,9 @@ import { db } from "@/libs/drizzle/connection";
 import { rolePermissions, roles } from "@/libs/drizzle/schema";
 import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { TPaginationResponse } from "@/types/meta";
-import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
 import { TIndexRoleQueryParam } from "../validations/index-role.validation";
+import { countOffset, mapMeta } from "@/utils/datatable";
 
 export const rolePagination = async (
   queryParam: TIndexRoleQueryParam,

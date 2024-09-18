@@ -2,9 +2,9 @@ import { db } from "@/libs/drizzle/connection";
 import { snacks } from "@/libs/drizzle/schema";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { TPaginationResponse } from "@/types/meta";
-import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { count, desc, eq, sql } from "drizzle-orm";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
+import { countOffset, mapMeta } from "@/utils/datatable";
 
 export const snackPagination = async (
   queryParam: TIndexSnackQueryParam,

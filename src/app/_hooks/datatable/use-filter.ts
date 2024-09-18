@@ -2,9 +2,137 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import withQuery from "with-query";
 import { IDataTableProps } from "admiral/table/datatable/type";
+import { everyEqual, isObject } from "@/utils/type";
 import dayjs from "dayjs";
 import { DataTablePagination } from "admiral/table/datatable/type";
-import { everyEqual, isObject } from "../type";
+
+/**
+ * Custom hook to manage and synchronize filter state with URL query parameters.
+ *
+ * @returns {Object} An object containing:
+ * - `isNavigating`: A boolean indicating if navigation is in progress.
+ * - `filter`: The current filter state as a record of key-value pairs.
+ * - `setFilter`: A function to update the filter state and URL query parameters.
+ * - `implementDataTable`: A function to handle changes from a data table component.
+ *
+ * @example
+ * const { isNavigating, filter, setFilter, implementDataTable } = useFilter();
+ *
+ * console.log(filter);
+ * // Output:
+ * // {
+ * //   page: "1",
+ * //   per_page: "10",
+ * //   sort_by: "name",
+ * //   order: "asc",
+ * //   name: "example",
+ * //   date: "2023-10-01T00:00:00.000Z",
+ * //   range: "2023-10-01;2023-10-10",
+ * //   array: "1,2,3",
+ * //   key: "value",
+ * //   nullValue: undefined,
+ * //   stringValue: "example"
+ * // }
+ *
+ * // Implementation on Datatable component
+ * <DataTable
+ *  onChange={implementDataTable}
+ *  search={filter.search}
+ * ...
+ * />
+ *
+ * // Update filter manually
+ * setFilter({ name: "new value" });
+ * // Output:
+ * // {
+ * //   ...,
+ * //   name: "new value"
+ * // }
+ *
+ *
+ */
+export const useFilter = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [filter, _setFilter] = useState<Record<string, TFilter>>(
+    paramsToObject(searchParams.entries()) || {},
+  );
+
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    setIsNavigating(false);
+    const values = paramsToObject(searchParams.entries());
+    _setFilter(values);
+  }, [pathname, searchParams]);
+
+  const setFilter = async (
+    data: Record<string, unknown>,
+    cb?: (data: Record<string, TFilter>) => Record<string, TFilter>,
+  ) => {
+    let cloneData = normalize(data);
+
+    // Set page to 1 after every filter except page, per_page, sort_by and order
+    const isResetPage = !(
+      "page" in cloneData ||
+      "per_page" in cloneData ||
+      "sory_by" in cloneData ||
+      "order" in cloneData
+    );
+    if (isResetPage) {
+      cloneData.page = "1";
+    }
+
+    if (cb) {
+      cloneData = cb(cloneData);
+    }
+
+    const isEquals = everyEqual(cloneData, filter);
+    if (isEquals) return;
+
+    setIsNavigating(true);
+    _setFilter((old) => ({ ...old, ...cloneData }));
+
+    const pathnameWithQuery = withQuery(pathname, { ...filter, ...cloneData });
+    router.replace(pathnameWithQuery, { scroll: false });
+  };
+
+  const implementDataTable: IDataTableProps<any, any>["onChange"] = (
+    customFilter,
+    sorter,
+    filters,
+    pagination,
+    _extra,
+  ) => {
+    const cloneSort: Record<string, unknown> | undefined = structuredClone({
+      ...sorter,
+      column: {
+        title: sorter?.column?.title,
+        dataIndex: sorter?.column?.dataIndex,
+        key: sorter?.column?.key,
+        sorter: sorter?.column?.sorter,
+      },
+    });
+    if (cloneSort?.sort) {
+      cloneSort.sort_by = cloneSort.sort;
+      delete cloneSort.sort;
+    }
+    setFilter({
+      ...(customFilter || {}),
+      ...(cloneSort || {}),
+      ...(filters || {}),
+      ...(normalizePagination(pagination) || {}),
+    });
+  };
+
+  return {
+    isNavigating,
+    filter,
+    setFilter,
+    implementDataTable,
+  };
+};
 
 export type TFilter = string | undefined;
 
@@ -135,132 +263,4 @@ const normalize = (data: Record<string, unknown>): Record<string, TFilter> => {
     {} as Record<string, TFilter>,
   );
   return cloneData;
-};
-
-/**
- * Custom hook to manage and synchronize filter state with URL query parameters.
- *
- * @returns {Object} An object containing:
- * - `isNavigating`: A boolean indicating if navigation is in progress.
- * - `filter`: The current filter state as a record of key-value pairs.
- * - `setFilter`: A function to update the filter state and URL query parameters.
- * - `implementDataTable`: A function to handle changes from a data table component.
- *
- * @example
- * const { isNavigating, filter, setFilter, implementDataTable } = useFilter();
- *
- * console.log(filter);
- * // Output:
- * // {
- * //   page: "1",
- * //   per_page: "10",
- * //   sort_by: "name",
- * //   order: "asc",
- * //   name: "example",
- * //   date: "2023-10-01T00:00:00.000Z",
- * //   range: "2023-10-01;2023-10-10",
- * //   array: "1,2,3",
- * //   key: "value",
- * //   nullValue: undefined,
- * //   stringValue: "example"
- * // }
- *
- * // Implementation on Datatable component
- * <DataTable
- *  onChange={implementDataTable}
- *  search={filter.search}
- * ...
- * />
- *
- * // Update filter manually
- * setFilter({ name: "new value" });
- * // Output:
- * // {
- * //   ...,
- * //   name: "new value"
- * // }
- *
- *
- */
-export const useFilter = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [filter, _setFilter] = useState<Record<string, TFilter>>(
-    paramsToObject(searchParams.entries()) || {},
-  );
-
-  const [isNavigating, setIsNavigating] = useState(false);
-
-  useEffect(() => {
-    setIsNavigating(false);
-    const values = paramsToObject(searchParams.entries());
-    _setFilter(values);
-  }, [pathname, searchParams]);
-
-  const setFilter = async (
-    data: Record<string, unknown>,
-    cb?: (data: Record<string, TFilter>) => Record<string, TFilter>,
-  ) => {
-    let cloneData = normalize(data);
-
-    // Set page to 1 after every filter except page, per_page, sort_by and order
-    const isResetPage = !(
-      "page" in cloneData ||
-      "per_page" in cloneData ||
-      "sory_by" in cloneData ||
-      "order" in cloneData
-    );
-    if (isResetPage) {
-      cloneData.page = "1";
-    }
-
-    if (cb) {
-      cloneData = cb(cloneData);
-    }
-
-    const isEquals = everyEqual(cloneData, filter);
-    if (isEquals) return;
-
-    setIsNavigating(true);
-    _setFilter((old) => ({ ...old, ...cloneData }));
-
-    const pathnameWithQuery = withQuery(pathname, { ...filter, ...cloneData });
-    router.replace(pathnameWithQuery, { scroll: false });
-  };
-
-  const implementDataTable: IDataTableProps<any, any>["onChange"] = (
-    customFilter,
-    sorter,
-    filters,
-    pagination,
-    _extra,
-  ) => {
-    const cloneSort: Record<string, unknown> | undefined = structuredClone({
-      ...sorter,
-      column: {
-        title: sorter?.column?.title,
-        dataIndex: sorter?.column?.dataIndex,
-        key: sorter?.column?.key,
-        sorter: sorter?.column?.sorter,
-      },
-    });
-    if (cloneSort?.sort) {
-      cloneSort.sort_by = cloneSort.sort;
-      delete cloneSort.sort;
-    }
-    setFilter({
-      ...(customFilter || {}),
-      ...(cloneSort || {}),
-      ...(filters || {}),
-      ...(normalizePagination(pagination) || {}),
-    });
-  };
-
-  return {
-    isNavigating,
-    filter,
-    setFilter,
-    implementDataTable,
-  };
 };

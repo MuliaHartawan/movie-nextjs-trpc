@@ -7,10 +7,10 @@ import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
-import { makeSource } from "@/utils/index";
-import { useFilter } from "@/utils/filter";
+import { makeSource } from "@/utils/datatable";
 import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";
+import { useFilter } from "@/hooks/datatable/use-filter";
 
 const { confirm } = Modal;
 export const DashboardSnacksModule: FC<{ data: TPaginationResponse<Snack[]> }> = ({ data }) => {

@@ -3,8 +3,8 @@ import { db } from "@/libs/drizzle/connection";
 import { and, count, desc, eq, ne, sql } from "drizzle-orm";
 import { User } from "@/libs/drizzle/schemas/user.schema";
 import { users } from "@/libs/drizzle/schema";
-import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { TIndexUserQueryParam } from "../validations/index-user.validation";
+import { countOffset, mapMeta } from "@/utils/datatable";
 
 export const userPagination = async (
   queryParam: TIndexUserQueryParam,

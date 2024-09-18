@@ -1,7 +1,7 @@
 import { useActionMutation } from "@/libs/action-query";
 import { createUserAction, updateUserAction } from "@/server/user/actions/user.action";
 import { CustomException } from "@/types/cutom-exception";
-import { formErrorHandling } from "@/utils/validation";
+import { formErrorHandling } from "@/utils/form";
 import { useQueryClient } from "@tanstack/react-query";
 import { message } from "antd";
 import { FormInstance } from "antd/lib";
