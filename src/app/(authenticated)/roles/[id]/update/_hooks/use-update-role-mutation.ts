@@ -9,7 +9,7 @@ export const useUpdateRoleMutation = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const addRoleMutation = useActionMutation(updateRole, {
+  return useActionMutation(updateRole, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
       message.success("Berhasil memperbarui Role");
@@ -19,6 +19,4 @@ export const useUpdateRoleMutation = () => {
       message.error(error.message);
     },
   });
-
-  return addRoleMutation;
 };
