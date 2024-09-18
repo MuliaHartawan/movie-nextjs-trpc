@@ -7,7 +7,7 @@ import { Descriptions } from "antd";
 
 const RolePage = () => {
   const params = useParams();
-  const roleId = params.id.toString() ?? "";
+  const roleId = typeof params.id === "string" ? params.id : "";
 
   const roleQuery = useRoleQuery(roleId);
 
