@@ -8,7 +8,7 @@ import { useUpdateUserMutation } from "./_hooks/use-update-user-mutation";
 import { useParams } from "next/navigation";
 import { useUserQuery } from "../_hooks/use-user-query";
 
-const CreateUserPage = () => {
+const UpdateUserPage = () => {
   const params = useParams();
 
   const userId = typeof params.id === "string" ? params.id : "";
@@ -50,4 +50,4 @@ const CreateUserPage = () => {
   );
 };
 
-export default CreateUserPage;
+export default UpdateUserPage;
