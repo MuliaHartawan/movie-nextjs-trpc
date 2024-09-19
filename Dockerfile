@@ -17,6 +17,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=~/.pnpm-store \
     pnpm install --frozen-lockfile --prod --ignore-scripts
 
+RUN npm i -g prisma
 
 FROM deps AS builder
 
