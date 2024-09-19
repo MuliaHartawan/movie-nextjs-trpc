@@ -4,6 +4,7 @@
 // Learn more:
 // https://pris.ly/d/help/next-js-best-practices
 
+import { pagination } from "prisma-extension-pagination";
 import { QueryEvent } from "./query-event";
 import { PrismaClient } from "@prisma/client";
 
@@ -51,6 +52,12 @@ prisma.$on("query", (e: QueryEvent) => {
   console.log("Duration: " + e.duration + "ms");
 });
 
-export default prisma;
+export default prisma.$extends(
+  pagination({
+    pages: {
+      includePageCount: true,
+    },
+  }),
+);
 
 if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;

@@ -1,5 +1,5 @@
 import { TPaginationResponse } from "@/types/meta";
-import { countOffset, mapMeta } from "@/utils/paginate-util";
+import { countOffset, convertPaginationMeta } from "@/utils/paginate-util";
 import { TIndexUserQueryParam } from "../validations/index-user.validation";
 import prisma from "@/libs/prisma/prisma";
 import { User } from "@prisma/client";
@@ -7,45 +7,32 @@ import { User } from "@prisma/client";
 export const userPagination = async (
   queryParam: TIndexUserQueryParam,
 ): Promise<TPaginationResponse<User[]>> => {
-  const data = await prisma.user.findMany({
-    take: queryParam.perPage,
-    skip: countOffset(queryParam),
-    where: {
-      deletedAt: null,
-      OR: [
-        // Search by fullname
-        {
-          fullname: {
-            contains: queryParam.search,
-            mode: "insensitive",
+  const [data, meta] = await prisma.user
+    .paginate({
+      where: {
+        deletedAt: null,
+        OR: [
+          // Search by fullname
+          {
+            fullname: {
+              contains: queryParam.search,
+              mode: "insensitive",
+            },
           },
-        },
-      ],
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
-
-  const dataCount = await prisma.user.count({
-    where: {
-      OR: [
-        // Search by fullname
-        {
-          fullname: {
-            contains: queryParam.search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-  });
-
-  const meta = mapMeta(dataCount, queryParam);
+        ],
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    })
+    .withPages({
+      limit: queryParam.perPage,
+      page: queryParam.page,
+    });
 
   return {
     data,
-    meta,
+    meta: convertPaginationMeta(meta, queryParam),
   };
 };
 
