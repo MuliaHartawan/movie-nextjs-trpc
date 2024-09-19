@@ -25,7 +25,7 @@ export const FormSnack: FC<Props> = ({ formProps, error, loading }): ReactElemen
       <Form.Item label="Cost" name="cost">
         <Input placeholder="3000" />
       </Form.Item>
-      <Form.Item label="Expiry Date" name="expiryDate">
+      <Form.Item label="Expiry Date" name="expiredAt">
         <DatePicker style={{ width: "100%" }} />
       </Form.Item>
       <Form.Item>

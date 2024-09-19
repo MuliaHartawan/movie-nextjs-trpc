@@ -6,7 +6,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@
 import { useRouter } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
-import { User } from "@/libs/drizzle/schemas/user.schema";
+import { User } from "@prisma/client";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";

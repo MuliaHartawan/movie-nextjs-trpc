@@ -1,12 +1,10 @@
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { permissions } from "../schema";
-import { Permission } from "../schemas/permission.schema";
-import * as schema from "../schema";
+import { PrismaClient } from "@prisma/client";
 
-export const seedPermissions = async (db: NodePgDatabase<typeof schema>) => {
-  console.log("Seeding permissions...");
-  const dummyPermissions: Permission[] = [
+const prisma = new PrismaClient();
+
+export async function permissionSeeder() {
+  const dummyPermissions = [
     {
       name: PERMISSIONS.DASHBOARD,
     },
@@ -57,11 +55,7 @@ export const seedPermissions = async (db: NodePgDatabase<typeof schema>) => {
     },
   ];
 
-  await db
-    .insert(permissions)
-    .values(dummyPermissions)
-    .execute()
-    .catch((error) => {
-      console.log("Seeding permissions failed!", error);
-    });
-};
+  await prisma.permission.createMany({
+    data: dummyPermissions,
+  });
+}

@@ -1,29 +1,42 @@
-import { db } from "@/libs/drizzle/connection";
-import { snacks } from "@/libs/drizzle/schema";
-import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { TPaginationResponse } from "@/types/meta";
-import { count, desc, eq, sql } from "drizzle-orm";
-import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 import { countOffset, mapMeta } from "@/utils/datatable";
+import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
+import { Snack } from "@prisma/client";
+import prisma from "@/libs/prisma/prisma";
 
 export const snackPagination = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
-  const query = db.select().from(snacks);
+  const data = await prisma.snack.findMany({
+    take: queryParam.perPage,
+    skip: countOffset(queryParam),
+    where: {
+      OR: [
+        {
+          name: {
+            contains: queryParam.search,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
-  if (queryParam.search) {
-    query.where(sql`lower(${snacks.name}) like lower('%' || ${queryParam.search} || '%')`);
-  }
-
-  const data = await query
-    .limit(queryParam.perPage)
-    .offset(countOffset(queryParam))
-    .orderBy(snacks.createdAt, desc(snacks.createdAt));
-
-  const dataCount = await db
-    .select({ count: count(snacks.id) })
-    .from(snacks)
-    .then((res) => res[0].count);
+  const dataCount = await prisma.snack.count({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: queryParam.search,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+  });
 
   const meta = mapMeta(dataCount, queryParam);
 
@@ -33,20 +46,33 @@ export const snackPagination = async (
   };
 };
 
-export const findOneSnackById = async (id: string): Promise<Snack | undefined> => {
-  return await db.query.snacks.findFirst({
-    where: eq(snacks.id, id),
+export const findOneSnackById = async (id: string) => {
+  return await prisma.snack.findUnique({
+    where: {
+      id,
+    },
   });
 };
 
 export const createNewSnack = async (data: Snack): Promise<void> => {
-  await db.insert(snacks).values(data);
+  await prisma.snack.create({
+    data,
+  });
 };
 
 export const updateSnackById = async (id: string, data: Snack): Promise<void> => {
-  await db.update(snacks).set(data).where(eq(snacks.id, id));
+  await prisma.snack.update({
+    where: {
+      id,
+    },
+    data,
+  });
 };
 
 export const deleteSnackById = async (id: string): Promise<void> => {
-  await db.delete(snacks).where(eq(snacks.id, id));
+  await prisma.snack.delete({
+    where: {
+      id,
+    },
+  });
 };

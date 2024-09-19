@@ -1,7 +1,9 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import { checkEmail, checkPassword, getUserData } from "./login";
+import { findUserByEmailWithRole, isEmailRegistered, isValidPassword } from "./login";
 import type { NextAuthConfig } from "next-auth";
 import { schema } from "@/app/(public)/auth/login/_entities/schema";
+import BadRequestException from "../../errors/BadRequestException";
+import UnauthorizedException from "../../errors/UnauthorizedException";
 
 export const authConfig = {
   providers: [
@@ -16,31 +18,33 @@ export const authConfig = {
         const { data } = schema.safeParse(credentials);
 
         if (!data?.email || !data?.password) {
-          throw "Email dan Password wajib diisi";
+          throw new BadRequestException("Email dan Password wajib diisi");
         }
 
-        const isUserExist = await checkEmail(data?.email);
+        const isUserExist = await isEmailRegistered(data?.email);
 
         if (!isUserExist) {
-          throw "Akun tidak terdaftar";
+          throw new UnauthorizedException("Email belum terdaftar");
         }
 
-        const isPasswordCorrect = await checkPassword(data?.password, data?.email);
+        const isPasswordCorrect = await isValidPassword(data?.email, data?.password);
+
+        console.log("isPasswordCorrect", isPasswordCorrect);
 
         if (!isPasswordCorrect) {
-          throw "Email atau Kata sandi tidak valid";
+          throw new UnauthorizedException("Email atau Kata sandi tidak valid");
         }
 
-        const userData = await getUserData(data?.email);
+        const userData = await findUserByEmailWithRole(data?.email);
 
         if (userData) {
           return {
             ...userData,
             role: {
-              id: userData?.roles?.id as string,
-              name: userData?.roles?.name as string,
-              permissions: userData?.roles?.rolePermissions?.map(
-                (rolePermission) => rolePermission.permission?.name,
+              id: userData?.role?.id as string,
+              name: userData?.role?.name as string,
+              permissions: userData?.role?.rolePermissions?.map(
+                (rolePermission) => rolePermission.permission.name,
               ) as string[],
             },
           };
