@@ -112,7 +112,7 @@ export const updateUserAction = async ({
     password: await hashPassword(value.password),
     email: value.email,
     roleId: value.roleId,
-  });
+  } as User);
 };
 
 export const deleteUserAction = async (from: string) => {
