@@ -1,5 +1,5 @@
 import { TPaginationResponse } from "@/types/meta";
-import { countOffset, convertPaginationMeta } from "@/utils/paginate-util";
+import { convertPaginationMeta } from "@/utils/paginate-util";
 import { TIndexUserQueryParam } from "../validations/index-user.validation";
 import prisma from "@/libs/prisma/prisma";
 import { User } from "@prisma/client";
