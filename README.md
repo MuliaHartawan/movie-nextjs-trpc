@@ -14,7 +14,7 @@ Since this approach is not designed for high-performance applications, it is rec
 - Node.js >= 20
 - Prisma
 - Postgres 15
-- pnpm
+- pnpm 9
 
 ## Setup
 
