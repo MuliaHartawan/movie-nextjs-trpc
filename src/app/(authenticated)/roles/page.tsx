@@ -1,5 +1,6 @@
 "use client";
 
+import { Role } from "@prisma/client";
 import { DataTable, Page } from "admiral";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Flex, message } from "antd";
@@ -8,7 +9,6 @@ import Link from "next/link";
 import { makeSource } from "@/utils/index";
 import { deleteRole } from "@/server/role/actions/role.action";
 import { ColumnType } from "antd/es/table";
-import { Role } from "@/libs/drizzle/schemas/role.schema";
 import { useRouter } from "next/navigation";
 import { useFilter, usePaginateFilter } from "@/utils/filter";
 

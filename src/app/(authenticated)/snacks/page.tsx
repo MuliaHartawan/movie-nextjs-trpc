@@ -7,8 +7,8 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
 import { makeSource } from "@/utils/index";
+import { Snack } from "@prisma/client";
 import { useFilter, usePaginateFilter } from "@/utils/filter";
-import { Snack } from "@/libs/drizzle/schemas/snack.schema";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";
 import { useSnacksQuery } from "./_hooks/use-snacks-query";
 import Link from "next/link";
@@ -30,19 +30,19 @@ const SnacksPage = () => {
       title: "Name",
     },
     {
-      dataIndex: "cost",
-      title: "Cost",
-      key: "cost",
+      dataIndex: "price",
+      title: "Price",
+      key: "price",
       render: (_, row) => {
-        return `Rp ${row?.cost?.toLocaleString()}`;
+        return `Rp ${row?.price?.toLocaleString()}`;
       },
     },
     {
-      dataIndex: "expiryDate",
+      dataIndex: "expiredAt",
       title: "Expiry Date",
-      key: "expiryDate",
+      key: "expiredAt",
       render: (_, row) => {
-        return new Date(row?.expiryDate as Date).toLocaleString();
+        return new Date(row?.expiredAt as Date).toLocaleString();
       },
     },
     {

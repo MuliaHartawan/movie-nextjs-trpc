@@ -1,11 +1,10 @@
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { permissions, rolePermissions, roles } from "../schema";
 import { ROLE_DUMMY } from "@/common/enums/role-dummy.enum";
-import { eq } from "drizzle-orm";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import * as schema from "../schema";
+import { PrismaClient } from "@prisma/client";
 
-export const seedRolePermissions = async (db: NodePgDatabase<typeof schema>) => {
+const prisma = new PrismaClient();
+
+export async function rolePermissionSeeder() {
   console.log("Seeding role permissions...");
   const dummyRolePermissions = [
     {
@@ -76,34 +75,33 @@ export const seedRolePermissions = async (db: NodePgDatabase<typeof schema>) => 
     },
   ];
 
-  for (const dummyRolePermission of dummyRolePermissions) {
-    const role = await db.query.roles.findFirst({
-      where: eq(roles.name, dummyRolePermission.role),
+  const newRolePermissions = [];
+
+  for (const roleRolePermission of dummyRolePermissions) {
+    const role = await prisma.role.findFirstOrThrow({
+      where: {
+        name: roleRolePermission.role,
+      },
     });
 
-    if (!role) {
-      throw `Role ${dummyRolePermission.role} not found`;
-    }
-
-    for (const permission of dummyRolePermission.permissions) {
-      const permissionData = await db.query.permissions.findFirst({
-        where: eq(permissions.name, permission),
+    for (const permission of roleRolePermission.permissions) {
+      const permissionData = await prisma.permission.findFirstOrThrow({
+        where: {
+          name: permission,
+        },
       });
 
-      if (!permissionData) {
-        throw `Permission ${permission} not found`;
-      }
-
-      await db
-        .insert(rolePermissions)
-        .values({
-          roleId: role.id,
-          permissionId: permissionData.id,
-        })
-        .execute()
-        .catch((error) => {
-          console.log("Seeding role permissions failed!", error);
-        });
+      newRolePermissions.push({
+        roleId: role.id,
+        permissionId: permissionData.id,
+      });
     }
   }
-};
+
+  // Create role permissions
+  await prisma.rolePermission.createMany({
+    data: newRolePermissions,
+  });
+
+  console.log("Role permissions seeded");
+}

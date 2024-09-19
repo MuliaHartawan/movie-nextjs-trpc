@@ -12,8 +12,9 @@ Since this approach is not designed for high-performance applications, it is rec
 
 - Next 14
 - Node.js >= 20
+- Prisma
 - Postgres 15
-- pnpm
+- pnpm 9
 
 ## Setup
 
@@ -47,21 +48,20 @@ In this boilerplate, we use PostgreSQL as the database. You can set up your data
 3. Run the database migrations:
 
 ```bash
-pnpm db:push
+pnpm db:migrate
 ```
 
-Please read [Drizzle-ORM documentation](https://orm.drizzle.team/docs/overview)
+### 5. Prisma ORM notes
+
+1. Generate maigration run `db:migration:gen`
+2. Don't forget to run `db:generate` after changing Prisma schema or related ones.
+
+Please read [Prisma-ORM documentation](https://www.prisma.io/docs/orm/overview)
 
 ### 5. Run the Development Server
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.

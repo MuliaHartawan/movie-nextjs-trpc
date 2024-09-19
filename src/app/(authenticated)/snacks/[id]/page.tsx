@@ -31,8 +31,8 @@ const SnackPage = () => {
           <Descriptions.Item span={2} label="Name">
             {snackQuery.data?.name}
           </Descriptions.Item>
-          <Descriptions.Item span={2} label="Cost">
-            {snackQuery.data?.cost}
+          <Descriptions.Item span={2} label="Price">
+            {snackQuery.data?.price}
           </Descriptions.Item>
         </Descriptions>
       </Section>

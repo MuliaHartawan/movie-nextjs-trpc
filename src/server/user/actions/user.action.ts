@@ -1,7 +1,6 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
 import { TPaginationResponse } from "@/types/meta";
-import { User } from "@/libs/drizzle/schemas/user.schema";
 import {
   createUser,
   deleteUserById,
@@ -22,6 +21,7 @@ import { serverCheckPermission } from "@/utils/permission";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import NotFoundException from "../../../errors/NotFoundException";
 import UnprocessableEntityException from "../../../errors/UnprocessableEntityException";
+import { User } from "@prisma/client";
 
 export const getUsersAction = async (
   queryParam: TIndexUserQueryParam,
@@ -106,26 +106,18 @@ export const updateUserAction = async ({
     ]);
   }
 
-  const affectedRows = await updateUserById(id, {
+  await updateUserById(id, {
     fullname: value.fullname,
     address: value.address,
     password: await hashPassword(value.password),
     email: value.email,
     roleId: value.roleId,
-  });
-
-  if (!affectedRows || affectedRows === 0) {
-    throw new UnprocessableEntityException("Gagal memperbarui user");
-  }
+  } as User);
 };
 
 export const deleteUserAction = async (from: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.USER_DELETE]);
 
-  const affectedRows = await deleteUserById(from);
-
-  if (!affectedRows || affectedRows === 0) {
-    throw new UnprocessableEntityException("Gagal menghapus user");
-  }
+  await deleteUserById(from);
 };
