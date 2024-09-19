@@ -11,6 +11,7 @@ export const userPagination = async (
     take: queryParam.perPage,
     skip: countOffset(queryParam),
     where: {
+      deletedAt: null,
       OR: [
         // Search by fullname
         {
@@ -84,7 +85,7 @@ export const createUser = async (data: User): Promise<void> => {
   });
 };
 
-export const updateUserById = async (id: string, data: Partial<User>): Promise<void> => {
+export const updateUserById = async (id: string, data: User): Promise<void> => {
   await prisma.user.update({
     where: {
       id,

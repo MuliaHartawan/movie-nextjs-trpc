@@ -1,8 +1,8 @@
-import { CustomException, FieldErrorType } from "@/types/cutom-exception";
+import { CustomException } from "@/types/cutom-exception";
 
 export class ForbiddenException extends CustomException {
-  constructor(message: string, errors?: Array<FieldErrorType>) {
-    super(403, message, errors || []);
+  constructor(message: string) {
+    super(403, message, []);
     this.name = "ForbiddenException";
   }
 }

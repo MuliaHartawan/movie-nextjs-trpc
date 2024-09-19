@@ -25,6 +25,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   roleId String? @db.VarChar(255) @map("role_id")
+  deletedAt DateTime? @map("deleted_at")
 
   // Relations
   role Role? @relation(fields: [roleId], references: [id])
@@ -62,8 +63,8 @@ model RolePermission {
   permissionId String @map("permission_id") @db.VarChar(255)
   
   // Relations
-  role Role @relation(fields: [roleId], references: [id])
-  permission Permission @relation(fields: [permissionId], references: [id])
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade) 
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
   
   @@id([roleId, permissionId])
 

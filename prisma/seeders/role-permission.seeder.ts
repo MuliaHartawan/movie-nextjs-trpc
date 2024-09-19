@@ -75,36 +75,33 @@ export async function rolePermissionSeeder() {
     },
   ];
 
-  for (const rolePermission of dummyRolePermissions) {
-    const role = await prisma.role.findFirst({
+  const newRolePermissions = [];
+
+  for (const roleRolePermission of dummyRolePermissions) {
+    const role = await prisma.role.findFirstOrThrow({
       where: {
-        name: rolePermission.role,
+        name: roleRolePermission.role,
       },
     });
 
-    if (!role) {
-      throw new Error(`Role ${rolePermission.role} not found`);
-    }
-
-    for (const permission of rolePermission.permissions) {
-      const permissionData = await prisma.permission.findFirst({
+    for (const permission of roleRolePermission.permissions) {
+      const permissionData = await prisma.permission.findFirstOrThrow({
         where: {
           name: permission,
         },
       });
 
-      if (!permissionData) {
-        throw new Error(`Permission ${permission} not found`);
-      }
-
-      await prisma.rolePermission.create({
-        data: {
-          roleId: role.id,
-          permissionId: permissionData.id,
-        },
+      newRolePermissions.push({
+        roleId: role.id,
+        permissionId: permissionData.id,
       });
     }
   }
+
+  // Create role permissions
+  await prisma.rolePermission.createMany({
+    data: newRolePermissions,
+  });
 
   console.log("Role permissions seeded");
 }

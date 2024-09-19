@@ -1,9 +1,9 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { findUserByEmailWithRole, isEmailRegistered, isValidPassword } from "./login";
 import type { NextAuthConfig } from "next-auth";
-import { schema } from "@/app/(public)/auth/(login)/_entities/schema";
-import UnauthorizedException from "../../errors/UnauthorizedException";
+import { schema } from "@/app/(public)/auth/login/_entities/schema";
 import BadRequestException from "../../errors/BadRequestException";
+import UnauthorizedException from "../../errors/UnauthorizedException";
 
 export const authConfig = {
   providers: [

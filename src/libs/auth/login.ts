@@ -15,15 +15,13 @@ export const isEmailRegistered = async (email: string) => {
 };
 
 export const isValidPassword = async (email: string, password: string) => {
-  const user = await prisma.user.findFirst({
+  const user = await prisma.user.findFirstOrThrow({
     where: {
       email,
     },
   });
 
-  if (user) {
-    return await verifyPassword(password, user.password);
-  }
+  return await verifyPassword(password, user.password);
 };
 
 export const findUserByEmailWithRole = async (email: string) => {

@@ -14,7 +14,7 @@ Since this approach is not designed for high-performance applications, it is rec
 - Node.js >= 20
 - Prisma
 - Postgres 15
-- pnpm
+- pnpm 9
 
 ## Setup
 
@@ -50,6 +50,11 @@ In this boilerplate, we use PostgreSQL as the database. You can set up your data
 ```bash
 pnpm db:migrate
 ```
+
+### 5. Prisma ORM notes
+
+1. Generate maigration run `db:migration:gen`
+2. Don't forget to run `db:generate` after changing Prisma schema or related ones.
 
 Please read [Prisma-ORM documentation](https://www.prisma.io/docs/orm/overview)
 
@@ -122,6 +127,13 @@ Open [http://localhost:3001](http://localhost:3001) with your browser to see the
   - **`_components/`**: Contains components used within the module.
   - **`_hooks/`**: Contains hooks used within the module.
   - **`path/`**: Contains the page components for the module. Follow the [NextJS routing rules](https://nextjs.org/docs/app/building-your-application/routing).
+
+#### Development Guidelines
+
+- Start Simple: Begin with a simple approach to the feature or task. Avoid unnecessary complexity at the start.
+- Split When Needed: As the code grows, split components, hooks, and logic into smaller pieces only when it becomes necessary for readability or maintainability.
+- No Big Hook: Avoid creating large, multi-purpose hooks. Each hook should be focused and concise.
+- 1 Hook 1 Goal: Ensure that each hook serves a single, clear purpose.
 
 ## Integration
 
