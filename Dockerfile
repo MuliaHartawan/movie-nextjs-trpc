@@ -17,7 +17,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=~/.pnpm-store \
     pnpm install --frozen-lockfile --prod --ignore-scripts
 
-RUN npm i -g prisma
+RUN npm install -g prisma
 
 FROM deps AS builder
 
@@ -31,6 +31,5 @@ RUN pnpm run build
 
 ENV PORT=3000
 EXPOSE 3000
-USER node
 
 CMD [ "pnpm", "run", "start" ]
