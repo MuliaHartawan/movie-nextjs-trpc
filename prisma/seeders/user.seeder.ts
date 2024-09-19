@@ -6,7 +6,10 @@ const prisma = new PrismaClient();
 
 export async function userSeeder() {
   console.log("Seeding users...");
-  const users: Omit<User, "id" | "image" | "otp" | "address" | "createdAt" | "updatedAt">[] = [];
+  const users: Omit<
+    User,
+    "id" | "image" | "otp" | "address" | "createdAt" | "updatedAt" | "deletedAt"
+  >[] = [];
 
   const roles = await prisma.role.findMany();
 

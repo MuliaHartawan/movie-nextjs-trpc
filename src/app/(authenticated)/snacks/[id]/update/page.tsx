@@ -22,7 +22,7 @@ const UpdateSnackPage = (): ReactElement => {
 
   const initialValues = snackQuery.data && {
     ...snackQuery.data,
-    expiryDate: dayjs(snackQuery.data.expiryDate),
+    expiredAt: dayjs(snackQuery.data.expiredAt),
   };
 
   const breadcrumbs = [
