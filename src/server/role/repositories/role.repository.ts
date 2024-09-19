@@ -3,7 +3,7 @@ import { countOffset, mapMeta } from "@/utils/paginate-util";
 import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 import prisma from "@/libs/prisma/prisma";
 import { Role } from "@prisma/client";
-import { NewRole } from "../dtos/new-role.dto";
+import { RoleDto } from "../dtos/role.dto";
 
 export const rolePagination = async (
   queryParam: TIndexRoleQueryParam,
@@ -82,7 +82,7 @@ export const findOneRoleWithPermissionsById = async (id: string) => {
   );
 };
 
-export const createRoleAndPermissions = async (role: NewRole): Promise<void> => {
+export const createRoleAndPermissions = async (role: RoleDto): Promise<void> => {
   await prisma.role.create({
     data: {
       name: role.name,
@@ -97,7 +97,7 @@ export const createRoleAndPermissions = async (role: NewRole): Promise<void> => 
   });
 };
 
-export const updateRoleAndPermissionsById = async (id: string, role: NewRole): Promise<void> => {
+export const updateRoleAndPermissionsById = async (id: string, role: RoleDto): Promise<void> => {
   await prisma.role.update({
     where: {
       id,
