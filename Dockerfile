@@ -25,8 +25,8 @@ COPY --chown=node:node . .
 
 ENV NODE_ENV=production
 
-RUN pnpm run build
 RUN pnpm db:generate
+RUN pnpm run build
 
 ENV PORT=3000
 EXPOSE 3000
