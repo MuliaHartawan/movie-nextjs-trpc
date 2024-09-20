@@ -42,7 +42,7 @@ const SnacksPage = () => {
       title: "Expiry Date",
       key: "expiredAt",
       render: (_, row) => {
-        return new Date(row?.expiredAt as Date).toLocaleString();
+        return new Date(row?.expiredAt).toLocaleString();
       },
     },
     {
@@ -68,7 +68,7 @@ const SnacksPage = () => {
                   icon: <DeleteOutlined />,
                   cancelText: "Cancel",
                   onOk() {
-                    deleteSnackAction(row?.id as string);
+                    deleteSnackAction(row?.id);
                     router.refresh();
                     message.success("Snack berhasil dihapus");
                   },
