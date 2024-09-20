@@ -11,17 +11,24 @@ export const rolePagination = async (
   const [data, meta] = await prisma.role
     .paginate({
       where: {
-        OR: [
-          {
-            name: {
-              contains: queryParam.search,
-              mode: "insensitive",
-            },
-          },
-        ],
+        // Search filter
+        ...(queryParam.search
+          ? {
+              name: {
+                contains: queryParam.search,
+                mode: "insensitive",
+              },
+            }
+          : {}),
       },
       orderBy: {
-        createdAt: "asc",
+        ...(queryParam.sort && queryParam.order
+          ? {
+              [queryParam.sort]: queryParam.order,
+            }
+          : {
+              createdAt: "asc",
+            }),
       },
     })
     .withPages({

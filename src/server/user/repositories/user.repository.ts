@@ -11,18 +11,24 @@ export const userPagination = async (
     .paginate({
       where: {
         deletedAt: null,
-        OR: [
-          // Search by fullname
-          {
-            fullname: {
-              contains: queryParam.search,
-              mode: "insensitive",
-            },
-          },
-        ],
+        // Search filter
+        ...(queryParam.search
+          ? {
+              fullname: {
+                contains: queryParam.search,
+                mode: "insensitive",
+              },
+            }
+          : {}),
       },
       orderBy: {
-        createdAt: "asc",
+        ...(queryParam.sort && queryParam.order
+          ? {
+              [queryParam.sort]: queryParam.order,
+            }
+          : {
+              createdAt: "asc",
+            }),
       },
     })
     .withPages({

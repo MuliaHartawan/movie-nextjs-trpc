@@ -10,17 +10,24 @@ export const snackPagination = async (
   const [data, meta] = await prisma.snack
     .paginate({
       where: {
-        OR: [
-          {
-            name: {
-              contains: queryParam.search,
-              mode: "insensitive",
-            },
-          },
-        ],
+        // Search filter
+        ...(queryParam.search
+          ? {
+              name: {
+                contains: queryParam.search,
+                mode: "insensitive",
+              },
+            }
+          : {}),
       },
       orderBy: {
-        createdAt: "asc",
+        ...(queryParam.sort && queryParam.order
+          ? {
+              [queryParam.sort]: queryParam.order,
+            }
+          : {
+              createdAt: "asc",
+            }),
       },
     })
     .withPages({
