@@ -53,8 +53,9 @@ pnpm db:migrate
 
 ### 5. Prisma ORM notes
 
-1. Generate maigration run `db:migration:gen`
-2. Don't forget to run `db:generate` after changing Prisma schema or related ones.
+1. Generate migration run `pnpm db:migration:gen`
+2. Run migration `pnpm db:migrate`
+3. Don't forget to run `pnpm db:generate` after changing Prisma schema or related ones.
 
 Please read [Prisma-ORM documentation](https://www.prisma.io/docs/orm/overview)
 
