@@ -39,7 +39,7 @@ const UsersPage = () => {
       title: "Created At",
       key: "createdAt",
       render: (_, record) => {
-        return new Date(record.createdAt as Date).toLocaleString();
+        return new Date(record.createdAt).toLocaleString();
       },
     },
     {
@@ -61,7 +61,7 @@ const UsersPage = () => {
                 icon={<DeleteOutlined style={{ color: "red" }} />}
                 type="link"
                 onClick={() => {
-                  deleteUserAction(record?.id as string);
+                  deleteUserAction(record?.id);
                   router.refresh();
                   message.success("User berhasil dihapus");
                 }}
