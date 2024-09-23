@@ -1,11 +1,10 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
-import { TPaginationResponse } from "@/types/meta";
 import {
   createUser,
   deleteUserById,
   findOneUserByEmail,
-  findOneUserById,
+  findOneUserWithRoleById,
   isEmailAlreadyUsed,
   updateUserById,
   userPagination,
@@ -35,7 +34,7 @@ export const getUser = async (from?: string) => {
   await serverCheckPermission([PERMISSIONS.USER_DETAIL]);
 
   if (!from) return undefined;
-  const user = await findOneUserById(from);
+  const user = await findOneUserWithRoleById(from);
 
   if (!user) {
     throw new NotFoundException("User tidak ditemukan");

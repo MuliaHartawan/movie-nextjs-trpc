@@ -56,6 +56,19 @@ export const findOneUserById = async (id: string): Promise<User | undefined> => 
   );
 };
 
+export const findOneUserWithRoleById = async (id: string) => {
+  return (
+    (await prisma.user.findUnique({
+      include: {
+        role: true,
+      },
+      where: {
+        id,
+      },
+    })) ?? undefined
+  );
+};
+
 export const findOneUserByEmail = async (email: string): Promise<User | null> => {
   const user = await prisma.user.findUnique({
     where: {

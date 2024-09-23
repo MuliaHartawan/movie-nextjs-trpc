@@ -38,6 +38,9 @@ const DetailUserPage = () => {
           <Descriptions.Item span={2} label="Address">
             {userQuery.data?.address}
           </Descriptions.Item>
+          <Descriptions.Item span={2} label="Role">
+            {userQuery.data?.role?.name}
+          </Descriptions.Item>
         </Descriptions>
       </Section>
     </Page>
