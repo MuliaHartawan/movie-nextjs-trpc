@@ -23,9 +23,7 @@ import NotFoundException from "../../../errors/NotFoundException";
 import UnprocessableEntityException from "../../../errors/UnprocessableEntityException";
 import { User } from "@prisma/client";
 
-export const getUsersAction = async (
-  queryParam: TIndexUserQueryParam,
-): Promise<TPaginationResponse<User[]>> => {
+export const getUsersAction = async (queryParam: TIndexUserQueryParam) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.USER_READ]);
 

@@ -6,7 +6,6 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@
 import { useRouter } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
-import { User } from "@prisma/client";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
@@ -14,6 +13,7 @@ import { makeSource } from "@/utils/datatable";
 import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
 import { useUsersQuery } from "./_hooks/use-users-query";
 import Link from "next/link";
+import { UserWithRole } from "@/libs/prisma/types/user-with-role";
 
 const UsersPage = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const UsersPage = () => {
 
   const { data } = useUsersQuery(paginateFilter);
 
-  const columns: ColumnsType<User> = [
+  const columns: ColumnsType<UserWithRole> = [
     {
       dataIndex: "fullname",
       key: "fullname",
@@ -33,6 +33,14 @@ const UsersPage = () => {
       dataIndex: "email",
       title: "Email",
       key: "email",
+    },
+    {
+      dataIndex: "role",
+      title: "Role",
+      key: "role",
+      render: (_, record) => {
+        return record.role?.name;
+      },
     },
     {
       dataIndex: "createdAt",
