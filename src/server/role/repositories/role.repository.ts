@@ -1,49 +1,44 @@
 import { TPaginationResponse } from "@/types/meta";
+import { convertPaginationMeta } from "@/utils/datatable";
 import { TIndexRoleQueryParam } from "../validations/index-role.validation";
 import prisma from "@/libs/prisma/prisma";
 import { Role } from "@prisma/client";
 import { RoleDto } from "../dtos/role.dto";
-import { countOffset, mapMeta } from "@/utils/datatable";
 
 export const rolePagination = async (
   queryParam: TIndexRoleQueryParam,
 ): Promise<TPaginationResponse<Role[]>> => {
-  const data = await prisma.role.findMany({
-    take: queryParam.perPage,
-    skip: countOffset(queryParam),
-    where: {
-      OR: [
-        {
-          name: {
-            contains: queryParam.search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
-
-  const dataCount = await prisma.role.count({
-    where: {
-      OR: [
-        {
-          name: {
-            contains: queryParam.search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-  });
-
-  const meta = mapMeta(dataCount, queryParam);
+  const [data, meta] = await prisma.role
+    .paginate({
+      where: {
+        // Search filter
+        ...(queryParam.search
+          ? {
+              name: {
+                contains: queryParam.search,
+                mode: "insensitive",
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        ...(queryParam.sort && queryParam.order
+          ? {
+              [queryParam.sort]: queryParam.order,
+            }
+          : {
+              createdAt: "asc",
+            }),
+      },
+    })
+    .withPages({
+      limit: queryParam.perPage,
+      page: queryParam.page,
+    });
 
   return {
     data,
-    meta,
+    meta: convertPaginationMeta(meta, queryParam),
   };
 };
 

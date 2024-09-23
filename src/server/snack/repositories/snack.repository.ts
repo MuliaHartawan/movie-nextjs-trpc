@@ -1,5 +1,5 @@
 import { TPaginationResponse } from "@/types/meta";
-import { countOffset, mapMeta } from "@/utils/datatable";
+import { convertPaginationMeta } from "@/utils/datatable";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 import { Snack } from "@prisma/client";
 import prisma from "@/libs/prisma/prisma";
@@ -7,42 +7,37 @@ import prisma from "@/libs/prisma/prisma";
 export const snackPagination = async (
   queryParam: TIndexSnackQueryParam,
 ): Promise<TPaginationResponse<Snack[]>> => {
-  const data = await prisma.snack.findMany({
-    take: queryParam.perPage,
-    skip: countOffset(queryParam),
-    where: {
-      OR: [
-        {
-          name: {
-            contains: queryParam.search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
-
-  const dataCount = await prisma.snack.count({
-    where: {
-      OR: [
-        {
-          name: {
-            contains: queryParam.search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
-  });
-
-  const meta = mapMeta(dataCount, queryParam);
+  const [data, meta] = await prisma.snack
+    .paginate({
+      where: {
+        // Search filter
+        ...(queryParam.search
+          ? {
+              name: {
+                contains: queryParam.search,
+                mode: "insensitive",
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        ...(queryParam.sort && queryParam.order
+          ? {
+              [queryParam.sort]: queryParam.order,
+            }
+          : {
+              createdAt: "asc",
+            }),
+      },
+    })
+    .withPages({
+      limit: queryParam.perPage,
+      page: queryParam.page,
+    });
 
   return {
     data,
-    meta,
+    meta: convertPaginationMeta(meta, queryParam),
   };
 };
 

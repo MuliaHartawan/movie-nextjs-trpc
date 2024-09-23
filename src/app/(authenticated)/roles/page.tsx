@@ -42,7 +42,7 @@ const RolesPage = () => {
               icon={<DeleteOutlined style={{ color: "red" }} />}
               type="link"
               onClick={() => {
-                deleteRole(record?.id as string);
+                deleteRole(record?.id);
                 router.refresh();
                 message.success("Role berhasil dihapus");
               }}

@@ -1,6 +1,6 @@
 "use server";
 import { CustomException } from "@/types/cutom-exception";
-import { ActionResponse, ServerActionFunction } from "./type";
+import { ActionResponse, AnyFunction } from "./type";
 
 /**
  * Server Action Wrapper with Params
@@ -13,11 +13,11 @@ import { ActionResponse, ServerActionFunction } from "./type";
  * @returns
  */
 export const wrapServerActionWithParams = async <TData, TVariables = void>(
-  queryFn: ServerActionFunction<TData, TVariables>,
-  vars: TVariables,
+  queryFn: AnyFunction<TData>,
+  ...vars: Parameters<AnyFunction<TData>>
 ): Promise<ActionResponse<TData>> => {
   try {
-    const response = await queryFn(vars);
+    const response = await queryFn(...vars);
     return {
       status: "success",
       data: response,

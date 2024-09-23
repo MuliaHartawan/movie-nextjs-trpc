@@ -12,6 +12,6 @@ export type ActionResponseError = {
   error: CustomException;
 };
 
-export type ServerActionFunction<TData, TVariables> =
-  | ((variables: TVariables) => Promise<TData>)
-  | (() => Promise<TData>);
+export type AnyFunction<TQueryFnData, TArgs extends any[] = any[]> = (
+  ...args: TArgs
+) => Promise<TQueryFnData>;
