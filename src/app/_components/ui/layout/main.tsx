@@ -8,9 +8,9 @@ import { LayoutWithHeader } from "admiral";
 import { TBreadcrumbsItem } from "admiral/breadcrumb";
 import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@ant-design/icons";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { hasCommonElements } from "@/utils/index";
 import { UserProfile } from "../user-profile";
 import { Session } from "next-auth";
+import { hasCommonElements } from "@/utils/type";
 
 export type TMainLayoutProps = {
   title?: string;

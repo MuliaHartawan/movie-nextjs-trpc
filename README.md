@@ -74,6 +74,7 @@ Open [http://localhost:3001](http://localhost:3001) with your browser to see the
 ├── src/
 │   ├── app/
 │   |   ├── _components/
+│   |   ├── _hooks/
 │   |   ├── (authenticated)/
 │   |   |   ├── (module-name)/
 │   |   |   |   ├── _components/
@@ -107,6 +108,7 @@ Open [http://localhost:3001](http://localhost:3001) with your browser to see the
 
 - **`src/app/`**: Contains the application logic, including components, pages, and API routes.
   - **`src/app/_components/`**: Contains shared components used throughout the application.
+  - **`src/app/_hooks/`**: Contains shared hooks used throughout the application.
   - **`src/app/(authenticated)/`**: Contains components and pages that require authentication. See [Modules Structure](#modules-structure) for more details.
   - **`src/app/(public)/`**: Contains components and pages that are publicly accessible. See [Modules Structure](#modules-structure) for more details.
   - **`src/app/api/`**: Contains API routes.

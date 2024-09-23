@@ -1,5 +1,5 @@
 import { TPaginationResponse } from "@/types/meta";
-import { convertPaginationMeta } from "@/utils/paginate-util";
+import { convertPaginationMeta } from "@/utils/datatable";
 import { TIndexSnackQueryParam } from "../validations/index-snack.validation";
 import { Snack } from "@prisma/client";
 import prisma from "@/libs/prisma/prisma";

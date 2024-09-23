@@ -1,16 +1,15 @@
 "use client";
-
+import { makeSource } from "@/utils/datatable";
+import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
 import { Role } from "@prisma/client";
 import { DataTable, Page } from "admiral";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Flex, message } from "antd";
 import { useRolesQuery } from "./_hooks/use-roles-query";
 import Link from "next/link";
-import { makeSource } from "@/utils/index";
 import { deleteRole } from "@/server/role/actions/role.action";
 import { ColumnType } from "antd/es/table";
 import { useRouter } from "next/navigation";
-import { useFilter, usePaginateFilter } from "@/utils/filter";
 
 const RolesPage = () => {
   const paginateFilter = usePaginateFilter();

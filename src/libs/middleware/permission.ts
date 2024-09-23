@@ -1,7 +1,9 @@
-import { hasCommonElements, permissionMapper } from "@/utils/index";
 import { JWT } from "next-auth/jwt";
 import { NextURL } from "next/dist/server/web/next-url";
 import { NextResponse } from "next/server";
+import { ROUTE } from "../constant/route";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { hasCommonElements } from "@/utils/type";
 
 export const middlewarePermission = (url: NextURL, session: JWT | null) => {
   const deniedUrl = new URL("/denied", url.origin);
@@ -24,3 +26,50 @@ export const middlewarePermission = (url: NextURL, session: JWT | null) => {
 
   return NextResponse.next();
 };
+
+// TODO: Find better places
+const permissionMapper = [
+  {
+    url: ROUTE.DASHBOARD,
+    permissions: [PERMISSIONS.DASHBOARD],
+  },
+
+  {
+    url: ROUTE.SNACKS,
+    permissions: [PERMISSIONS.SNACK_READ],
+  },
+  {
+    url: ROUTE.SNACKS_FORM,
+    permissions: [PERMISSIONS.SNACK_CREATE, PERMISSIONS.SNACK_UPDATE],
+  },
+  {
+    url: ROUTE.SNACKS_DETAIL,
+    permissions: [PERMISSIONS.SNACK_DETAIL],
+  },
+
+  {
+    url: ROUTE.USERS,
+    permissions: [PERMISSIONS.USER_READ],
+  },
+  {
+    url: ROUTE.USERS_FORM,
+    permissions: [PERMISSIONS.USER_CREATE, PERMISSIONS.USER_UPDATE],
+  },
+  {
+    url: ROUTE.USERS_DETAIL,
+    permissions: [PERMISSIONS.USER_DETAIL],
+  },
+
+  {
+    url: ROUTE.ROLES,
+    permissions: [PERMISSIONS.ROLE_READ],
+  },
+  {
+    url: ROUTE.ROLES_FORM,
+    permissions: [PERMISSIONS.ROLE_CREATE, PERMISSIONS.ROLE_UPDATE],
+  },
+  {
+    url: ROUTE.ROLES_DETAIL,
+    permissions: [PERMISSIONS.ROLE_DETAIL],
+  },
+];

@@ -1,18 +1,7 @@
 import { CustomException } from "@/types/cutom-exception";
+import { formErrorHandling } from "@/utils/form";
 import { FormInstance } from "antd";
 import { useEffect } from "react";
-
-export const formErrorHandling = <Values = any>(
-  form: FormInstance<Values>,
-  customException: CustomException,
-) => {
-  form.setFields(
-    customException.errors?.map((value) => ({
-      name: value.path.join("."),
-      errors: [value.message],
-    })) || [],
-  );
-};
 
 export const useFormErrorHandling = <Values = any>(
   form: FormInstance<Values>,

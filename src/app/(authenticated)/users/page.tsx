@@ -6,12 +6,12 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@
 import { useRouter } from "next/navigation";
 import Datatable from "admiral/table/datatable/index";
 import { ColumnsType } from "antd/es/table";
-import { makeSource } from "@/utils/index";
 import { User } from "@prisma/client";
-import { useFilter, usePaginateFilter } from "@/utils/filter";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
+import { makeSource } from "@/utils/datatable";
+import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
 import { useUsersQuery } from "./_hooks/use-users-query";
 import Link from "next/link";
 

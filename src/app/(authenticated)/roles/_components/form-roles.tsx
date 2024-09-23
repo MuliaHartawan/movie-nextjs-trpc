@@ -3,8 +3,8 @@ import { Button, Form, Input, Select } from "antd";
 import { FC } from "react";
 import { FormProps } from "antd/lib";
 import { CustomException } from "@/types/cutom-exception";
-import { useFormErrorHandling } from "@/utils/validation";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
+import { useFormErrorHandling } from "@/hooks/form/use-form-error-handling";
 
 type options = {
   permissions: Array<{ value: string; label: string }>;
