@@ -1,11 +1,10 @@
 "use server";
 import { hashPassword } from "@/libs/auth/password";
-import { TPaginationResponse } from "@/types/meta";
 import {
   createUser,
   deleteUserById,
   findOneUserByEmail,
-  findOneUserById,
+  findOneUserWithRoleById,
   isEmailAlreadyUsed,
   updateUserById,
   userPagination,
@@ -23,9 +22,7 @@ import NotFoundException from "../../../errors/NotFoundException";
 import UnprocessableEntityException from "../../../errors/UnprocessableEntityException";
 import { User } from "@prisma/client";
 
-export const getUsersAction = async (
-  queryParam: TIndexUserQueryParam,
-): Promise<TPaginationResponse<User[]>> => {
+export const getUsersAction = async (queryParam: TIndexUserQueryParam) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.USER_READ]);
 
@@ -37,7 +34,7 @@ export const getUser = async (from?: string) => {
   await serverCheckPermission([PERMISSIONS.USER_DETAIL]);
 
   if (!from) return undefined;
-  const user = await findOneUserById(from);
+  const user = await findOneUserWithRoleById(from);
 
   if (!user) {
     throw new NotFoundException("User tidak ditemukan");

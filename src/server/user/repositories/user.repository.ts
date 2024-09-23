@@ -3,12 +3,16 @@ import { convertPaginationMeta } from "@/utils/datatable";
 import { TIndexUserQueryParam } from "../validations/index-user.validation";
 import prisma from "@/libs/prisma/prisma";
 import { User } from "@prisma/client";
+import { UserWithRole } from "@/libs/prisma/types/user-with-role";
 
 export const userPagination = async (
   queryParam: TIndexUserQueryParam,
-): Promise<TPaginationResponse<User[]>> => {
+): Promise<TPaginationResponse<UserWithRole[]>> => {
   const [data, meta] = await prisma.user
     .paginate({
+      include: {
+        role: true,
+      },
       where: {
         deletedAt: null,
         // Search filter
@@ -45,6 +49,19 @@ export const userPagination = async (
 export const findOneUserById = async (id: string): Promise<User | undefined> => {
   return (
     (await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })) ?? undefined
+  );
+};
+
+export const findOneUserWithRoleById = async (id: string) => {
+  return (
+    (await prisma.user.findUnique({
+      include: {
+        role: true,
+      },
       where: {
         id,
       },

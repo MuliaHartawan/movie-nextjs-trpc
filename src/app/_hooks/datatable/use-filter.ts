@@ -1,10 +1,9 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import withQuery from "with-query";
-import { IDataTableProps } from "admiral/table/datatable/type";
+import { IDataTableProps, DataTablePagination } from "admiral/table/datatable/type";
 import { everyEqual, isObject } from "@/utils/type";
 import dayjs from "dayjs";
-import { DataTablePagination } from "admiral/table/datatable/type";
 
 /**
  * Custom hook to manage and synchronize filter state with URL query parameters.
