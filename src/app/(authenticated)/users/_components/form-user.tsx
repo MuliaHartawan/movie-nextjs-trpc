@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Form, Input, Select } from "antd";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { FormProps } from "antd/lib";
 import { CustomException } from "@/types/cutom-exception";
 import { useRolesOptionQuery } from "../_hooks/use-roles-query";
@@ -16,6 +16,10 @@ type Props = {
 
 export const FormUser: FC<Props> = ({ formProps, error, loading }) => {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue(formProps.initialValues);
+  }, [formProps.initialValues]);
 
   useFormErrorHandling(form, error);
 

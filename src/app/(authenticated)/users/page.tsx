@@ -11,9 +11,9 @@ import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
 import { makeSource } from "@/utils/datatable";
 import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
-import { useUsersQuery } from "./_hooks/use-users-query";
 import Link from "next/link";
 import { UserWithRole } from "@/libs/prisma/types/user-with-role";
+import { trpc } from "@/libs/trpc";
 
 const UsersPage = () => {
   const router = useRouter();
@@ -21,7 +21,9 @@ const UsersPage = () => {
 
   const paginateFilter = usePaginateFilter();
 
-  const { data } = useUsersQuery(paginateFilter);
+  const { data, isLoading } = trpc.user.getUsers.useQuery(paginateFilter);
+
+  console.log("data", data);
 
   const columns: ColumnsType<UserWithRole> = [
     {
@@ -76,7 +78,7 @@ const UsersPage = () => {
               />
             </Guard>
             <Guard permissions={[PERMISSIONS.USER_DETAIL]}>
-              <Button href={`/users/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
+              <Button href={`/users/${record?.id}/update`} type="link" icon={<EditOutlined />} />
             </Guard>
           </Flex>
         );
@@ -104,6 +106,7 @@ const UsersPage = () => {
         source={makeSource(data)}
         columns={columns}
         search={filter.search}
+        loading={isLoading}
       />
     </Page>
   );
