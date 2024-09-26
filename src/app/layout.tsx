@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import type { FC, PropsWithChildren, ReactElement } from "react";
 import { Montserrat } from "next/font/google";
 import { AuthProvider } from "@/libs/auth/provider";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { QueryProvider } from "@/libs/action-query/provider";
+import AntDProvider from "./_components/providers/theme";
+import "./global.css";
 
 const monserrat = Montserrat({
   subsets: ["latin", "latin-ext"],
@@ -21,7 +22,7 @@ const RootLayout: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {
       <body className={monserrat.className}>
         <AuthProvider>
           <QueryProvider>
-            <AntdRegistry>{props.children}</AntdRegistry>
+            <AntDProvider>{props.children}</AntDProvider>
           </QueryProvider>
         </AuthProvider>
       </body>
