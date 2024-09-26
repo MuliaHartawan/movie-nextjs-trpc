@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google";
 import { AuthProvider } from "@/libs/auth/provider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { QueryProvider } from "@/libs/action-query/provider";
+import { TRPCProvider } from "@/libs/trpc/provider";
 
 const monserrat = Montserrat({
   subsets: ["latin", "latin-ext"],
@@ -15,13 +16,15 @@ export const metadata: Metadata = {
   description: "NextJS Fullstack",
 };
 
-const RootLayout: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {
+const RootLayout: FC<Readonly<PropsWithChildren>> = ({ children }): ReactElement => {
   return (
     <html lang="en">
       <body className={monserrat.className}>
         <AuthProvider>
           <QueryProvider>
-            <AntdRegistry>{props.children}</AntdRegistry>
+            <AntdRegistry>
+              <TRPCProvider>{children}</TRPCProvider>
+            </AntdRegistry>
           </QueryProvider>
         </AuthProvider>
       </body>
