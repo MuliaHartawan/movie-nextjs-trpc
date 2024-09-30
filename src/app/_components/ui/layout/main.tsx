@@ -11,6 +11,7 @@ import { Session } from "next-auth";
 import { hasCommonElements } from "@/utils/type";
 import Image from "next/image";
 import { Flex, Grid, Typography } from "antd";
+import UserProfile from "./user-profile";
 
 export type TMainLayoutProps = {
   title?: string;
@@ -110,6 +111,7 @@ export const MainLayout: React.FC<TMainLayoutProps> = ({ children, session }) =>
         defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
         menu: filteredNavbarMenu,
         theme: "light",
+        extra: <UserProfile />,
       }}
     >
       {children}

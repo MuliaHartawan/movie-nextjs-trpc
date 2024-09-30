@@ -1,4 +1,4 @@
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { middlewarePublic } from "@/libs/middleware/public";
 import { middlewareAuth } from "./libs/middleware/auth";
