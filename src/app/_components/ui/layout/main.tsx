@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { LayoutWithHeader } from "admiral";
+import { MainLayout as Layout } from "admiral";
 import { TBreadcrumbsItem } from "admiral/breadcrumb";
 import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@ant-design/icons";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
-import { UserProfile } from "../user-profile";
 import { Session } from "next-auth";
 import { hasCommonElements } from "@/utils/type";
+import Image from "next/image";
+import { Flex, Grid, Typography } from "antd";
+import UserProfile from "./user-profile";
 
 export type TMainLayoutProps = {
   title?: string;
@@ -87,11 +88,22 @@ export const MainLayout: React.FC<TMainLayoutProps> = ({ children, session }) =>
     return commonPart || undefined;
   }, [activeMenuKey, filteredNavbarMenu]);
 
+  const { md } = Grid.useBreakpoint();
+
   return (
-    <LayoutWithHeader
+    <Layout
       header={{
-        brandLogo: <span>NextJS Fullstack</span>,
-        menu: <UserProfile session={session} />,
+        brandLogo: (
+          <Flex align="center" gap={8}>
+            <Image src="/logo.svg" width={30} height={30} priority alt="" />
+            <Typography.Title
+              level={4}
+              style={{ marginBottom: 0, color: md ? "white" : "black", whiteSpace: "nowrap" }}
+            >
+              Ant Design
+            </Typography.Title>
+          </Flex>
+        ),
       }}
       sidebar={{
         width: 250,
@@ -99,9 +111,10 @@ export const MainLayout: React.FC<TMainLayoutProps> = ({ children, session }) =>
         defaultOpenKeys: [`/${defaultOpenedKey && defaultOpenedKey[0]}`],
         menu: filteredNavbarMenu,
         theme: "light",
+        extra: <UserProfile />,
       }}
     >
       {children}
-    </LayoutWithHeader>
+    </Layout>
   );
 };
