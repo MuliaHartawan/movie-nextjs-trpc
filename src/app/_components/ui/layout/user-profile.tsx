@@ -2,7 +2,7 @@
 
 import { DownOutlined, ExclamationCircleFilled, LogoutOutlined } from "@ant-design/icons";
 import { useIsMobileScreen } from "admiral";
-import { Avatar, Dropdown, Flex, Modal, Space, Spin, Typography } from "antd";
+import { Avatar, Dropdown, Flex, Modal, Space, Typography } from "antd";
 import { logOut } from "@/libs/auth/login";
 import { useSession } from "next-auth/react";
 
