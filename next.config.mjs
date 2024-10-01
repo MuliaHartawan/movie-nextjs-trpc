@@ -22,6 +22,7 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.resolve.alias["@/components"] = path.join(__dirname, "src/app/_components");
+    config.resolve.alias["@/hooks"] = path.join(__dirname, "src/app/_hooks");
     config.resolve.alias["@/app"] = path.join(__dirname, "src/app");
     config.resolve.alias["@/common"] = path.join(__dirname, "src/common");
     config.resolve.alias["@/libs"] = path.join(__dirname, "src/libs");
