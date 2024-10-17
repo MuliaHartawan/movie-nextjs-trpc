@@ -1,5 +1,4 @@
 import { TRPCClientError } from "@trpc/client";
-import { AppRouter } from "@/server/trpc/root";
 import { CustomException } from "@/types/cutom-exception";
 
 export function transformTRPCError(error: unknown): CustomException {
@@ -9,7 +8,7 @@ export function transformTRPCError(error: unknown): CustomException {
       const fieldErrors = Object.entries(error.data.zodError.fieldErrors).map(
         ([path, messages]) => ({
           path: [path],
-          message: messages?.[0] || "Invalid input",
+          message: (messages as string[])?.[0] || "Invalid input",
         }),
       );
       return new CustomException(400, error.message, fieldErrors);
