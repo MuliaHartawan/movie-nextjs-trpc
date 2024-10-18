@@ -38,6 +38,7 @@
     "next": "^14.2.4",
     "next-auth": "^5.0.0-beta.19",
     "prisma-extension-pagination": "^0.7.4",
+    "prisma-extension-soft-delete": "^2.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "resend": "^3.4.0",
