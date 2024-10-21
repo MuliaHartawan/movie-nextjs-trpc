@@ -32,28 +32,44 @@ prisma.$on("query", (e: QueryEvent) => {
   console.log("Duration: " + e.duration + "ms");
 });
 
-export default prisma
-  .$extends(
-    pagination({
-      pages: {
-        includePageCount: true,
+/**
+ * Prisma With Trashed (tanpa soft-delete)
+ *
+ * IMPORTANT: Saat ini belum ada fitur `withTrashed` di prisma-extension-soft-delete
+ * Jadi, gunakan `prismaWithTrashed` untuk INCLUDE data yang sudah dihapus
+ *
+ * Example:
+ * const { withTrashed } = queryParam;
+ * const [data, meta] = await (withTrashed ? prismaWithTrashed : prisma).user.paginate({...});
+ *
+ */
+export const prismaWithTrashed = prisma.$extends(
+  pagination({
+    pages: {
+      includePageCount: true,
+    },
+  }),
+);
+
+/**
+ * Prisma client with Pagination and Soft Delete extension.
+ *
+ * IMPORTANT: Untuk include soft-deleted data, gunakan `prismaWithTrashed`
+ */
+export default prismaWithTrashed.$extends(
+  createSoftDeleteExtension({
+    models: {
+      User: true,
+    },
+    defaultConfig: {
+      field: "deletedAt",
+      createValue: (deleted) => {
+        console.log("deleted", deleted);
+        if (deleted) return new Date();
+        return null;
       },
-    }),
-  )
-  .$extends(
-    createSoftDeleteExtension({
-      models: {
-        User: true,
-      },
-      defaultConfig: {
-        field: "deletedAt",
-        createValue: (deleted) => {
-          console.log("deleted", deleted);
-          if (deleted) return new Date();
-          return null;
-        },
-      },
-    }),
-  );
+    },
+  }),
+);
 
 if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;

@@ -269,6 +269,13 @@ export const usePaginateFilter = () => {
   const searchParams = useSearchParams();
 
   return {
+    ...searchParams.entries().reduce(
+      (acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      },
+      {} as Record<string, string>,
+    ),
     page: Number(searchParams.get("page") || 1),
     perPage: Number(searchParams.get("perPage") || 10),
     search: String(searchParams.get("search") || ""),

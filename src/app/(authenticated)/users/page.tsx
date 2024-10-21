@@ -14,6 +14,7 @@ import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
 import { useUsersQuery } from "./_hooks/use-users-query";
 import Link from "next/link";
 import { UserWithRole } from "@/libs/prisma/types/user-with-role";
+import { useMemo } from "react";
 
 const UsersPage = () => {
   const router = useRouter();
@@ -21,7 +22,15 @@ const UsersPage = () => {
 
   const paginateFilter = usePaginateFilter();
 
-  const { data } = useUsersQuery(paginateFilter);
+  // TODO: Temporary fix. Hapus jika Admiral sudah support helper yang lebih baik
+  const fixedPaginateFilter = useMemo(() => {
+    return {
+      ...paginateFilter,
+      withTrashed: parseInt(paginateFilter.withTrashed || 0),
+    };
+  }, [paginateFilter]);
+
+  const { data } = useUsersQuery(fixedPaginateFilter);
 
   const columns: ColumnsType<UserWithRole> = [
     {
@@ -98,6 +107,24 @@ const UsersPage = () => {
   return (
     <Page title="Users" breadcrumbs={breadcrumbs} topActions={<TopAction />}>
       <Datatable
+        filterComponents={[
+          {
+            name: "withTrashed",
+            label: "With Trashed",
+            type: "Select",
+            options: [
+              {
+                label: "Yes",
+                value: 1,
+              },
+              {
+                label: "No",
+                value: 0,
+              },
+            ],
+            defaultValue: fixedPaginateFilter.withTrashed,
+          },
+        ]}
         onChange={implementDataTable}
         rowKey="id"
         showRowSelection={false}
