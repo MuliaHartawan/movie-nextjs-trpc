@@ -14,10 +14,10 @@ const UpdateRolePage = () => {
 
   const updateRoleMutation = useUpdateRoleMutation();
 
-  const { data, isLoading } = useRoleQuery(roleId);
+  const { data } = useRoleQuery(roleId);
 
   const handleOnFinish = async (value: TCreateOrUpdateRoleValidation) => {
-    await updateRoleMutation.mutate({
+    return updateRoleMutation.mutate({
       value,
       id: roleId,
     });
@@ -41,7 +41,7 @@ const UpdateRolePage = () => {
           <FormRole
             formProps={{ initialValues: data, onFinish: handleOnFinish }}
             error={updateRoleMutation.error}
-            loading={updateRoleMutation.isPending || isLoading}
+            loading={updateRoleMutation.isLoading}
           />
         </Col>
       </Row>

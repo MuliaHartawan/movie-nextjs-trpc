@@ -30,7 +30,7 @@ const CreateSnackPage = (): ReactElement => {
           <FormSnack
             formProps={{ onFinish: handleOnFinish }}
             error={updateSnackMutation.error}
-            loading={updateSnackMutation.isPending}
+            loading={updateSnackMutation.isLoading}
           />
         </Col>
       </Row>
