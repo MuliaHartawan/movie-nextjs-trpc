@@ -9,21 +9,20 @@ import { ColumnsType } from "antd/es/table";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
-import { makeSource } from "@/utils/datatable";
-import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
+import { makePagination, makeSource } from "@/utils/datatable";
+import { useFilter } from "@/hooks/datatable/use-filter";
 import Link from "next/link";
 import { UserWithRole } from "@/libs/prisma/types/user-with-role";
 import { trpc } from "@/libs/trpc";
 
 const UsersPage = () => {
   const router = useRouter();
-  const { implementDataTable, filter } = useFilter();
+  const { handleChange, filters, pagination } = useFilter();
 
-  const paginateFilter = usePaginateFilter();
-
-  const { data, isLoading } = trpc.user.getUsers.useQuery(paginateFilter);
-
-  console.log("data", data);
+  const { data, isLoading } = trpc.user.getUsers.useQuery({
+    ...makePagination(pagination),
+    search: filters.search,
+  });
 
   const columns: ColumnsType<UserWithRole> = [
     {
@@ -100,13 +99,13 @@ const UsersPage = () => {
   return (
     <Page title="Users" breadcrumbs={breadcrumbs} topActions={<TopAction />}>
       <Datatable
-        onChange={implementDataTable}
+        onChange={handleChange}
         rowKey="id"
         showRowSelection={false}
         source={makeSource(data)}
         columns={columns}
-        search={filter.search}
         loading={isLoading}
+        search={filters.search}
       />
     </Page>
   );

@@ -6,22 +6,20 @@ import { Button, Flex, Modal, message } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { ColumnType } from "antd/es/table";
-import { makeSource } from "@/utils/datatable";
+import { makePagination, makeSource } from "@/utils/datatable";
 import { Snack } from "@prisma/client";
 import { deleteSnackAction } from "@/server/snack/actions/snack.action";
-import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
 import { useSnacksQuery } from "./_hooks/use-snacks-query";
 import Link from "next/link";
+import { useFilter } from "@/hooks/datatable/use-filter";
 
 const { confirm } = Modal;
 
 const SnacksPage = () => {
   const router = useRouter();
-  const { implementDataTable, filter } = useFilter();
+  const { handleChange, filters, pagination } = useFilter();
 
-  const paginateFilter = usePaginateFilter();
-
-  const snacksQuery = useSnacksQuery(paginateFilter);
+  const snacksQuery = useSnacksQuery({ ...makePagination(pagination), search: filters.search });
 
   const columns: ColumnType<Snack>[] = [
     {
@@ -99,8 +97,8 @@ const SnacksPage = () => {
         source={makeSource(snacksQuery.data)}
         loading={snacksQuery.isLoading}
         columns={columns}
-        onChange={implementDataTable}
-        search={filter.search}
+        onChange={handleChange}
+        search={filters.search}
       />
     </Page>
   );

@@ -2,7 +2,7 @@
 
 import { FormUser } from "../../_components/form-user";
 import { Page } from "admiral";
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
 import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
 import { useParams } from "next/navigation";
 import { trpc } from "@/libs/trpc";
@@ -13,12 +13,15 @@ const UpdateUserPage = () => {
   const userId = typeof params.id === "string" ? params.id : "";
 
   const userQuery = trpc.user.getUser.useQuery(userId);
-  const updateUserMutation = trpc.user.updateUser.useMutation();
-
-  console.log("userQuery", userQuery);
+  const updateUserMutation = trpc.user.updateUser.useMutation({
+    onError: (error) => {
+      !error.data?.zodError && message.error(error.message);
+    },
+  });
 
   const handleOnFinish = (data: TCreateOrUpdateUserValidation) =>
     updateUserMutation.mutate({ value: data, id: userId });
+
   const breadcrumb = [
     { label: "Dashboard", path: "/dashboard" },
     { label: "Users", path: "/Users" },
@@ -35,7 +38,7 @@ const UpdateUserPage = () => {
               disabled: userQuery.isLoading,
             }}
             error={transformTRPCError(updateUserMutation.error)}
-            loading={updateUserMutation.isPending}
+            loading={updateUserMutation.isLoading}
           />
         </Col>
       </Row>

@@ -6,7 +6,8 @@ import { FormProps } from "antd/lib";
 import { CustomException } from "@/types/cutom-exception";
 import { useRolesOptionQuery } from "../_hooks/use-roles-query";
 import { useFormErrorHandling } from "@/hooks/form/use-form-error-handling";
-import { usePaginateFilter } from "@/hooks/datatable/use-filter";
+import { useFilter } from "@/hooks/datatable/use-filter";
+import { makePagination } from "@/utils/datatable";
 
 type Props = {
   formProps: FormProps;
@@ -23,9 +24,12 @@ export const FormUser: FC<Props> = ({ formProps, error, loading }) => {
 
   useFormErrorHandling(form, error);
 
-  const paginateFilter = usePaginateFilter();
+  const { pagination, filters } = useFilter();
 
-  const rolesOptionQuery = useRolesOptionQuery(paginateFilter);
+  const rolesOptionQuery = useRolesOptionQuery({
+    ...makePagination(pagination),
+    search: filters.search,
+  });
 
   return (
     <Form {...formProps} form={form} layout="vertical">

@@ -2,7 +2,7 @@
 
 import { FormUser } from "../_components/form-user";
 import { Page } from "admiral";
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
 import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
 import { trpc } from "@/libs/trpc";
 import { transformTRPCError } from "@/utils/error";
@@ -13,7 +13,11 @@ const CreateUserPage = () => {
     { label: "Users", path: "/Users" },
   ];
 
-  const createUserMutation = trpc.user.createUser.useMutation();
+  const createUserMutation = trpc.user.createUser.useMutation({
+    onError: (error) => {
+      !error.data?.zodError && message.error(error.message);
+    },
+  });
 
   const handleOnFinish = (data: TCreateOrUpdateUserValidation) => createUserMutation.mutate(data);
 
@@ -24,7 +28,7 @@ const CreateUserPage = () => {
           <FormUser
             formProps={{ onFinish: handleOnFinish }}
             error={transformTRPCError(createUserMutation.error)}
-            loading={createUserMutation.isPending}
+            loading={createUserMutation.isLoading}
           />
         </Col>
       </Row>

@@ -33,8 +33,8 @@ importers:
         specifier: ^10.45.2
         version: 10.45.2
       admiral:
-        specifier: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#v2.0.0-beta.70
-        version: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#4495495fe3355fd05de2c6f9de6374d602cbf0fd(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#v2.0.0-beta.73
+        version: git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#524c94462f1ed75d47baa5e043ee7bbcea64b89c(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       antd:
         specifier: 5.16.4
         version: 5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2288,6 +2288,9 @@ packages:
   '@types/qs@6.9.15':
     resolution: {integrity: sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==}
 
+  '@types/qs@6.9.16':
+    resolution: {integrity: sha512-7i+zxXdPD0T4cKDuxCUXJ4wHcsJLwENa6Z3dCu8cfCK743OGy5Nu1RmAGqDPsoTDINVEcdXKRvR/zre+P2Ku1A==}
+
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
 
@@ -2521,9 +2524,9 @@ packages:
     resolution: {integrity: sha512-OXwN5b9pCUXNQHJpwwD2qP40byEmSgzj8B4ydSN0uMNYWiFmJ6x6KwUllMmfk8Rwu/HJDFR7U8ubsWBoN0Xp0A==}
     engines: {node: '>=8.9'}
 
-  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#4495495fe3355fd05de2c6f9de6374d602cbf0fd:
-    resolution: {commit: 4495495fe3355fd05de2c6f9de6374d602cbf0fd, repo: https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral, type: git}
-    version: 2.0.0-beta.70
+  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#524c94462f1ed75d47baa5e043ee7bbcea64b89c:
+    resolution: {commit: 524c94462f1ed75d47baa5e043ee7bbcea64b89c, repo: https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral, type: git}
+    version: 2.0.0-beta.73
     engines: {node: '20'}
     peerDependencies:
       '@ant-design/icons': ^5.3.6
@@ -5440,6 +5443,10 @@ packages:
 
   qs@6.12.3:
     resolution: {integrity: sha512-AWJm14H1vVaO/iNZ4/hO+HyaTehuy9nRqVdkTqlJt0HWvBiBIEXFmb4C0DGeYo3Xes9rrEW+TxHsaigCbN5ICQ==}
+    engines: {node: '>=0.6'}
+
+  qs@6.13.0:
+    resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
   querystring-es3@0.2.1:
@@ -9371,7 +9378,7 @@ snapshots:
   '@types/express-serve-static-core@4.19.5':
     dependencies:
       '@types/node': 20.14.11
-      '@types/qs': 6.9.15
+      '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
 
@@ -9379,7 +9386,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 4.19.5
-      '@types/qs': 6.9.15
+      '@types/qs': 6.9.16
       '@types/serve-static': 1.15.7
 
   '@types/graceful-fs@4.1.9':
@@ -9467,6 +9474,8 @@ snapshots:
   '@types/prop-types@15.7.12': {}
 
   '@types/qs@6.9.15': {}
+
+  '@types/qs@6.9.16': {}
 
   '@types/range-parser@1.2.7': {}
 
@@ -9756,12 +9765,14 @@ snapshots:
       loader-utils: 2.0.4
       regex-parser: 2.3.0
 
-  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#4495495fe3355fd05de2c6f9de6374d602cbf0fd(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  admiral@git+https://gitlab+deploy-token-15:gldt-zP9L2FNxM7yLmGqrDjMG@gitlab.dot.co.id/design-system/admiral#524c94462f1ed75d47baa5e043ee7bbcea64b89c(@ant-design/icons@5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(dayjs@1.11.12)(react-cookie@7.2.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@ant-design/icons': 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/qs': 6.9.16
       antd: 5.16.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       dayjs: 1.11.12
       lint-staged: 15.2.7
+      qs: 6.13.0
       react: 18.3.1
       react-cookie: 7.2.0(react@18.3.1)
       react-dom: 18.3.1(react@18.3.1)
@@ -13305,6 +13316,10 @@ snapshots:
     dependencies:
       side-channel: 1.0.6
 
+  qs@6.13.0:
+    dependencies:
+      side-channel: 1.0.6
+
   querystring-es3@0.2.1: {}
 
   querystringify@2.2.0: {}
@@ -14636,7 +14651,7 @@ snapshots:
   url@0.11.3:
     dependencies:
       punycode: 1.4.1
-      qs: 6.12.3
+      qs: 6.13.0
 
   use-sync-external-store@1.2.2(react@18.3.1):
     dependencies:

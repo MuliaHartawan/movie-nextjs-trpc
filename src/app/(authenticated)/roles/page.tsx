@@ -1,6 +1,5 @@
 "use client";
-import { makeSource } from "@/utils/datatable";
-import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
+import { makePagination, makeSource } from "@/utils/datatable";
 import { Role } from "@prisma/client";
 import { DataTable, Page } from "admiral";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -10,14 +9,16 @@ import Link from "next/link";
 import { deleteRole } from "@/server/role/actions/role.action";
 import { ColumnType } from "antd/es/table";
 import { useRouter } from "next/navigation";
+import { useFilter } from "@/hooks/datatable/use-filter";
 
 const RolesPage = () => {
-  const paginateFilter = usePaginateFilter();
-
-  const { data, isLoading } = useRolesQuery(paginateFilter);
-
   const router = useRouter();
-  const { implementDataTable, filter } = useFilter();
+  const { handleChange, filters, pagination } = useFilter();
+
+  const { data, isLoading } = useRolesQuery({
+    ...makePagination(pagination),
+    search: filters.search,
+  });
 
   const columns: ColumnType<Role>[] = [
     {
@@ -78,9 +79,9 @@ const RolesPage = () => {
       <DataTable
         source={makeSource(data)}
         columns={columns}
-        onChange={implementDataTable}
+        onChange={handleChange}
         loading={isLoading}
-        search={filter.search}
+        search={filters.search}
       />
     </Page>
   );
