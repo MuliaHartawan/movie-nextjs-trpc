@@ -6,10 +6,13 @@ export const useFilter = (options?: UseTableFilterProps["options"]) => {
   const router = useRouter();
   return useTableFilter({
     searchParams,
-    cb: (searchParams) => {
-      router.replace(process.env.NEXT_PUBLIC_APP_URL + searchParams ? "?" + searchParams : "", {
-        scroll: false,
-      });
+    cb: (searchParamsStr) => {
+      router.replace(
+        process.env.NEXT_PUBLIC_APP_URL + searchParamsStr ? "?" + searchParamsStr : "",
+        {
+          scroll: false,
+        },
+      );
     },
     options,
   });
