@@ -8,6 +8,7 @@ export class CustomException extends Error {
     super(message);
     this.errorCode = errorCode;
 
+    this.errors = errors;
     this.message = message;
     this.name = "CustomException";
   }
