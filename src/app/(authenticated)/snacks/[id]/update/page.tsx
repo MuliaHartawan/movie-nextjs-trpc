@@ -43,7 +43,7 @@ const UpdateSnackPage = (): ReactElement => {
           <FormSnack
             formProps={{ onFinish: handleOnFinish, initialValues, disabled: snackQuery.isLoading }}
             error={updateSnackMutation.error}
-            loading={updateSnackMutation.isPending}
+            loading={updateSnackMutation.isLoading}
           />
         </Col>
       </Row>

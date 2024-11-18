@@ -3,6 +3,7 @@ import type { FC, PropsWithChildren, ReactElement } from "react";
 import { Montserrat } from "next/font/google";
 import { AuthProvider } from "@/libs/auth/provider";
 import { QueryProvider } from "@/libs/action-query/provider";
+import { TRPCProvider } from "@/libs/trpc/provider";
 import AntDProvider from "./_components/providers/theme";
 import "./global.css";
 
@@ -16,13 +17,15 @@ export const metadata: Metadata = {
   description: "NextJS Fullstack",
 };
 
-const RootLayout: FC<Readonly<PropsWithChildren>> = (props): ReactElement => {
+const RootLayout: FC<Readonly<PropsWithChildren>> = ({ children }): ReactElement => {
   return (
     <html lang="en">
       <body className={monserrat.className}>
         <AuthProvider>
           <QueryProvider>
-            <AntDProvider>{props.children}</AntDProvider>
+            <AntDProvider>
+              <TRPCProvider>{children}</TRPCProvider>
+            </AntDProvider>
           </QueryProvider>
         </AuthProvider>
       </body>

@@ -2,33 +2,29 @@
 
 import { FormUser } from "../../_components/form-user";
 import { Page } from "admiral";
-import { Col, Row } from "antd";
+import { Col, message, Row } from "antd";
 import { TCreateOrUpdateUserValidation } from "@/server/user/validations/create-or-update.validation";
-import { useUpdateUserMutation } from "./_hooks/use-update-user-mutation";
 import { useParams } from "next/navigation";
-import { useUserQuery } from "../_hooks/use-user-query";
+import { trpc } from "@/libs/trpc";
+import { transformTRPCError } from "@/utils/error";
 
 const UpdateUserPage = () => {
   const params = useParams();
-
   const userId = typeof params.id === "string" ? params.id : "";
 
-  const userQuery = useUserQuery(userId);
-
-  const updateUserMutation = useUpdateUserMutation();
+  const userQuery = trpc.user.getUser.useQuery(userId);
+  const updateUserMutation = trpc.user.updateUser.useMutation({
+    onError: (error) => {
+      !error.data?.zodError && message.error(error.message);
+    },
+  });
 
   const handleOnFinish = (data: TCreateOrUpdateUserValidation) =>
     updateUserMutation.mutate({ value: data, id: userId });
 
   const breadcrumb = [
-    {
-      label: "Dashboard",
-      path: "/dashboard",
-    },
-    {
-      label: "Users",
-      path: "/Users",
-    },
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "Users", path: "/Users" },
   ];
 
   return (
@@ -41,8 +37,8 @@ const UpdateUserPage = () => {
               initialValues: userQuery.data,
               disabled: userQuery.isLoading,
             }}
-            error={updateUserMutation.error}
-            loading={updateUserMutation.isPending}
+            error={transformTRPCError(updateUserMutation.error)}
+            loading={updateUserMutation.isLoading}
           />
         </Col>
       </Row>

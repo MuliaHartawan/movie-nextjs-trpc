@@ -9,9 +9,8 @@ import { TCreateOrUpdateRoleValidation } from "@/server/role/validations/create-
 const CreateRolePage = () => {
   const createRoleMutation = useCreateRoleMutation();
 
-  const handleOnFinish = async (value: TCreateOrUpdateRoleValidation) => {
-    await createRoleMutation.mutate(value);
-  };
+  const handleOnFinish = async (value: TCreateOrUpdateRoleValidation) =>
+    createRoleMutation.mutate(value);
 
   const breadcrumbs = [
     {
@@ -31,7 +30,7 @@ const CreateRolePage = () => {
           <FormRole
             formProps={{ onFinish: handleOnFinish }}
             error={createRoleMutation.error}
-            loading={createRoleMutation.isPending}
+            loading={createRoleMutation.isLoading}
           />
         </Col>
       </Row>

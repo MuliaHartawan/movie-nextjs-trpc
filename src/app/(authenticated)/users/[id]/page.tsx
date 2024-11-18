@@ -2,27 +2,18 @@
 
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
-import { useUserQuery } from "./_hooks/use-user-query";
 import { useParams } from "next/navigation";
+import { trpc } from "@/libs/trpc";
 
 const DetailUserPage = () => {
   const params = useParams();
   const userId = typeof params.id === "string" ? params.id : "";
-  const userQuery = useUserQuery(userId);
+  const userQuery = trpc.user.getUser.useQuery(userId);
 
   const breadcrumbs = [
-    {
-      label: "Dashboard",
-      path: "/dashboard",
-    },
-    {
-      label: "User",
-      path: "/users",
-    },
-    {
-      label: userQuery.data?.fullname ?? "",
-      path: `/users/${userQuery.data?.id}`,
-    },
+    { label: "Dashboard", path: "/dashboard" },
+    { label: "User", path: "/users" },
+    { label: userQuery.data?.fullname ?? "", path: `/users/${userQuery.data?.id}` },
   ];
 
   return (

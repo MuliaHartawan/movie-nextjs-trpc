@@ -9,28 +9,20 @@ import { ColumnsType } from "antd/es/table";
 import { deleteUserAction } from "@/server/user/actions/user.action";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Guard } from "@/components/guard";
-import { makeSource } from "@/utils/datatable";
-import { useFilter, usePaginateFilter } from "@/hooks/datatable/use-filter";
-import { useUsersQuery } from "./_hooks/use-users-query";
+import { makePagination, makeSource } from "@/utils/datatable";
+import { useFilter } from "@/hooks/datatable/use-filter";
 import Link from "next/link";
 import { UserWithRole } from "@/libs/prisma/types/user-with-role";
-import { useMemo } from "react";
+import { trpc } from "@/libs/trpc";
 
 const UsersPage = () => {
   const router = useRouter();
-  const { implementDataTable, filter } = useFilter();
+  const { handleChange, filters, pagination } = useFilter();
 
-  const paginateFilter = usePaginateFilter();
-
-  // TODO: Temporary fix. Hapus jika Admiral sudah support helper yang lebih baik
-  const fixedPaginateFilter = useMemo(() => {
-    return {
-      ...paginateFilter,
-      withTrashed: parseInt(paginateFilter.withTrashed || 0),
-    };
-  }, [paginateFilter]);
-
-  const { data } = useUsersQuery(fixedPaginateFilter);
+  const { data, isLoading } = trpc.user.getUsers.useQuery({
+    ...makePagination(pagination),
+    search: filters.search,
+  });
 
   const columns: ColumnsType<UserWithRole> = [
     {
@@ -85,7 +77,7 @@ const UsersPage = () => {
               />
             </Guard>
             <Guard permissions={[PERMISSIONS.USER_DETAIL]}>
-              <Button href={`/users/form?id=${record?.id}`} type="link" icon={<EditOutlined />} />
+              <Button href={`/users/${record?.id}/update`} type="link" icon={<EditOutlined />} />
             </Guard>
           </Flex>
         );
@@ -107,30 +99,13 @@ const UsersPage = () => {
   return (
     <Page title="Users" breadcrumbs={breadcrumbs} topActions={<TopAction />}>
       <Datatable
-        filterComponents={[
-          {
-            name: "withTrashed",
-            label: "With Trashed",
-            type: "Select",
-            options: [
-              {
-                label: "Yes",
-                value: 1,
-              },
-              {
-                label: "No",
-                value: 0,
-              },
-            ],
-            defaultValue: fixedPaginateFilter.withTrashed,
-          },
-        ]}
-        onChange={implementDataTable}
+        onChange={handleChange}
         rowKey="id"
         showRowSelection={false}
         source={makeSource(data)}
         columns={columns}
-        search={filter.search}
+        loading={isLoading}
+        search={filters.search}
       />
     </Page>
   );
