@@ -64,7 +64,6 @@ export default prismaWithTrashed.$extends(
     defaultConfig: {
       field: "deletedAt",
       createValue: (deleted) => {
-        console.log("deleted", deleted);
         if (deleted) return new Date();
         return null;
       },
