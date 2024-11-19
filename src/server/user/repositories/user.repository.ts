@@ -46,37 +46,31 @@ export const userPagination = async (
   };
 };
 
-export const findOneUserById = async (id: string): Promise<User | undefined> => {
-  return (
-    (await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    })) ?? undefined
-  );
+export const findOneUserById = async (id: string) => {
+  return await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
 };
 
 export const findOneUserWithRoleById = async (id: string) => {
-  return (
-    (await prisma.user.findUnique({
-      include: {
-        role: true,
-      },
-      where: {
-        id,
-      },
-    })) ?? undefined
-  );
+  return await prisma.user.findUnique({
+    include: {
+      role: true,
+    },
+    where: {
+      id,
+    },
+  });
 };
 
-export const findOneUserByEmail = async (email: string): Promise<User | null> => {
-  const user = await prisma.user.findUnique({
+export const findOneUserByEmail = async (email: string) => {
+  return await prisma.user.findUnique({
     where: {
       email,
     },
   });
-
-  return user;
 };
 
 export const isEmailAlreadyUsed = async (email: string) => {
@@ -89,13 +83,13 @@ export const isEmailAlreadyUsed = async (email: string) => {
   return registeredEmail > 0;
 };
 
-export const createUser = async (data: User): Promise<void> => {
+export const createUser = async (data: User) => {
   await prisma.user.create({
     data,
   });
 };
 
-export const updateUserById = async (id: string, data: User): Promise<void> => {
+export const updateUserById = async (id: string, data: User) => {
   await prisma.user.update({
     where: {
       id,
@@ -104,7 +98,7 @@ export const updateUserById = async (id: string, data: User): Promise<void> => {
   });
 };
 
-export const deleteUserById = async (id: string): Promise<void> => {
+export const deleteUserById = async (id: string) => {
   await prisma.user.delete({
     where: {
       id,
