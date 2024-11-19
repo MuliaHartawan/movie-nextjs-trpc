@@ -26,12 +26,6 @@ declare const globalThis: {
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
-prisma.$on("query", (e: QueryEvent) => {
-  console.log("Query: " + e.query);
-  console.log("Params: " + e.params);
-  console.log("Duration: " + e.duration + "ms");
-});
-
 /**
  * Prisma With Trashed (tanpa soft-delete)
  *
