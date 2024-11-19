@@ -26,7 +26,7 @@ export const getUsersAction = async (queryParam: TIndexUserQueryParam) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.USER_READ]);
 
-  return userPagination(queryParam);
+  return await userPagination(queryParam);
 };
 
 export const getUser = async (from?: string) => {
