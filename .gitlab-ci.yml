@@ -9,7 +9,7 @@ build_development:docker_image:
   tags: [dot-highcpu]
   allow_failure: false
   variables:
-    DOT_DOCKERHUB_REPO: ${DOT_DOCKERHUB_USERNAME}/kpp.invent.${CI_PROJECT_NAME}
+    DOT_DOCKERHUB_REPO: ${DOT_DOCKERHUB_USERNAME}/playground.boilerplates.nextjs-fullstack.${CI_PROJECT_NAME}
   before_script:
     - echo ${DOT_DOCKERHUB_PASSWORD} | docker login -u ${DOT_DOCKERHUB_USERNAME} --password-stdin
   script:
