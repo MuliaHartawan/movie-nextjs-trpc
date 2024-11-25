@@ -6,7 +6,7 @@ stages:
 build_development:docker_image:
   stage: build
   image: docker:20.10
-  tags: [dot-2highcpu]
+  tags: [dot-highcpu]
   allow_failure: false
   rules:
         - if: $CI_COMMIT_BRANCH == "development"
