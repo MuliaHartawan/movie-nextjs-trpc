@@ -1,7 +1,8 @@
+---
 version: "3.5"
 services:
     landing-page:
-        image: registry.gitlab.dot.co.id/playground/boilerplates/nextjs-fullstack:main
+        image: dotindonesia/playground.boilerplates.nextjs-fullstack:development
         deploy:
             placement:
                 constraints: [node.hostname == sandbox]

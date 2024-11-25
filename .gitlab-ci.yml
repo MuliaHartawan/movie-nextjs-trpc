@@ -23,21 +23,21 @@ build_development:docker_image:
     - docker push ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
     - docker push ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}
 
-deploy_development:update_service:
-    stage: deploy
-    image: python:3.10.12
-    tags: [dot]
-    allow_failure: false
-    rules:
-        - if: $CI_COMMIT_BRANCH == "development"
-    variables:
-        STACK_NAME: 'boilerplate-nextjs-fullstack'
-        SERVICE_NAME: 'landing-page'
-        URL_APP: 'https://nextjs-fullstack-blrplt.dot.co.id/auth/login'
-        CONTAINER_IMAGE: ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
-    script:
-        - pip install -r deploy/script/requirement.txt
-        - python deploy/script/develop.py
+deploy_development:docker_swarm:
+  stage: deploy
+  image: asia.gcr.io/dot-gitlab-runner/ansible:2.9.21
+  tags: [dot]
+  allow_failure: false
+  rules:
+    - if: $CI_COMMIT_BRANCH == "development"
+  environment:
+    name: development
+    url: https://nextjs-fullstack-blrplt.dot.co.id
+  before_script:
+    - chmod 600 $ANSIBLE_KEY_FILE
+    - ansible-galaxy collection install community.docker:==3.4.0
+  script:
+    - ansible-playbook --private-key $ANSIBLE_KEY_FILE -i deploy/hosts -v deploy/develoment.yml
 
 include:
   # sonarqube scanner

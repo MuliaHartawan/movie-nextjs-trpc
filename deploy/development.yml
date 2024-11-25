@@ -1,0 +1,29 @@
+---
+- name: Deploy environment to sandbox
+  hosts: dot_sandbox
+  remote_user: ajeng
+  become: true
+  become_user: project
+  gather_facts: false
+  vars:
+    working_directory: "/var/www/project/boilerplates/nextjs-fullstack"
+    stack_name: "boilerplates-nextjs-fullstack"
+    container_version: "{{ lookup('env', 'CI_COMMIT_SHORT_SHA') }}"
+    container_image: "dotindonesia/playground.boilerplates.nextjs-fullstack:development{{ container_version }}"
+
+  tasks:
+    - name: Update service docker image
+      changed_when: false
+      ansible.builtin.shell: |
+        docker service update {{ stack_name }}_landing-page \
+          --image {{ container_image }} \
+          --with-registry-auth
+
+    - name: Waiting deployment ready
+      ansible.builtin.uri:
+        url: https://nextjs-fullstack-blrplt.dot.co.id/auth/login
+        validate_certs: false
+      register: result
+      until: "result.status == 200"
+      retries: 60
+      delay: 10
