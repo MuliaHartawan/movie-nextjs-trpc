@@ -8,20 +8,20 @@ build_development:docker_image:
   image: docker:20.10
   tags: [dot-highcpu]
   allow_failure: false
-  rules:
-        - if: $CI_COMMIT_BRANCH == "development"
+  variables:
+    DOT_DOCKERHUB_REPO: ${DOT_DOCKERHUB_USERNAME}/kpp.invent.${CI_PROJECT_NAME}
   before_script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - echo ${DOT_DOCKERHUB_PASSWORD} | docker login -u ${DOT_DOCKERHUB_USERNAME} --password-stdin
   script:
     - cp $DOTENV .env
     - docker build
       --progress plain
-      --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
-      --tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}
+      --tag ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
+      --tag ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}
       --file Dockerfile
       .
-    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
-    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}
+    - docker push ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
+    - docker push ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}
 
 deploy_development:update_service:
     stage: deploy
@@ -34,7 +34,7 @@ deploy_development:update_service:
         STACK_NAME: 'boilerplate-nextjs-fullstack'
         SERVICE_NAME: 'landing-page'
         URL_APP: 'https://nextjs-fullstack-blrplt.dot.co.id/auth/login'
-        CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
+        CONTAINER_IMAGE: ${DOT_DOCKERHUB_REPO}:${CI_COMMIT_BRANCH}${CI_COMMIT_SHORT_SHA}
     script:
         - pip install -r deploy/script/requirement.txt
         - python deploy/script/develop.py
