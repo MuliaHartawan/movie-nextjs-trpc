@@ -9,23 +9,23 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DB_URL")
 }
 
 model User {
-  id        String   @id @db.VarChar(255) @default(uuid(7))
-  email     String   @db.VarChar(255) @unique
-  fullname      String? @db.VarChar(255)
-  address      String? @db.Text
-  password  String @db.VarChar(255)
-  otp String? @db.VarChar(255)
-  image String? @db.VarChar(255) @default("https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png")
+  id              String    @id @default(uuid(7)) @db.VarChar(255)
+  email           String    @unique @db.VarChar(255)
+  fullname        String?   @db.VarChar(255)
+  address         String?   @db.Text
+  password        String    @db.VarChar(255)
+  otp             String?   @db.VarChar(255)
+  image           String?   @default("https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png") @db.VarChar(255)
   emailVerifiedAt DateTime? @map("email_verified_at")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  roleId String? @db.VarChar(255) @map("role_id")
-  deletedAt DateTime? @map("deleted_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  roleId          String?   @map("role_id") @db.VarChar(255)
+  deletedAt       DateTime? @map("deleted_at")
 
   // Relations
   role Role? @relation(fields: [roleId], references: [id])
@@ -34,21 +34,21 @@ model User {
 }
 
 model Role {
-  id        String   @id @db.VarChar(255) @default(uuid(7))
+  id        String   @id @default(uuid(7)) @db.VarChar(255)
   name      String   @unique @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  users User[]
+  users           User[]
   rolePermissions RolePermission[]
 
   @@map("roles")
 }
 
 model Permission {
-  id        String   @id @db.VarChar(255) @default(uuid(7))
-  name      String   @db.VarChar(255) @unique
+  id        String   @id @default(uuid(7)) @db.VarChar(255)
+  name      String   @unique @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -59,21 +59,20 @@ model Permission {
 }
 
 model RolePermission {
-  roleId String @map("role_id") @db.VarChar(255)
+  roleId       String @map("role_id") @db.VarChar(255)
   permissionId String @map("permission_id") @db.VarChar(255)
-  
-  // Relations
-  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade) 
-  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-  
-  @@id([roleId, permissionId])
 
+  // Relations
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
   @@map("role_permissions")
 }
 
 model Snack {
-  id        String   @id @db.VarChar(255) @default(uuid(7))
-  name      String   @db.VarChar(255) @unique
+  id        String   @id @default(uuid(7)) @db.VarChar(255)
+  name      String   @unique @db.VarChar(255)
   price     Float
   expiredAt DateTime @map("expired_at")
   createdAt DateTime @default(now()) @map("created_at")
