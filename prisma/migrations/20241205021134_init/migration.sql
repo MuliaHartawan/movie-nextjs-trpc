@@ -54,7 +54,7 @@ CREATE TABLE `movie` (
     `release_date` DATE NULL,
     `duration` INTEGER NULL,
     `description` VARCHAR(191) NULL,
-    `rating` DECIMAL(3, 1) NULL,
+    `rating` INTEGER NULL,
     `poster_url` TEXT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,

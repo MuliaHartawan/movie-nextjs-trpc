@@ -15,4 +15,9 @@ export enum PERMISSIONS {
   ROLE_DELETE = "Delete Role",
   ROLE_DETAIL = "Detail Role",
   ROLE_READ = "Read Role",
+  MOVIE_CREATE = "Create Movie",
+  MOVIE_UPDATE = "Update Movie",
+  MOVIE_DELETE = "Delete Movie",
+  MOVIE_DETAIL = "Detail Movie",
+  MOVIE_READ = "Read Movie",
 }

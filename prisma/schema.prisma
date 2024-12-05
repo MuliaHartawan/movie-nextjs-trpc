@@ -77,7 +77,7 @@ model Movie {
   releaseDate DateTime? @db.Date  @map("release_date")
   duration    Int?
   description String?
-  rating      Decimal?  @db.Decimal(3, 1)
+  rating      Int?      @db.Int()
   posterUrl   String?   @db.Text @map("poster_url")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
