@@ -7,7 +7,7 @@ import {
   getMoviesAction,
   updateMovieAction,
 } from "@/server/movie/actions/movie.action";
-import { createOrUpdateMovieSchema } from "@/server/movie/validations/create-or-update-role.validation";
+import { createOrUpdateMovieSchema } from "@/server/movie/validations/create-or-update-movie.validation";
 
 export const movieRouter = router({
   getMovies: publicProcedure.query(() => getMoviesAction()),

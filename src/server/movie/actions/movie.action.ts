@@ -2,7 +2,7 @@ import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import {
   createOrUpdateMovieSchema,
   TCreateOrUpdateMovieValidation,
-} from "../validations/create-or-update-role.validation";
+} from "../validations/create-or-update-movie.validation";
 import { serverCheckPermission } from "@/utils/permission";
 import { validate } from "@/utils/zod-validate";
 import {
