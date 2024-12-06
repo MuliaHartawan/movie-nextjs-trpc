@@ -8,9 +8,12 @@ import {
   updateMovieAction,
 } from "@/server/movie/actions/movie.action";
 import { createOrUpdateMovieSchema } from "@/server/movie/validations/create-or-update-movie.validation";
+import { TIndexMovieQueryParam } from "@/server/movie/validations/index-movie.validation";
 
 export const movieRouter = router({
-  getMovies: publicProcedure.query(() => getMoviesAction()),
+  getMovies: publicProcedure
+    .input(z.custom<TIndexMovieQueryParam>())
+    .query(({ input }) => getMoviesAction(input)),
 
   getMovie: publicProcedure.input(z.string()).query(({ input }) => getMovieAction(input)),
 

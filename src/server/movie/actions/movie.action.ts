@@ -12,10 +12,11 @@ import {
   findOneMovieById,
   updateMovieAndGenres,
 } from "../repositories/movie.repository";
-import { saveMoviePoster } from "../attachments/movie.attachment";
+import NotFoundException from "../../../errors/NotFoundException";
+import { TIndexMovieQueryParam } from "../validations/index-movie.validation";
 
-export const getMoviesAction = async () => {
-  return await findMovie();
+export const getMoviesAction = async (queryParam: TIndexMovieQueryParam) => {
+  return await findMovie(queryParam);
 };
 
 export const getMovieAction = async (id: string) => {
@@ -34,7 +35,7 @@ export const createMovieAction = async (value: TCreateOrUpdateMovieValidation) =
 
   await createMovieAndGenres({
     title: value.title,
-    releaseDate: value.releaseDate,
+    releaseDate: new Date(value.releaseDate),
     duration: value.duration,
     description: value.description ?? null,
     rating: value.rating,
@@ -56,9 +57,14 @@ export const updateMovieAction = async ({
   // Validation
   await validate(createOrUpdateMovieSchema, value);
 
+  const movie = await findOneMovieById(id);
+  if (!movie) {
+    throw new NotFoundException("Movie tidak ditemukan!");
+  }
+
   await updateMovieAndGenres(id, {
     title: value.title,
-    releaseDate: value.releaseDate,
+    releaseDate: new Date(value.releaseDate),
     duration: value.duration,
     description: value.description ?? null,
     rating: value.rating,
@@ -70,6 +76,11 @@ export const updateMovieAction = async ({
 export const deleteMovieAction = async (id: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.MOVIE_DELETE]);
+
+  const movie = await findOneMovieById(id);
+  if (!movie) {
+    throw new NotFoundException("Movie tidak ditemukan!");
+  }
 
   await deleteMovieById(id);
 };

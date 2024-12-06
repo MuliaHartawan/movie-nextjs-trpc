@@ -6,16 +6,18 @@ export const createOrUpdateMovieSchema = z.object({
     .min(1, { message: "Title wajib diisi" })
     .max(255, { message: "Title maksimal 255 karakter" }),
 
-  releaseDate: z.date().refine((val) => !isNaN(val.getTime()), {
-    message: "Release date harus berupa tanggal yang valid",
-  }),
+  releaseDate: z
+    .string({
+      message: "Release date harus berupa string",
+    })
+    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Format release date harus YYYY-MM-DD" }),
 
   duration: z
     .number()
     .int({ message: "Durasi harus berupa angka integer" })
     .positive({ message: "Durasi harus lebih besar dari 0" }),
 
-  description: z.string().max(255, { message: "Deskripsi maksimal 1000 karakter" }).optional(),
+  description: z.string().max(255, { message: "Deskripsi maksimal 255 karakter" }).optional(),
 
   rating: z
     .number()
@@ -25,7 +27,7 @@ export const createOrUpdateMovieSchema = z.object({
     }),
 
   poster: z.string({
-    required_error: "Title Wajib Diisi",
+    required_error: "Poster wajib diisi",
     message: "Poster harus berupa path string",
   }),
 
