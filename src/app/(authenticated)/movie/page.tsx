@@ -6,7 +6,7 @@ import Datatable from "admiral/table/datatable/index";
 import { makePagination, makeSource } from "@/utils/datatable";
 import { ColumnsType } from "antd/es/table";
 import Link from "next/link";
-import { Button, Flex } from "antd";
+import { Button, Flex, message, Modal } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useFilter } from "@/hooks/datatable/use-filter";
 import { TPaginationResponse } from "@/types/meta";
@@ -14,9 +14,22 @@ import { trpc } from "@/libs/trpc";
 import { TMovie } from "./_types/movie-type";
 import { truncateText } from "./_utils/truncate-text";
 import { transformMinutesToHours } from "./_utils/transform-minute";
+import { useState } from "react";
 
 const MoviePage = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { filters, handleChange, pagination } = useFilter();
+  const utils = trpc.useUtils();
+  const { mutate } = trpc.movie.deleteMovie.useMutation({
+    onSuccess: () => {
+      message.success("Success Delete the data");
+      utils.movie.getMovies.invalidate();
+    },
+    onError: () => {
+      message.error("Error occurs when delete the data");
+    },
+  });
+  const [selectedData, setSelectedData] = useState<string>("");
 
   const { data, isLoading } = trpc.movie.getMovies.useQuery({
     ...makePagination(pagination),
@@ -62,7 +75,14 @@ const MoviePage = () => {
               type="link"
               icon={<EyeOutlined style={{ color: "green" }} />}
             />
-            <Button icon={<DeleteOutlined style={{ color: "red" }} />} type="link" />
+            <Button
+              icon={<DeleteOutlined style={{ color: "red" }} />}
+              type="link"
+              onClick={() => {
+                setIsModalOpen(true);
+                setSelectedData(record.id);
+              }}
+            />
             <Button href={`/movie/${record?.id}/update`} type="link" icon={<EditOutlined />} />
           </Flex>
         );
@@ -93,6 +113,18 @@ const MoviePage = () => {
         loading={isLoading}
         search={filters.search}
       />
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={() => {
+          mutate(selectedData);
+        }}
+        onCancel={() => {
+          setIsModalOpen(false);
+        }}
+      >
+        <p>Sure wanna delete the data?</p>
+      </Modal>
     </Page>
   );
 };
