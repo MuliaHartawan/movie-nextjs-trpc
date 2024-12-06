@@ -8,9 +8,12 @@ import {
   updateStudioAction,
 } from "@/server/studio/actions/studio.action";
 import { createOrUpdateStudioSchema } from "@/server/studio/validations/create-or-update-studio.validation";
+import { TIndexStudioQueryParam } from "@/server/studio/validations/index-studio.validation";
 
 export const studioRouter = router({
-  getStudios: publicProcedure.query(() => getStudiosAction()),
+  getStudios: publicProcedure
+    .input(z.custom<TIndexStudioQueryParam>())
+    .query(({ input }) => getStudiosAction(input)),
 
   getStudio: publicProcedure.input(z.string()).query(({ input }) => getStudioAction(input)),
 

@@ -12,9 +12,11 @@ import {
   createOrUpdateScreenScheduleSchema,
   TCreateOrUpdateScreenScheduleValidation,
 } from "../validations/create-or-update-screen-schedule.validation";
+import { TIndexScreenScheduleQueryParam } from "../validations/index-screeen-schedule.validation";
+import NotFoundException from "../../../errors/NotFoundException";
 
-export const getScreenSchedulesAction = async () => {
-  return await findScreenSchedule();
+export const getScreenSchedulesAction = async (queryParam: TIndexScreenScheduleQueryParam) => {
+  return await findScreenSchedule(queryParam);
 };
 
 export const getScreenScheduleAction = async (id: string) => {
@@ -34,7 +36,7 @@ export const createScreenScheduleAction = async (
   await validate(createOrUpdateScreenScheduleSchema, value);
 
   await createScreenScheduleAndGenres({
-    screeningTime: value.screeningTime,
+    screeningTime: new Date(value.screeningTime),
     price: value.price,
     movieId: value.movieId,
     studioId: value.studioId,
@@ -54,8 +56,13 @@ export const updateScreenScheduleAction = async ({
   // Validation
   await validate(createOrUpdateScreenScheduleSchema, value);
 
+  const screenSchedule = await findOneScreenScheduleById(id);
+  if (!screenSchedule) {
+    throw new NotFoundException("Screen schedule tidak ditemukan!");
+  }
+
   await updateScreenScheduleAndGenres(id, {
-    screeningTime: value.screeningTime,
+    screeningTime: new Date(value.screeningTime),
     price: value.price,
     movieId: value.movieId,
     studioId: value.studioId,
@@ -65,6 +72,11 @@ export const updateScreenScheduleAction = async ({
 export const deleteScreenScheduleAction = async (id: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.SCREEN_SCHEDULE_DELETE]);
+
+  const screenSchedule = await findOneScreenScheduleById(id);
+  if (!screenSchedule) {
+    throw new NotFoundException("Screen schedule tidak ditemukan!");
+  }
 
   await deleteScreenScheduleById(id);
 };

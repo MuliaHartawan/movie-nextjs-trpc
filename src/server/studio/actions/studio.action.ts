@@ -12,9 +12,11 @@ import {
   createOrUpdateStudioSchema,
   TCreateOrUpdateStudioValidation,
 } from "../validations/create-or-update-studio.validation";
+import { TIndexStudioQueryParam } from "../validations/index-studio.validation";
+import NotFoundException from "../../../errors/NotFoundException";
 
-export const getStudiosAction = async () => {
-  return await findStudio();
+export const getStudiosAction = async (queryParam: TIndexStudioQueryParam) => {
+  return await findStudio(queryParam);
 };
 
 export const getStudioAction = async (id: string) => {
@@ -51,6 +53,11 @@ export const updateStudioAction = async ({
   // Validation
   await validate(createOrUpdateStudioSchema, value);
 
+  const studio = await findOneStudioById(id);
+  if (!studio) {
+    throw new NotFoundException("Sudio tidak ditemukan!");
+  }
+
   await updateStudioAndGenres(id, {
     name: value.name,
     capacity: value.capacity,
@@ -61,6 +68,11 @@ export const updateStudioAction = async ({
 export const deleteStudioAction = async (id: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.STUDIO_DELETE]);
+
+  const studio = await findOneStudioById(id);
+  if (!studio) {
+    throw new NotFoundException("Sudio tidak ditemukan!");
+  }
 
   await deleteStudioById(id);
 };

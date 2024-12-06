@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const createOrUpdateScreenScheduleSchema = z.object({
-  screeningTime: z.date({ message: "Screening Time harus berupa tanggal yang valid" }),
+  screeningTime: z
+    .string({
+      message: "screening Tim harus berupa string",
+    })
+    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Format release date harus YYYY-MM-DD" }),
 
   price: z
     .number()

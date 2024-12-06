@@ -8,9 +8,12 @@ import {
   updateScreenScheduleAction,
 } from "@/server/screen-schedule/actions/screen-schedule.action";
 import { createOrUpdateScreenScheduleSchema } from "@/server/screen-schedule/validations/create-or-update-screen-schedule.validation";
+import { TIndexScreenScheduleQueryParam } from "@/server/screen-schedule/validations/index-screeen-schedule.validation";
 
 export const screenScheduleRouter = router({
-  getScreenSchedules: publicProcedure.query(() => getScreenSchedulesAction()),
+  getScreenSchedules: publicProcedure
+    .input(z.custom<TIndexScreenScheduleQueryParam>())
+    .query(({ input }) => getScreenSchedulesAction(input)),
 
   getScreenSchedule: publicProcedure
     .input(z.string())

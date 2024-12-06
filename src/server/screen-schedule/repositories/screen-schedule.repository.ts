@@ -1,11 +1,46 @@
 import prisma from "@/libs/prisma/prisma";
 import { ScreeningSchedule } from "@prisma/client";
 import { ScreenScheduleDto } from "../dtos/screen-schedule.dto";
+import { convertPaginationMeta } from "@/utils/datatable";
+import { TIndexScreenScheduleQueryParam } from "../validations/index-screeen-schedule.validation";
+import { TPaginationResponse } from "@/types/meta";
 
-export const findScreenSchedule = async (): Promise<ScreeningSchedule[] | null> => {
-  return await prisma.screeningSchedule.findMany();
+export const findScreenSchedule = async (
+  queryParam: TIndexScreenScheduleQueryParam,
+): Promise<TPaginationResponse<ScreeningSchedule[]>> => {
+  const { search, sort, order, perPage, page } = queryParam;
+
+  const [data, meta] = await prisma.screeningSchedule
+    .paginate({
+      where: {
+        ...(search
+          ? {
+              screeningTime: {
+                equals: search,
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        ...(sort && order
+          ? {
+              [sort]: order,
+            }
+          : {
+              screeningTime: "asc",
+            }),
+      },
+    })
+    .withPages({
+      limit: perPage,
+      page: page,
+    });
+
+  return {
+    data,
+    meta: convertPaginationMeta(meta, queryParam),
+  };
 };
-
 export const findOneScreenScheduleById = async (id: string): Promise<ScreeningSchedule | null> => {
   return await prisma.screeningSchedule.findUnique({
     where: {
@@ -55,7 +90,7 @@ export const updateScreenScheduleAndGenres = async (
 };
 
 export const deleteScreenScheduleById = async (id: string): Promise<void> => {
-  prisma.screeningSchedule.delete({
+  await prisma.screeningSchedule.delete({
     where: {
       id,
     },

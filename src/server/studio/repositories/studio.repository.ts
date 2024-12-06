@@ -1,9 +1,45 @@
 import prisma from "@/libs/prisma/prisma";
 import { Studio } from "@prisma/client";
 import { StudioDto } from "../dtos/studio.dto";
+import { convertPaginationMeta } from "@/utils/datatable";
+import { TIndexStudioQueryParam } from "../validations/index-studio.validation";
+import { TPaginationResponse } from "@/types/meta";
 
-export const findStudio = async (): Promise<Studio[] | null> => {
-  return await prisma.studio.findMany();
+export const findStudio = async (
+  queryParam: TIndexStudioQueryParam,
+): Promise<TPaginationResponse<Studio[]>> => {
+  const { search, sort, order, perPage, page } = queryParam;
+
+  const [data, meta] = await prisma.studio
+    .paginate({
+      where: {
+        ...(search
+          ? {
+              name: {
+                contains: search,
+              },
+            }
+          : {}),
+      },
+      orderBy: {
+        ...(sort && order
+          ? {
+              [sort]: order,
+            }
+          : {
+              id: "asc",
+            }),
+      },
+    })
+    .withPages({
+      limit: perPage,
+      page: page,
+    });
+
+  return {
+    data,
+    meta: convertPaginationMeta(meta, queryParam),
+  };
 };
 
 export const findOneStudioById = async (id: string): Promise<Studio | null> => {
@@ -46,7 +82,7 @@ export const updateStudioAndGenres = async (id: string, studio: StudioDto): Prom
 };
 
 export const deleteStudioById = async (id: string): Promise<void> => {
-  prisma.studio.delete({
+  await prisma.studio.delete({
     where: {
       id,
     },
