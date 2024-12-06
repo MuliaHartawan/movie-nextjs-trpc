@@ -22,7 +22,7 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, onFileChange, initVal
       title: initValues?.title,
       description: initValues?.description,
       duration: initValues?.duration,
-      releaseDate: dayjs(initValues?.releaseDate),
+      releaseDate: initValues ? dayjs(initValues?.releaseDate) : null,
       rating: initValues?.rating,
       movieGenres: initValues?.movieGenres.map((movieGenre: any) => movieGenre.genreId),
     });
