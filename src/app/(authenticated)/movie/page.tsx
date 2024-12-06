@@ -3,26 +3,25 @@ import React from "react";
 
 import { Page } from "admiral";
 import Datatable from "admiral/table/datatable/index";
-import { makeSource } from "@/utils/datatable";
+import { makePagination, makeSource } from "@/utils/datatable";
 import { ColumnsType } from "antd/es/table";
 import Link from "next/link";
 import { Button, Flex } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useFilter } from "@/hooks/datatable/use-filter";
 import { TPaginationResponse } from "@/types/meta";
+import { trpc } from "@/libs/trpc";
+import { TMovie } from "./_types/movie-type";
+import { truncateText } from "./_utils/truncate-text";
+import { transformMinutesToHours } from "./_utils/transform-minute";
 
 const MoviePage = () => {
   const { filters, handleChange, pagination } = useFilter();
 
-  const data: TPaginationResponse<any> = {
-    data: [],
-    meta: {
-      page: 1,
-      perPage: 10,
-      total: 100,
-      totalPage: 20,
-    },
-  };
+  const { data, isLoading } = trpc.movie.getMovies.useQuery({
+    ...makePagination(pagination),
+    search: filters.search,
+  });
 
   const columns: ColumnsType<TMovie> = [
     {
@@ -31,9 +30,12 @@ const MoviePage = () => {
       title: "Title",
     },
     {
-      dataIndex: "releaseDate",
-      key: "releaseData",
-      title: "Release Date",
+      dataIndex: "description",
+      key: "description",
+      title: "Description",
+      render: (value, record) => {
+        return <p>{truncateText(value)}</p>;
+      },
     },
     {
       dataIndex: "rating",
@@ -41,15 +43,18 @@ const MoviePage = () => {
       title: "Rating",
     },
     {
-      dataIndex: "genre",
-      key: "genre",
-      title: "Genre",
+      dataIndex: "duration",
+      key: "duration",
+      title: "Duration",
+      render: (value, record) => {
+        return <p>{transformMinutesToHours(value)}</p>;
+      },
     },
     {
-      dataIndex: "Action",
+      dataIndex: "action",
       key: "action",
       title: "Action",
-      render: (_, record) => {
+      render: (val, record) => {
         return (
           <Flex>
             <Button
@@ -85,7 +90,7 @@ const MoviePage = () => {
         showRowSelection={false}
         source={makeSource(data)}
         columns={columns}
-        loading={false}
+        loading={isLoading}
         search={filters.search}
       />
     </Page>

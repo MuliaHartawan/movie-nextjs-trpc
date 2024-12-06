@@ -1,12 +1,11 @@
-type TMovie = {
-  id: string;
+export type TMovie = {
   title: string;
-  releaseDate: Date;
-  duration: number;
-  description: string;
-  rating: number;
-  posterUrl: string;
+  releaseDate: Date | null;
+  rating: number | null;
+  id: string;
+  description: string | null;
   createdAt: Date;
   updatedAt: Date;
-  genre: string[];
+  duration: number | null;
+  posterUrl: string | null;
 };

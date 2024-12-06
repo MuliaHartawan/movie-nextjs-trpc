@@ -3,44 +3,46 @@ import React from "react";
 import { Page, Section } from "admiral";
 import { Descriptions } from "antd";
 import { useParams } from "next/navigation";
+import { trpc } from "@/libs/trpc";
+import { transformMinutesToHours } from "../_utils/transform-minute";
 
 const MovieDetailPage = () => {
   const params = useParams();
   const movieId = typeof params.id === "string" ? params.id : "";
-  //const userQuery = trpc.user.getUser.useQuery(userId);
+  const { data } = trpc.movie.getMovie.useQuery(movieId);
 
   const breadcrumbs = [
     { label: "Dashboard", path: "/dashboard" },
     { label: "Movie", path: "/movie" },
-    /* { label: userQuery.data?.fullname ?? "", path: `/users/${userQuery.data?.id}` }, */
+    { label: data?.id ?? "", path: `/users/${data?.id}` },
   ];
   return (
-    <Page>
+    <Page title="Movie Details" breadcrumbs={breadcrumbs}>
       <Section loading={false} title="Detail Movie">
         <Descriptions bordered column={2}>
+          <Descriptions.Item span={2} label="Poster">
+            <img src={data?.poster ?? ""} alt="contoh gambar" width={300} height={300} />
+          </Descriptions.Item>
           <Descriptions.Item span={2} label="Title">
-            {/* {userQuery.data?.fullname} */} Judul Film
+            {data?.title}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Description">
-            {/* {userQuery.data?.fullname} */} Deskripsi
+            {data?.description}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Release Date">
-            {/* {userQuery.data?.email} */} Tanggal Rilis
+            {data?.releaseDate?.toDateString()}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Duration">
-            {/* {userQuery.data?.address} */} Durasi
+            {data?.duration} or {transformMinutesToHours(data?.duration ?? 0)}
           </Descriptions.Item>
-          <Descriptions.Item span={2} label="Genre">
-            {/* {userQuery.data?.role?.name} */} Genre
+          <Descriptions.Item span={2} label="Rating">
+            {data?.rating}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Create At">
-            {/* {userQuery.data?.role?.name} */} tanggal dibuat
+            {data?.createdAt.toDateString()}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Updated At">
-            {/* {userQuery.data?.role?.name} */} tanggal diupdate
-          </Descriptions.Item>
-          <Descriptions.Item span={2} label="Poster">
-            {/* {userQuery.data?.role?.name} */} Poster
+            {data?.updatedAt.toDateString()}
           </Descriptions.Item>
         </Descriptions>
       </Section>
