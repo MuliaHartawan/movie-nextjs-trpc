@@ -11,7 +11,7 @@ export async function movieSeeder() {
       duration: 181,
       description: "The Avengers face their most powerful enemy yet, Thanos.",
       rating: 8,
-      posterUrl: "https://example.com/avengers-endgame.jpg",
+      poster: "https://example.com/avengers-endgame.jpg",
     },
     {
       title: "The Pursuit of Happyness",
@@ -20,7 +20,7 @@ export async function movieSeeder() {
       description:
         "A struggling salesman takes custody of his son as he’s poised to begin a life-changing professional career.",
       rating: 8,
-      posterUrl: "https://example.com/the-pursuit-of-happyness.jpg",
+      poster: "https://example.com/the-pursuit-of-happyness.jpg",
     },
     {
       title: "The Hangover",
@@ -29,7 +29,7 @@ export async function movieSeeder() {
       description:
         "Three friends wake up from a bachelor party in Las Vegas with no memory of the previous night and the bachelor missing.",
       rating: 7,
-      posterUrl: "https://example.com/the-hangover.jpg",
+      poster: "https://example.com/the-hangover.jpg",
     },
   ];
 

@@ -20,7 +20,7 @@ export const getMoviesAction = async () => {
 
 export const getMovieAction = async (id: string) => {
   // Permission authorization
-  await serverCheckPermission([PERMISSIONS.ROLE_DETAIL]);
+  await serverCheckPermission([PERMISSIONS.MOVIE_DETAIL]);
 
   return await findOneMovieById(id);
 };
@@ -32,16 +32,13 @@ export const createMovieAction = async (value: TCreateOrUpdateMovieValidation) =
   // Validation
   await validate(createOrUpdateMovieSchema, value);
 
-  // Store image
-  const poster: string = await saveMoviePoster(value.poster);
-
   await createMovieAndGenres({
     title: value.title,
     releaseDate: value.releaseDate,
     duration: value.duration,
     description: value.description ?? null,
     rating: value.rating,
-    poster: poster,
+    poster: value.poster,
     genreIds: value.genreIds,
   });
 };
@@ -59,16 +56,13 @@ export const updateMovieAction = async ({
   // Validation
   await validate(createOrUpdateMovieSchema, value);
 
-  // Store image
-  const poster: string = await saveMoviePoster(value.poster);
-
   await updateMovieAndGenres(id, {
     title: value.title,
     releaseDate: value.releaseDate,
     duration: value.duration,
     description: value.description ?? null,
     rating: value.rating,
-    poster: poster,
+    poster: value.poster,
     genreIds: value.genreIds,
   });
 };

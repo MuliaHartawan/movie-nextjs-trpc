@@ -24,11 +24,10 @@ export const createOrUpdateMovieSchema = z.object({
       message: "Rating harus berada di antara 0 hingga 10",
     }),
 
-  poster: z
-    .instanceof(File, { message: "Poster harus berupa file gambar" })
-    .refine((file) => file && file.type.startsWith("image/"), {
-      message: "Poster harus berupa file gambar",
-    }),
+  poster: z.string({
+    required_error: "Title Wajib Diisi",
+    message: "Poster harus berupa path string",
+  }),
 
   genreIds: z
     .array(z.string().uuid({ message: "Genre ID harus berupa UUID yang valid" }))

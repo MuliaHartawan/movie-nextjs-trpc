@@ -37,7 +37,7 @@ export const createMovieAndGenres = async (movie: MovieDto): Promise<void> => {
       duration: movie.duration,
       description: movie.description,
       rating: movie.rating,
-      posterUrl: movie.poster,
+      poster: movie.poster,
       genres: {
         connect: movie.genreIds.map((genreId) => ({
           id: genreId,
@@ -58,7 +58,7 @@ export const updateMovieAndGenres = async (id: string, movie: MovieDto): Promise
       duration: movie.duration,
       description: movie.description,
       rating: movie.rating,
-      posterUrl: movie.poster,
+      poster: movie.poster,
       genres: {
         connect: movie.genreIds.map((genreId) => ({
           id: genreId,
