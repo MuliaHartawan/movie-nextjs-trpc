@@ -1,16 +1,30 @@
+import { trpc } from "@/libs/trpc";
 import { CustomException } from "@/types/cutom-exception";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Flex, Form, FormProps, Input } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
+import { Studio } from "@prisma/client";
 
-type Props = {
+interface Props<T> {
   formProps: FormProps;
   loading: boolean;
   error: CustomException | null;
-};
+  initialValues?: Studio;
+}
 
-const FormStudio = ({ formProps, loading, error }: Props) => {
+const FormStudio = <T,>({ formProps, loading, error, initialValues }: Props<T>) => {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue({
+      name: initialValues?.name,
+      capacity: initialValues?.capacity,
+      additionalFacilities: initialValues
+        ? initialValues?.additionalFacilities?.split(",").map((item) => item.trim())
+        : "",
+    });
+  }, [initialValues]);
+
   return (
     <Form {...formProps} form={form} layout="vertical">
       <Form.Item
