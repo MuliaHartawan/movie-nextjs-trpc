@@ -2,40 +2,58 @@
 
 import { useFormErrorHandling } from "@/hooks/form/use-form-error-handling";
 import { CustomException } from "@/types/cutom-exception";
-import { FormProps, Form, Input, DatePicker, Button, Select } from "antd";
+import {
+  FormProps,
+  Form,
+  Input,
+  DatePicker,
+  Button,
+  Select,
+  Upload,
+  message,
+  UploadFile,
+} from "antd";
 import dayjs from "dayjs";
-import React, { FC, useEffect } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import { UploadProps } from "antd/lib";
+import Icon from "@ant-design/icons";
 
 type Props = {
   formProps: FormProps;
   loading: boolean;
   error: CustomException | null;
-  onFileChange: (file: File | null) => void;
   initValues?: any;
 };
 
-const FormMovie: FC<Props> = ({ formProps, error, loading, onFileChange, initValues }) => {
+const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
   const [form] = Form.useForm();
+  const [fileList, setFileList] = useState<UploadFile[]>();
 
   useEffect(() => {
-    form.setFieldsValue({
-      title: initValues?.title,
-      description: initValues?.description,
-      duration: initValues?.duration,
-      releaseDate: initValues ? dayjs(initValues?.releaseDate) : null,
-      rating: initValues?.rating,
-      movieGenres: initValues?.movieGenres.map((movieGenre: any) => movieGenre.genreId),
-    });
+    if (initValues) {
+      console.log(initValues);
+      form.setFieldsValue({
+        title: initValues?.title,
+        description: initValues?.description,
+        duration: initValues?.duration,
+        releaseDate: initValues ? dayjs(initValues?.releaseDate) : null,
+        rating: initValues?.rating,
+        movieGenres: initValues?.movieGenres.map((movieGenre: any) => movieGenre.genreId),
+      });
+      setFileList([
+        {
+          uid: "0",
+          name: "lastest movie image",
+          status: "done",
+          url: initValues?.poster,
+        },
+      ]);
+    }
   }, [initValues]);
 
-  useFormErrorHandling(form, error);
+  useEffect(() => {}, []);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      onFileChange(file);
-    }
-  };
+  useFormErrorHandling(form, error);
 
   const genre: any[] = [
     {
@@ -60,6 +78,20 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, onFileChange, initVal
       },
     },
   ];
+
+  const uploadProps: UploadProps = {
+    name: "file",
+    action: "/api/attachment",
+    maxCount: 1,
+    onChange: (info) => {},
+    beforeUpload(file: any) {
+      setFileList([file]);
+      return false;
+    },
+    onRemove: (file) => {
+      setFileList([]);
+    },
+  };
 
   return (
     <Form {...formProps} form={form} layout="vertical">
@@ -112,13 +144,16 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, onFileChange, initVal
         >
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
-        <Form.Item label="New Poster URL" name="poster">
-          {initValues && <a href={initValues?.poster}>Clik to see your old image!</a>}
-          {initValues != null ? (
-            <Input placeholder="New Poster URL" type="file" onChange={handleInputChange} />
-          ) : (
-            <Input placeholder="New Poster URL" type="file" onChange={handleInputChange} required />
-          )}
+        <Form.Item
+          label="New Poster URL"
+          name="poster"
+          rules={[{ required: true, message: "Poster data must be fill" }]}
+        >
+          <Upload {...uploadProps} fileList={fileList}>
+            <Button>
+              <Icon type="upload" /> Upload
+            </Button>
+          </Upload>
         </Form.Item>
       </div>
       <Form.Item style={{ textAlign: "end" }}>

@@ -19,12 +19,9 @@ const MovieUpdatePage = () => {
       message.error("Error occurs when update the data!");
     },
   });
-  const { data, isLoading: isGetMovieLoading } = trpc.movie.getMovie.useQuery(movieId);
-  const [file, setFile] = useState<File | null>(null);
-
-  const handleFileChange = (uploadedFile: File | null) => {
-    setFile(uploadedFile);
-  };
+  const { data, isLoading: isGetMovieLoading } = trpc.movie.getMovie.useQuery(movieId, {
+    refetchOnWindowFocus: false,
+  });
 
   const breadcrumbs = [
     {
@@ -37,12 +34,12 @@ const MovieUpdatePage = () => {
     },
   ];
 
-  const handleOnCreateMovie = async (dataSubmitted: any) => {
+  const handleOnUpdateMovie = async (dataSubmitted: any) => {
     let imgPath = data?.poster;
-
     let formData = new FormData();
-    if (file) {
-      formData.append("file", file);
+    console.log(dataSubmitted);
+    if (dataSubmitted.poster.fileList.length !== 0) {
+      formData.append("file", dataSubmitted.poster.file);
       try {
         const response = await fetch("/api/attachment", {
           method: "POST",
@@ -64,6 +61,8 @@ const MovieUpdatePage = () => {
         title: dataSubmitted.title,
       };
 
+      console.log(finalData);
+
       mutate({
         value: finalData,
         id: movieId,
@@ -76,10 +75,9 @@ const MovieUpdatePage = () => {
         error={null}
         loading={isLoading}
         formProps={{
-          onFinish: handleOnCreateMovie,
+          onFinish: handleOnUpdateMovie,
           disabled: isGetMovieLoading,
         }}
-        onFileChange={handleFileChange}
         initValues={data}
       />
     </Page>

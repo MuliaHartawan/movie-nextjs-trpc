@@ -15,11 +15,6 @@ const CreateMoviePage = () => {
       message.error("Error occurs when creating movie!");
     },
   });
-  const [file, setFile] = useState<File | null>(null);
-
-  const handleFileChange = (uploadedFile: File | null) => {
-    setFile(uploadedFile);
-  };
 
   const breadcrumbs = [
     {
@@ -32,28 +27,34 @@ const CreateMoviePage = () => {
     },
   ];
 
-  const handleOnCreateMovie = async (data: any) => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
+  const handleOnCreateMovie = async (dataSubmitted: any) => {
+    let imgPath = "";
+    let formData = new FormData();
+
+    if (dataSubmitted.poster.fileList.length !== 0) {
+      formData.append("file", dataSubmitted.poster.file);
       try {
         const response = await fetch("/api/attachment", {
           method: "POST",
           body: formData,
         });
         const result = await response.json();
-        mutate({
-          poster: result.filePath,
-          duration: Number(data.duration),
-          rating: Number(data.rating),
-          genreIds: data.movieGenre,
-          releaseDate: data.releaseDate.format("YYYY-MM-DD"),
-          title: data.title,
-          description: data.description,
-        });
+        imgPath = result?.filePath;
       } catch (err) {
-        console.log(err);
+        message.error("Error occurs!");
       }
+
+      const finalData = {
+        description: dataSubmitted.description,
+        duration: Number(dataSubmitted.duration),
+        genreIds: dataSubmitted.movieGenres,
+        poster: imgPath || "",
+        rating: Number(dataSubmitted.rating),
+        releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
+        title: dataSubmitted.title,
+      };
+
+      mutate(finalData);
     }
   };
 
@@ -65,7 +66,6 @@ const CreateMoviePage = () => {
         formProps={{
           onFinish: handleOnCreateMovie,
         }}
-        onFileChange={handleFileChange}
       />
     </Page>
   );
