@@ -7,12 +7,15 @@ import { trpc } from "@/libs/trpc";
 import { message } from "antd";
 
 const CreateMoviePage = () => {
+  const [isCreateLoading, setIsCreateLoading] = useState<boolean>(false);
   const { mutate, isLoading } = trpc.movie.createMovie.useMutation({
     onSuccess: () => {
       message.success("Success create new movie!");
+      setIsCreateLoading(false);
     },
     onError: () => {
       message.error("Error occurs when creating movie!");
+      setIsCreateLoading(false);
     },
   });
 
@@ -32,21 +35,17 @@ const CreateMoviePage = () => {
   ];
 
   const handleOnCreateMovie = async (dataSubmitted: any) => {
+    setIsCreateLoading(true);
     let imgPath = "";
     let formData = new FormData();
-
-    if (dataSubmitted.poster?.fileList?.length !== 0) {
-      formData.append("file", dataSubmitted.poster.file);
-      try {
-        const response = await fetch("/api/attachment", {
-          method: "POST",
-          body: formData,
-        });
-        const result = await response.json();
-        imgPath = result?.filePath;
-      } catch (err) {
-        message.error("Error occurs!");
-      }
+    formData.append("file", dataSubmitted.poster.fileList[0].originFileObj);
+    try {
+      const response = await fetch("/api/attachment", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      imgPath = result?.filePath;
 
       const finalData = {
         description: dataSubmitted.description,
@@ -57,7 +56,10 @@ const CreateMoviePage = () => {
         releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
         title: dataSubmitted.title,
       };
+
       mutate(finalData);
+    } catch (err) {
+      message.error("Error occurs!");
     }
   };
 

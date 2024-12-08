@@ -78,7 +78,6 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
 
   const uploadProps: UploadProps = {
     name: "file",
-    action: "/api/attachment",
     maxCount: 1,
     beforeUpload(file: any) {
       const isImage = file.type.startsWith("image/");
@@ -150,8 +149,16 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
           name="poster"
           rules={[
             {
-              required: fileList?.length == 0 || fileList == undefined,
+              required: true,
               message: "Poster data must be fill",
+            },
+            {
+              validator: (_, values) => {
+                if (fileList?.length == 0 || fileList == undefined) {
+                  return Promise.reject("*Movies poster cant null!");
+                }
+                return Promise.resolve();
+              },
             },
           ]}
         >
