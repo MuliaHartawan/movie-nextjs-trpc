@@ -15,6 +15,8 @@ import { TMovie } from "./_types/movie-type";
 import { truncateText } from "./_utils/truncate-text";
 import { transformMinutesToHours } from "./_utils/transform-minute";
 import { useState } from "react";
+import { Guard } from "@/app/_components/guard";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 const MoviePage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -22,8 +24,10 @@ const MoviePage = () => {
   const utils = trpc.useUtils();
   const { mutate } = trpc.movie.deleteMovie.useMutation({
     onSuccess: () => {
-      message.success("Success Delete the data");
       utils.movie.getMovies.invalidate();
+      message.success("Success Delete the data", 1.2).then(() => {
+        setIsModalOpen(false);
+      });
     },
     onError: () => {
       message.error("Error occurs when delete the data");
@@ -70,20 +74,26 @@ const MoviePage = () => {
       render: (val, record) => {
         return (
           <Flex>
-            <Button
-              href={`/movie/${record?.id}`}
-              type="link"
-              icon={<EyeOutlined style={{ color: "green" }} />}
-            />
-            <Button
-              icon={<DeleteOutlined style={{ color: "red" }} />}
-              type="link"
-              onClick={() => {
-                setIsModalOpen(true);
-                setSelectedData(record.id);
-              }}
-            />
-            <Button href={`/movie/${record?.id}/update`} type="link" icon={<EditOutlined />} />
+            <Guard permissions={[PERMISSIONS.MOVIE_DETAIL]}>
+              <Button
+                href={`/movie/${record?.id}`}
+                type="link"
+                icon={<EyeOutlined style={{ color: "green" }} />}
+              />
+            </Guard>
+            <Guard permissions={[PERMISSIONS.MOVIE_DELETE]}>
+              <Button
+                icon={<DeleteOutlined style={{ color: "red" }} />}
+                type="link"
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setSelectedData(record.id);
+                }}
+              />
+            </Guard>
+            <Guard permissions={[PERMISSIONS.MOVIE_UPDATE]}>
+              <Button href={`/movie/${record?.id}/update`} type="link" icon={<EditOutlined />} />
+            </Guard>
           </Flex>
         );
       },
@@ -130,11 +140,11 @@ const MoviePage = () => {
 };
 
 const TopAction = () => (
-  //<Guard permissions={[PERMISSIONS.USER_CREATE]}>
-  <Link href="/movie/create">
-    <Button icon={<PlusCircleOutlined />}>Add Movie</Button>
-  </Link>
-  //</Guard>
+  <Guard permissions={[PERMISSIONS.MOVIE_CREATE]}>
+    <Link href="/movie/create">
+      <Button icon={<PlusCircleOutlined />}>Add Movie</Button>
+    </Link>
+  </Guard>
 );
 
 export default MoviePage;

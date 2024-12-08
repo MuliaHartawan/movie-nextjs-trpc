@@ -33,7 +33,7 @@ const MovieDetailPage = () => {
             {data?.releaseDate?.toDateString()}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Duration">
-            {data?.duration} or {transformMinutesToHours(data?.duration ?? 0)}
+            {data?.duration} minute || {transformMinutesToHours(data?.duration ?? 0)}
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Rating">
             {data?.rating}

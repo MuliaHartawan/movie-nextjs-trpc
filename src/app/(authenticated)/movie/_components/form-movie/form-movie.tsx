@@ -30,20 +30,19 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
   const [fileList, setFileList] = useState<UploadFile[]>();
 
   useEffect(() => {
-    if (initValues) {
-      console.log(initValues);
-      form.setFieldsValue({
-        title: initValues?.title,
-        description: initValues?.description,
-        duration: initValues?.duration,
-        releaseDate: initValues ? dayjs(initValues?.releaseDate) : null,
-        rating: initValues?.rating,
-        movieGenres: initValues?.movieGenres.map((movieGenre: any) => movieGenre.genreId),
-      });
+    form.setFieldsValue({
+      title: initValues?.title,
+      description: initValues?.description,
+      duration: initValues?.duration,
+      releaseDate: initValues ? dayjs(initValues?.releaseDate) : null,
+      rating: initValues?.rating,
+      movieGenres: initValues?.movieGenres.map((movieGenre: any) => movieGenre.genreId),
+    });
+    if (initValues != null) {
       setFileList([
         {
           uid: "0",
-          name: "lastest movie image",
+          name: "latest movie image",
           status: "done",
           url: initValues?.poster,
         },
@@ -51,27 +50,25 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
     }
   }, [initValues]);
 
-  useEffect(() => {}, []);
-
   useFormErrorHandling(form, error);
 
   const genre: any[] = [
     {
-      genreId: "60ca3357-2aa5-4439-87b7-2909e46ae191",
+      genreId: "8bfccd4b-dfeb-4db0-b979-84a0841c817d",
       //label: "Action",
       genre: {
         name: "Action",
       },
     },
     {
-      genreId: "556f803d-7fa6-49af-8e17-5e82fb6c14d4",
+      genreId: "9e361877-ef12-4220-bc88-c0a3957d6027",
       //label: "Drama",
       genre: {
         name: "Drama",
       },
     },
     {
-      genreId: "7a7ae0ba-3ac9-41d1-9826-d65626f2b1ce",
+      genreId: "4cb9781b-138b-4efe-8f6f-99bfb8836130",
       //label: "Comedy",
       genre: {
         name: "Comedy",
@@ -83,10 +80,14 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
     name: "file",
     action: "/api/attachment",
     maxCount: 1,
-    onChange: (info) => {},
     beforeUpload(file: any) {
-      setFileList([file]);
-      return false;
+      const isImage = file.type.startsWith("image/");
+      if (!isImage) {
+        message.error("You can only upload image files!");
+      } else {
+        setFileList([file]);
+      }
+      return isImage;
     },
     onRemove: (file) => {
       setFileList([]);
@@ -147,7 +148,12 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
         <Form.Item
           label="New Poster URL"
           name="poster"
-          rules={[{ required: true, message: "Poster data must be fill" }]}
+          rules={[
+            {
+              required: fileList?.length == 0 || fileList == undefined,
+              message: "Poster data must be fill",
+            },
+          ]}
         >
           <Upload {...uploadProps} fileList={fileList}>
             <Button>

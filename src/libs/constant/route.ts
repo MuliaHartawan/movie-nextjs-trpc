@@ -11,4 +11,13 @@ export const ROUTE = {
   ROLES: "/roles",
   ROLES_FORM: "/roles/form",
   ROLES_DETAIL: "/roles/detail",
+  MOVIE: "/movie",
+  MOVIE_DETAIL: "/movie/detail",
+  MOVIE_FORM: "/movie/form",
+  STUDIO: "/studio",
+  STUDIO_DETAIL: "/studio/detail",
+  STUDIO_FORM: "/studio/form",
+  SCHEDULE: "/schedule",
+  SCHEDULE_DETAIL: "/schedule/detail",
+  SCHEDULE_FORM: "/schedule/form",
 };

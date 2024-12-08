@@ -1,22 +1,24 @@
 "use client";
 import { Page } from "admiral";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FormMovie from "../../_components/form-movie/form-movie";
 import { trpc } from "@/libs/trpc";
 import { useParams } from "next/navigation";
 import { message } from "antd";
-import dayjs from "dayjs";
-import { TCreateOrUpdateMovieValidation } from "@/server/movie/validations/create-or-update-movie.validation";
+import { transformTRPCError } from "@/utils/error";
 
 const MovieUpdatePage = () => {
   const params = useParams();
   const movieId = typeof params.id === "string" ? params.id : "";
-  const { mutate, isLoading } = trpc.movie.updateMovie.useMutation({
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(false);
+  const { mutate, isLoading, error } = trpc.movie.updateMovie.useMutation({
     onSuccess: () => {
       message.success("Success update the movie!");
+      setIsLoadingUpdate(false);
     },
     onError: () => {
       message.error("Error occurs when update the data!");
+      setIsLoadingUpdate(false);
     },
   });
   const { data, isLoading: isGetMovieLoading } = trpc.movie.getMovie.useQuery(movieId, {
@@ -32,13 +34,17 @@ const MovieUpdatePage = () => {
       label: "Movie",
       path: "/movie",
     },
+    {
+      label: "Update Movie / " + movieId,
+      path: "/movie/" + movieId + "/update",
+    },
   ];
 
   const handleOnUpdateMovie = async (dataSubmitted: any) => {
     let imgPath = data?.poster;
     let formData = new FormData();
-    console.log(dataSubmitted);
-    if (dataSubmitted.poster.fileList.length !== 0) {
+    setIsLoadingUpdate(true);
+    if (dataSubmitted.poster !== undefined) {
       formData.append("file", dataSubmitted.poster.file);
       try {
         const response = await fetch("/api/attachment", {
@@ -50,30 +56,29 @@ const MovieUpdatePage = () => {
       } catch (err) {
         console.log(err);
       }
-
-      const finalData = {
-        description: dataSubmitted.description,
-        duration: Number(dataSubmitted.duration),
-        genreIds: dataSubmitted.movieGenres,
-        poster: imgPath || "",
-        rating: Number(dataSubmitted.rating),
-        releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
-        title: dataSubmitted.title,
-      };
-
-      console.log(finalData);
-
-      mutate({
-        value: finalData,
-        id: movieId,
-      });
     }
+
+    const finalData = {
+      description: dataSubmitted.description,
+      duration: Number(dataSubmitted.duration),
+      genreIds: dataSubmitted.movieGenres,
+      poster: imgPath || "",
+      rating: Number(dataSubmitted.rating),
+      releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
+      title: dataSubmitted.title,
+    };
+
+    mutate({
+      value: finalData,
+      id: movieId,
+    });
   };
+
   return (
     <Page title="Movie" breadcrumbs={breadcrumbs}>
       <FormMovie
-        error={null}
-        loading={isLoading}
+        error={transformTRPCError(error)}
+        loading={isLoadingUpdate}
         formProps={{
           onFinish: handleOnUpdateMovie,
           disabled: isGetMovieLoading,

@@ -24,6 +24,10 @@ const CreateSchedulePage = () => {
       label: "Schedule",
       path: "/schedule",
     },
+    {
+      label: "Create Schedule",
+      path: "/schedule/create",
+    },
   ];
 
   // tidak bisa menggunakan type dari backend, karena data yang diminta dengan data dari form berbeda dan harus diconvert

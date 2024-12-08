@@ -9,6 +9,8 @@ import React, { useState } from "react";
 import { makeSource, makePagination } from "@/utils/datatable";
 import { ColumnsType } from "antd/es/table";
 import { TSchedule } from "./_types/schedule-types";
+import { Guard } from "@/app/_components/guard";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 const SchedulePage = () => {
   const { filters, handleChange, pagination } = useFilter();
@@ -63,20 +65,26 @@ const SchedulePage = () => {
       render: (_, record) => {
         return (
           <Flex>
-            <Button
-              href={`/schedule/${record?.id}`}
-              type="link"
-              icon={<EyeOutlined style={{ color: "green" }} />}
-            />
-            <Button
-              icon={<DeleteOutlined style={{ color: "red" }} />}
-              type="link"
-              onClick={() => {
-                setSelectedData(record.id);
-                setIsModalOpen(true);
-              }}
-            />
-            <Button href={`/schedule/${record?.id}/update`} type="link" icon={<EditOutlined />} />
+            <Guard permissions={[PERMISSIONS.SCREEN_SCHEDULE_DETAIL]}>
+              <Button
+                href={`/schedule/${record?.id}`}
+                type="link"
+                icon={<EyeOutlined style={{ color: "green" }} />}
+              />
+            </Guard>
+            <Guard permissions={[PERMISSIONS.SCREEN_SCHEDULE_DELETE]}>
+              <Button
+                icon={<DeleteOutlined style={{ color: "red" }} />}
+                type="link"
+                onClick={() => {
+                  setSelectedData(record.id);
+                  setIsModalOpen(true);
+                }}
+              />
+            </Guard>
+            <Guard permissions={[PERMISSIONS.SCREEN_SCHEDULE_UPDATE]}>
+              <Button href={`/schedule/${record?.id}/update`} type="link" icon={<EditOutlined />} />
+            </Guard>
           </Flex>
         );
       },
@@ -124,9 +132,11 @@ const SchedulePage = () => {
 };
 
 const TopAction = () => (
-  <Link href="/schedule/create">
-    <Button icon={<PlusCircleOutlined />}>Add Schedule</Button>
-  </Link>
+  <Guard permissions={[PERMISSIONS.SCREEN_SCHEDULE_CREATE]}>
+    <Link href="/schedule/create">
+      <Button icon={<PlusCircleOutlined />}>Add Schedule</Button>
+    </Link>
+  </Guard>
 );
 
 export default SchedulePage;

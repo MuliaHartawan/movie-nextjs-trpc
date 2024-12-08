@@ -9,6 +9,8 @@ import { TStudio } from "./_types/studio-type";
 import { trpc } from "@/libs/trpc";
 import { makePagination, makeSource } from "@/utils/datatable";
 import { useFilter } from "@/hooks/datatable/use-filter";
+import { Guard } from "@/app/_components/guard";
+import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
 const StudioPage = () => {
   const { filters, handleChange, pagination } = useFilter();
@@ -54,20 +56,28 @@ const StudioPage = () => {
       render: (_, record) => {
         return (
           <Flex>
-            <Button
-              href={`/studio/${record?.id}`}
-              type="link"
-              icon={<EyeOutlined style={{ color: "green" }} />}
-            />
-            <Button
-              icon={<DeleteOutlined style={{ color: "red" }} />}
-              type="link"
-              onClick={() => {
-                setSeletctedData(record.id);
-                setIsModalOpen(true);
-              }}
-            />
-            <Button href={`/studio/${record?.id}/update`} type="link" icon={<EditOutlined />} />
+            <Guard permissions={[PERMISSIONS.STUDIO_DETAIL]}>
+              {" "}
+              <Button
+                href={`/studio/${record?.id}`}
+                type="link"
+                icon={<EyeOutlined style={{ color: "green" }} />}
+              />
+            </Guard>
+            <Guard permissions={[PERMISSIONS.STUDIO_DELETE]}>
+              <Button
+                icon={<DeleteOutlined style={{ color: "red" }} />}
+                type="link"
+                onClick={() => {
+                  setSeletctedData(record.id);
+                  setIsModalOpen(true);
+                }}
+              />
+            </Guard>
+
+            <Guard permissions={[PERMISSIONS.STUDIO_UPDATE]}>
+              <Button href={`/studio/${record?.id}/update`} type="link" icon={<EditOutlined />} />
+            </Guard>
           </Flex>
         );
       },
@@ -114,10 +124,11 @@ const StudioPage = () => {
 };
 
 const TopAction = () => (
-  //Ada Guard
-  <Link href="/studio/create">
-    <Button icon={<PlusCircleOutlined />}>Add Studio</Button>
-  </Link>
+  <Guard permissions={[PERMISSIONS.STUDIO_CREATE]}>
+    <Link href="/studio/create">
+      <Button icon={<PlusCircleOutlined />}>Add Studio</Button>
+    </Link>
+  </Guard>
 );
 
 export default StudioPage;

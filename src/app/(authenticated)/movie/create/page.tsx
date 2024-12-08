@@ -25,13 +25,17 @@ const CreateMoviePage = () => {
       label: "Movie",
       path: "/movie",
     },
+    {
+      label: "Create Movie",
+      path: "/movie/create",
+    },
   ];
 
   const handleOnCreateMovie = async (dataSubmitted: any) => {
     let imgPath = "";
     let formData = new FormData();
 
-    if (dataSubmitted.poster.fileList.length !== 0) {
+    if (dataSubmitted.poster?.fileList?.length !== 0) {
       formData.append("file", dataSubmitted.poster.file);
       try {
         const response = await fetch("/api/attachment", {
@@ -53,7 +57,6 @@ const CreateMoviePage = () => {
         releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
         title: dataSubmitted.title,
       };
-
       mutate(finalData);
     }
   };
