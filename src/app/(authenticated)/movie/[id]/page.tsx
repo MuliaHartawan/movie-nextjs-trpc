@@ -5,6 +5,7 @@ import { Descriptions } from "antd";
 import { useParams } from "next/navigation";
 import { trpc } from "@/libs/trpc";
 import { transformMinutesToHours } from "../_utils/transform-minute";
+import Image from "next/image";
 
 const MovieDetailPage = () => {
   const params = useParams();
@@ -21,7 +22,15 @@ const MovieDetailPage = () => {
       <Section loading={false} title="Detail Movie">
         <Descriptions bordered column={2}>
           <Descriptions.Item span={2} label="Poster">
-            <img src={data?.poster ?? ""} alt="contoh gambar" width={300} height={300} />
+            <Image
+              src={data?.poster ?? ""}
+              alt="gambar poster"
+              width={300}
+              height={300}
+              style={{
+                objectFit: "cover",
+              }}
+            />
           </Descriptions.Item>
           <Descriptions.Item span={2} label="Title">
             {data?.title}

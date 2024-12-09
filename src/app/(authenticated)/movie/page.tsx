@@ -50,7 +50,7 @@ const MoviePage = () => {
       dataIndex: "description",
       key: "description",
       title: "Description",
-      render: (value, record) => {
+      render: (value) => {
         return <p>{truncateText(value)}</p>;
       },
     },
@@ -63,7 +63,7 @@ const MoviePage = () => {
       dataIndex: "duration",
       key: "duration",
       title: "Duration",
-      render: (value, record) => {
+      render: (value) => {
         return <p>{transformMinutesToHours(value)}</p>;
       },
     },

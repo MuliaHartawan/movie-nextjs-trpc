@@ -29,7 +29,6 @@ const CreateStudioPage = () => {
     },
   ];
 
-  // use any becase type additionalFacilities from formData is array
   const handleOnFinish = (data: TCreateOrUpdateStudioForm) => {
     const finalData = {
       capacity: Number(data?.capacity),

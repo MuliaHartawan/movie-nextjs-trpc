@@ -46,7 +46,7 @@ const MovieUpdatePage = () => {
     let imgPath = data?.poster;
     let formData = new FormData();
     setIsLoadingUpdate(true);
-    if (dataSubmitted.poster !== undefined) {
+    if (dataSubmitted.poster) {
       formData.append("file", dataSubmitted.poster.fileList[0].originFileObj);
       try {
         const response = await fetch("/api/attachment", {

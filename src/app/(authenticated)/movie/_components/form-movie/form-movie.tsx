@@ -18,6 +18,8 @@ import React, { FC, useCallback, useEffect, useState } from "react";
 import { UploadProps } from "antd/lib";
 import Icon from "@ant-design/icons";
 import { TMovieData } from "../../_types/movie-type";
+import { RcFile } from "antd/es/upload";
+import { TGenre } from "../../_types/genre-type";
 
 type Props = {
   formProps: FormProps;
@@ -39,7 +41,7 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
       rating: initValues?.rating,
       movieGenres: initValues?.movieGenres?.map((movieGenre: any) => movieGenre.genreId),
     });
-    if (initValues != null) {
+    if (initValues) {
       setFileList([
         {
           uid: "0",
@@ -53,7 +55,7 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
 
   useFormErrorHandling(form, error);
 
-  const genre: any[] = [
+  const genre: TGenre[] = [
     {
       genreId: "8bfccd4b-dfeb-4db0-b979-84a0841c817d",
       //label: "Action",
@@ -80,7 +82,7 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
   const uploadProps: UploadProps = {
     name: "file",
     maxCount: 1,
-    beforeUpload(file: any) {
+    beforeUpload(file: RcFile) {
       const isImage = file.type.startsWith("image/");
       if (!isImage) {
         message.error("You can only upload image files!");

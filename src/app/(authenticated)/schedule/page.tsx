@@ -49,7 +49,7 @@ const SchedulePage = () => {
       dataIndex: "screeningTime",
       key: "screeningTime",
       title: "Screening Time",
-      render: (screenTime: Date, record) => {
+      render: (screenTime: Date) => {
         return <p>{screenTime.toLocaleString("en-GB")}</p>;
       },
     },
