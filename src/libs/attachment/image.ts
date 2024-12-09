@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { v4 as uuidv4 } from "uuid";
+import { validateImageFile } from "@/utils/image-validate";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "posters");
 
@@ -12,14 +13,9 @@ export interface SaveFileResponse {
 
 export const storeMoviePoster = async (file: File): Promise<SaveFileResponse> => {
   try {
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
+    validateImageFile(file);
 
-    if (!file || file.size === 0) {
-      return {
-        success: false,
-        error: "No file uploaded or file is empty",
-      };
-    }
+    await fs.mkdir(UPLOAD_DIR, { recursive: true });
 
     const fileExtension = path.extname(file.name);
     const uniqueFileName = `${uuidv4()}${fileExtension}`;
