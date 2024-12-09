@@ -5,13 +5,22 @@ import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { MainLayout as Layout } from "admiral";
 import { TBreadcrumbsItem } from "admiral/breadcrumb";
-import { DashboardOutlined, PieChartFilled, TagOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  DesktopOutlined,
+  FileSyncOutlined,
+  HomeOutlined,
+  PieChartFilled,
+  TagOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 import { Session } from "next-auth";
 import { hasCommonElements } from "@/utils/type";
 import Image from "next/image";
 import { Flex, Grid, Typography } from "antd";
 import UserProfile from "./user-profile";
+import { permission } from "process";
 
 export type TMainLayoutProps = {
   title?: string;
@@ -45,6 +54,24 @@ const NavbarMenu = [
     label: <Link href="/snacks">Snacks</Link>,
     icon: <TagOutlined />,
     permissions: [PERMISSIONS.SNACK_READ],
+  },
+  {
+    key: "/movie",
+    label: <Link href="/movie">Movie</Link>,
+    icon: <DesktopOutlined />,
+    permissions: [PERMISSIONS.MOVIE_READ],
+  },
+  {
+    key: "/studio",
+    label: <Link href="/studio">Studio</Link>,
+    icon: <HomeOutlined />,
+    permissions: [PERMISSIONS.STUDIO_READ],
+  },
+  {
+    key: "/schedule",
+    label: <Link href="/schedule">Movie Schedule</Link>,
+    icon: <FileSyncOutlined />,
+    permissions: [PERMISSIONS.SCREEN_SCHEDULE_READ],
   },
 ];
 

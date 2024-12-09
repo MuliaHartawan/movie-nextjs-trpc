@@ -72,4 +72,40 @@ const permissionMapper = [
     url: ROUTE.ROLES_DETAIL,
     permissions: [PERMISSIONS.ROLE_DETAIL],
   },
+  {
+    url: ROUTE.MOVIE,
+    permissions: [PERMISSIONS.MOVIE_READ],
+  },
+  {
+    url: ROUTE.MOVIE_FORM,
+    permissions: [PERMISSIONS.MOVIE_CREATE, PERMISSIONS.MOVIE_UPDATE],
+  },
+  {
+    url: ROUTE.MOVIE_DETAIL,
+    permissions: [PERMISSIONS.MOVIE_DETAIL],
+  },
+  {
+    url: ROUTE.STUDIO,
+    permissions: [PERMISSIONS.STUDIO_READ],
+  },
+  {
+    url: ROUTE.STUDIO_FORM,
+    permissions: [PERMISSIONS.STUDIO_CREATE, PERMISSIONS.STUDIO_UPDATE],
+  },
+  {
+    url: ROUTE.STUDIO_DETAIL,
+    permissions: [PERMISSIONS.STUDIO_DETAIL],
+  },
+  {
+    url: ROUTE.SCHEDULE,
+    permissions: [PERMISSIONS.SCREEN_SCHEDULE_READ],
+  },
+  {
+    url: ROUTE.SCHEDULE_FORM,
+    permissions: [PERMISSIONS.SCREEN_SCHEDULE_CREATE, PERMISSIONS.SCREEN_SCHEDULE_UPDATE],
+  },
+  {
+    url: ROUTE.SCHEDULE_DETAIL,
+    permissions: [PERMISSIONS.SCREEN_SCHEDULE_DETAIL],
+  },
 ];
