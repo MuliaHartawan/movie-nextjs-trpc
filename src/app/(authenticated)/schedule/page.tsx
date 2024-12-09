@@ -8,7 +8,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { makeSource, makePagination } from "@/utils/datatable";
 import { ColumnsType } from "antd/es/table";
-import { TSchedule } from "./_types/schedule-types";
+import { TScheduleCollumn } from "./_types/schedule-types";
 import { Guard } from "@/app/_components/guard";
 import { PERMISSIONS } from "@/common/enums/permissions.enum";
 
@@ -34,7 +34,7 @@ const SchedulePage = () => {
       },
     });
 
-  const columns: ColumnsType<TSchedule> = [
+  const columns: ColumnsType<TScheduleCollumn> = [
     {
       dataIndex: "movieId",
       key: "movieId",

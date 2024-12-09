@@ -6,6 +6,8 @@ import { trpc } from "@/libs/trpc";
 import { useParams } from "next/navigation";
 import { message } from "antd";
 import { transformTRPCError } from "@/utils/error";
+import { TMovieCreateOrUpdateForm, TMovieData } from "../../_types/movie-type";
+import { TCreateOrUpdateMovieValidation } from "@/server/movie/validations/create-or-update-movie.validation";
 
 const MovieUpdatePage = () => {
   const params = useParams();
@@ -40,7 +42,7 @@ const MovieUpdatePage = () => {
     },
   ];
 
-  const handleOnUpdateMovie = async (dataSubmitted: any) => {
+  const handleOnUpdateMovie = async (dataSubmitted: TMovieCreateOrUpdateForm) => {
     let imgPath = data?.poster;
     let formData = new FormData();
     setIsLoadingUpdate(true);
@@ -66,7 +68,7 @@ const MovieUpdatePage = () => {
       rating: Number(dataSubmitted.rating),
       releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
       title: dataSubmitted.title,
-    };
+    } as TCreateOrUpdateMovieValidation;
 
     mutate({
       value: finalData,
@@ -83,7 +85,7 @@ const MovieUpdatePage = () => {
           onFinish: handleOnUpdateMovie,
           disabled: isGetMovieLoading,
         }}
-        initValues={data}
+        initValues={data as TMovieData}
       />
     </Page>
   );

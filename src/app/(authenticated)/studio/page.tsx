@@ -5,7 +5,7 @@ import { Button, Flex, message, Modal } from "antd";
 import { ColumnsType } from "antd/es/table";
 import Link from "next/link";
 import React, { useState } from "react";
-import { TStudio } from "./_types/studio-type";
+import { TStudioCollumns } from "./_types/studio-type";
 import { trpc } from "@/libs/trpc";
 import { makePagination, makeSource } from "@/utils/datatable";
 import { useFilter } from "@/hooks/datatable/use-filter";
@@ -33,7 +33,7 @@ const StudioPage = () => {
     },
   });
 
-  const columns: ColumnsType<TStudio> = [
+  const columns: ColumnsType<TStudioCollumns> = [
     {
       dataIndex: "name",
       key: "name",

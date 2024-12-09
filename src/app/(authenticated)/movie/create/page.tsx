@@ -5,6 +5,7 @@ import FormMovie from "../_components/form-movie/form-movie";
 import { TCreateOrUpdateMovieValidation } from "@/server/movie/validations/create-or-update-movie.validation";
 import { trpc } from "@/libs/trpc";
 import { message } from "antd";
+import { TMovieCreateOrUpdateForm } from "../_types/movie-type";
 
 const CreateMoviePage = () => {
   const [isCreateLoading, setIsCreateLoading] = useState<boolean>(false);
@@ -34,7 +35,7 @@ const CreateMoviePage = () => {
     },
   ];
 
-  const handleOnCreateMovie = async (dataSubmitted: any) => {
+  const handleOnCreateMovie = async (dataSubmitted: TMovieCreateOrUpdateForm) => {
     setIsCreateLoading(true);
     let imgPath = "";
     let formData = new FormData();
@@ -55,7 +56,7 @@ const CreateMoviePage = () => {
         rating: Number(dataSubmitted.rating),
         releaseDate: dataSubmitted.releaseDate.format("YYYY-MM-DD"),
         title: dataSubmitted.title,
-      };
+      } as TCreateOrUpdateMovieValidation;
 
       mutate(finalData);
     } catch (err) {

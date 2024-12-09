@@ -11,7 +11,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusCircleOutlined } from "@
 import { useFilter } from "@/hooks/datatable/use-filter";
 import { TPaginationResponse } from "@/types/meta";
 import { trpc } from "@/libs/trpc";
-import { TMovie } from "./_types/movie-type";
+import { TMovieCollumn } from "./_types/movie-type";
 import { truncateText } from "./_utils/truncate-text";
 import { transformMinutesToHours } from "./_utils/transform-minute";
 import { useState } from "react";
@@ -40,7 +40,7 @@ const MoviePage = () => {
     search: filters.search,
   });
 
-  const columns: ColumnsType<TMovie> = [
+  const columns: ColumnsType<TMovieCollumn> = [
     {
       dataIndex: "title",
       key: "title",

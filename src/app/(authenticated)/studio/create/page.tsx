@@ -6,6 +6,7 @@ import FormStudio from "../_components/form-studio";
 import { trpc } from "@/libs/trpc";
 import { TCreateOrUpdateStudioValidation } from "@/server/studio/validations/create-or-update-studio.validation";
 import { transformTRPCError } from "@/utils/error";
+import { TCreateOrUpdateStudioForm } from "../_types/studio-type";
 
 const CreateStudioPage = () => {
   const { mutate, error, isLoading } = trpc.studio.createStudio.useMutation({
@@ -29,13 +30,14 @@ const CreateStudioPage = () => {
   ];
 
   // use any becase type additionalFacilities from formData is array
-  const handleOnFinish = (data: any) => {
-    data = {
+  const handleOnFinish = (data: TCreateOrUpdateStudioForm) => {
+    const finalData = {
       capacity: Number(data?.capacity),
-      additionalFacilities: data.additionalFacilities.join(", "),
+      additionalFacilities: data?.additionalFacilities?.join(", "),
       name: data.name,
-    };
-    mutate(data);
+    } as TCreateOrUpdateStudioValidation;
+
+    mutate(finalData);
   };
 
   return (

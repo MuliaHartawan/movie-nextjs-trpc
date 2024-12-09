@@ -17,12 +17,13 @@ import dayjs from "dayjs";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { UploadProps } from "antd/lib";
 import Icon from "@ant-design/icons";
+import { TMovieData } from "../../_types/movie-type";
 
 type Props = {
   formProps: FormProps;
   loading: boolean;
   error: CustomException | null;
-  initValues?: any;
+  initValues?: TMovieData;
 };
 
 const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
@@ -36,7 +37,7 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
       duration: initValues?.duration,
       releaseDate: initValues ? dayjs(initValues?.releaseDate) : null,
       rating: initValues?.rating,
-      movieGenres: initValues?.movieGenres.map((movieGenre: any) => movieGenre.genreId),
+      movieGenres: initValues?.movieGenres?.map((movieGenre: any) => movieGenre.genreId),
     });
     if (initValues != null) {
       setFileList([
@@ -44,7 +45,7 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
           uid: "0",
           name: "latest movie image",
           status: "done",
-          url: initValues?.poster,
+          url: initValues?.poster ?? "",
         },
       ]);
     }
@@ -148,10 +149,6 @@ const FormMovie: FC<Props> = ({ formProps, error, loading, initValues }) => {
           label="New Poster URL"
           name="poster"
           rules={[
-            {
-              required: true,
-              message: "Poster data must be fill",
-            },
             {
               validator: (_, values) => {
                 if (fileList?.length == 0 || fileList == undefined) {

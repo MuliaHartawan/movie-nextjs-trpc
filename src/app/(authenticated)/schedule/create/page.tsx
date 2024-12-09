@@ -5,6 +5,8 @@ import React from "react";
 import FormSchedule from "../_components/form-schedule";
 import { trpc } from "@/libs/trpc";
 import { transformTRPCError } from "@/utils/error";
+import { TScheduleCreateOrUpdateForm } from "../_types/schedule-types";
+import { TCreateOrUpdateScreenScheduleValidation } from "@/server/screen-schedule/validations/create-or-update-screen-schedule.validation";
 
 const CreateSchedulePage = () => {
   const { mutate, isLoading, error } = trpc.screenSchedule.createScreenSchedule.useMutation({
@@ -30,14 +32,14 @@ const CreateSchedulePage = () => {
     },
   ];
 
-  // tidak bisa menggunakan type dari backend, karena data yang diminta dengan data dari form berbeda dan harus diconvert
-  const onCreateSchedule = (data: any) => {
-    data = {
-      ...data,
+  const onCreateSchedule = (data: TScheduleCreateOrUpdateForm) => {
+    const finalData = {
       screeningTime: data?.screeningTime.format("YYYY-MM-DD"),
       price: Number(data?.price),
-    };
-    mutate(data);
+      studioId: data?.studioId,
+      movieId: data?.movieId,
+    } as TCreateOrUpdateScreenScheduleValidation;
+    mutate(finalData);
   };
   return (
     <Page title="Create Schedule" breadcrumbs={breadcrumbs}>

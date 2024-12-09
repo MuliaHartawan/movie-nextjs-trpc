@@ -1,4 +1,4 @@
-export type TStudio = {
+export type TStudioCollumns = {
   id: string;
   name: string;
   capacity: number;

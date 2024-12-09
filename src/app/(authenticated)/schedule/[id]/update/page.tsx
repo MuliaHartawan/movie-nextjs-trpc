@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { Page } from "admiral";
 import { transformTRPCError } from "@/utils/error";
 import { message } from "antd";
+import { TScheduleCreateOrUpdateForm } from "../../_types/schedule-types";
+import { TCreateOrUpdateScreenScheduleValidation } from "@/server/screen-schedule/validations/create-or-update-screen-schedule.validation";
 
 const UpdateSchedulePage = () => {
   const params = useParams();
@@ -25,15 +27,16 @@ const UpdateSchedulePage = () => {
     },
   );
 
-  // tidak bisa menggunakan type dari backend, karena data yang diminta dengan data dari form berbeda dan harus diconvert
-  const onUpdateSchedule = (data: any) => {
-    data = {
-      ...data,
+  const onUpdateSchedule = (data: TScheduleCreateOrUpdateForm) => {
+    const finalData = {
       screeningTime: data?.screeningTime.format("YYYY-MM-DD"),
       price: Number(data?.price),
-    };
+      studioId: data?.studioId,
+      movieId: data?.movieId,
+    } as TCreateOrUpdateScreenScheduleValidation;
+
     mutate({
-      value: data,
+      value: finalData,
       id: scheduleId,
     });
   };

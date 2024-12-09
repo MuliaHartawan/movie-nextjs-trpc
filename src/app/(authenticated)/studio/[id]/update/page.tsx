@@ -7,6 +7,7 @@ import { trpc } from "@/libs/trpc";
 import { useParams } from "next/navigation";
 import { TCreateOrUpdateStudioValidation } from "@/server/studio/validations/create-or-update-studio.validation";
 import { transformTRPCError } from "@/utils/error";
+import { TCreateOrUpdateStudioForm } from "../../_types/studio-type";
 
 const UpdateStudioPage = () => {
   const params = useParams();
@@ -36,15 +37,15 @@ const UpdateStudioPage = () => {
     },
   ];
 
-  // use any becase type additionalFacilities from formData is array
-  const onUpdateDataSubmit = (data: any) => {
-    data = {
+  const onUpdateDataSubmit = (data: TCreateOrUpdateStudioForm) => {
+    const finalData = {
       capacity: Number(data?.capacity),
-      additionalFacilities: data.additionalFacilities.join(", "),
+      additionalFacilities: data?.additionalFacilities?.join(", "),
       name: data.name,
-    };
+    } as TCreateOrUpdateStudioValidation;
+
     mutate({
-      value: data,
+      value: finalData,
       id: studioId,
     });
   };
