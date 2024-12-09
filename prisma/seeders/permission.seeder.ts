@@ -53,6 +53,51 @@ export async function permissionSeeder() {
     {
       name: PERMISSIONS.ROLE_READ,
     },
+    {
+      name: PERMISSIONS.MOVIE_CREATE,
+    },
+    {
+      name: PERMISSIONS.MOVIE_UPDATE,
+    },
+    {
+      name: PERMISSIONS.MOVIE_DELETE,
+    },
+    {
+      name: PERMISSIONS.MOVIE_DETAIL,
+    },
+    {
+      name: PERMISSIONS.MOVIE_READ,
+    },
+    {
+      name: PERMISSIONS.STUDIO_CREATE,
+    },
+    {
+      name: PERMISSIONS.STUDIO_UPDATE,
+    },
+    {
+      name: PERMISSIONS.STUDIO_DELETE,
+    },
+    {
+      name: PERMISSIONS.STUDIO_DETAIL,
+    },
+    {
+      name: PERMISSIONS.STUDIO_READ,
+    },
+    {
+      name: PERMISSIONS.SCREEN_SCHEDULE_CREATE,
+    },
+    {
+      name: PERMISSIONS.SCREEN_SCHEDULE_UPDATE,
+    },
+    {
+      name: PERMISSIONS.SCREEN_SCHEDULE_DELETE,
+    },
+    {
+      name: PERMISSIONS.SCREEN_SCHEDULE_DETAIL,
+    },
+    {
+      name: PERMISSIONS.SCREEN_SCHEDULE_READ,
+    },
   ];
 
   await prisma.permission.createMany({
