@@ -57,11 +57,6 @@ export const updateMovieAction = async ({
   // Validation
   await validate(createOrUpdateMovieSchema, value);
 
-  const movie = await findOneMovieById(id);
-  if (!movie) {
-    throw new NotFoundException("Movie tidak ditemukan!");
-  }
-
   await updateMovieAndGenres(id, {
     title: value.title,
     releaseDate: new Date(value.releaseDate),
@@ -76,11 +71,6 @@ export const updateMovieAction = async ({
 export const deleteMovieAction = async (id: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.MOVIE_DELETE]);
-
-  const movie = await findOneMovieById(id);
-  if (!movie) {
-    throw new NotFoundException("Movie tidak ditemukan!");
-  }
 
   await deleteMovieById(id);
 };
