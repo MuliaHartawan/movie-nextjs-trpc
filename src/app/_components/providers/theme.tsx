@@ -6,11 +6,11 @@ import Link from "next/link";
 const theme: TThemeConfig = {
   components: {
     Menu: {
-      itemColor: "#B5F5EC",
-      itemSelectedColor: "#B5F5EC",
-      itemHoverBg: "#08979C",
+      itemColor: "#FFFFFF",
+      itemSelectedColor: "#FFFFFF",
+      itemHoverBg: "#1d4ed8",
       itemHoverColor: "#B5F5EC",
-      itemSelectedBg: "#08979C",
+      itemSelectedBg: "#1d4ed8",
       fontSize: 14,
       horizontalItemSelectedColor: "#08979C",
     },
@@ -20,13 +20,13 @@ const theme: TThemeConfig = {
     },
   },
   token: {
-    colorPrimary: "#006D75",
+    colorPrimary: "#3b82f6",
     colorLink: "#006D75",
   },
   admiral: {
     Sidebar: {
-      colorBg: "#006D75",
-      colorText: "#B5F5EC",
+      colorBg: "#3b82f6",
+      colorText: "#FFFFFF",
     },
     Page: {
       NavigationAs: ({ path, label }) => <Link href={path}>{label}</Link>,

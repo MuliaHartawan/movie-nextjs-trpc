@@ -40,7 +40,7 @@ model Role {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  users User[]
+  users           User[]
   rolePermissions RolePermission[]
 
   @@map("roles")
