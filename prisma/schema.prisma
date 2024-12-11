@@ -14,18 +14,18 @@ datasource db {
 }
 
 model User {
-  id              String    @id @default(uuid()) @db.VarChar(255)
-  email           String    @unique @db.VarChar(255)
-  fullname        String?   @db.VarChar(255)
-  address         String?   @db.Text
-  password        String    @db.VarChar(255)
-  otp             String?   @db.VarChar(255)
-  image           String?   @default("https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png") @db.VarChar(255)
+  id             String    @id @default(uuid()) @db.VarChar(255)
+  email          String    @unique @db.VarChar(255)
+  fullname       String?   @db.VarChar(255)
+  address        String?   @db.Text
+  password       String    @db.VarChar(255)
+  otp            String?   @db.VarChar(255)
+  image          String?   @db.VarChar(255) @default("https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png")
   emailVerifiedAt DateTime? @map("email_verified_at")
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
-  roleId          String?   @map("role_id") @db.VarChar(255)
-  deletedAt       DateTime? @map("deleted_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  roleId         String?   @db.VarChar(255) @map("role_id")
+  deletedAt      DateTime? @map("deleted_at")
 
   // Relations
   role Role? @relation(fields: [roleId], references: [id])
@@ -59,53 +59,54 @@ model Permission {
 }
 
 model RolePermission {
-  roleId       String @map("role_id") @db.VarChar(255)
-  permissionId String @map("permission_id") @db.VarChar(255)
+  roleId       String   @map("role_id") @db.VarChar(255)
+  permissionId String   @map("permission_id") @db.VarChar(255)
 
   // Relations
   role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@id([roleId, permissionId])
+
   @@map("role_permissions")
 }
 
 model Movie {
   id          String    @id @default(uuid()) @db.VarChar(255)
   title       String    @db.VarChar(255)
-  releaseDate DateTime? @map("release_date") @db.Date
+  releaseDate DateTime? @db.Date  @map("release_date")
   duration    Int?
   description String?
   rating      Int?      @db.Int()
-  poster      String?   @map("poster") @db.Text
+  poster      String?   @db.Text @map("poster")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
 
-  movieGenres        MovieGenres[]
-  genres             Genre[]
+  movieGenres MovieGenres[]
+  genres      Genre[]
   screeningSchedules ScreeningSchedule[]
 
   @@map("movie")
 }
 
 model Genre {
-  id        String   @id @default(uuid()) @db.VarChar(255)
-  name      String   @unique @db.VarChar(100)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String    @id @default(uuid()) @db.VarChar(255)
+  name        String    @unique @db.VarChar(100)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
 
   movieGenres MovieGenres[]
   movies      Movie[]
 
-  @@map("genre")
+   @@map("genre")
 }
 
 model MovieGenres {
   movieId String @map("movie_id") @db.VarChar(255)
   genreId String @map("genre_id") @db.VarChar(255)
 
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
-  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
 
   @@id([movieId, genreId])
   @@index([movieId])
@@ -114,24 +115,24 @@ model MovieGenres {
 }
 
 model Studio {
-  id                   String              @id @default(uuid()) @db.VarChar(255)
-  name                 String
-  capacity             Int
-  additionalFacilities String?             @map("additional_facilities")
-  screeningSchedules   ScreeningSchedule[]
+  id                    String   @id @default(uuid()) @db.VarChar(255)
+  name                  String
+  capacity              Int
+  additionalFacilities  String?  @map("additional_facilities")
+  screeningSchedules    ScreeningSchedule[]
 
-  @@map("studio")
+   @@map("studio")
 }
 
 model ScreeningSchedule {
-  id            String   @id @default(uuid()) @db.VarChar(255)
-  screeningTime DateTime @map("screening_time")
-  price         Float
-  studioId      String   @map("studio_id") @db.VarChar(255)
-  movieId       String   @map("movie_id") @db.VarChar(255)
+  id             String    @id @default(uuid()) @db.VarChar(255)
+  screeningTime  DateTime  @map("screening_time")
+  price          Float
+  studioId       String @map("studio_id") @db.VarChar(255)
+  movieId        String @map("movie_id") @db.VarChar(255)
 
-  studio Studio @relation(fields: [studioId], references: [id])
-  movie  Movie  @relation(fields: [movieId], references: [id])
+  studio         Studio @relation(fields: [studioId], references: [id])
+  movie          Movie  @relation(fields: [movieId], references: [id])
 
-  @@map("screening_schedule")
+   @@map("screening_schedule")
 }

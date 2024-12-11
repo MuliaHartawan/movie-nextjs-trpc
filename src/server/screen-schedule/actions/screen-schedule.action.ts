@@ -56,11 +56,6 @@ export const updateScreenScheduleAction = async ({
   // Validation
   await validate(createOrUpdateScreenScheduleSchema, value);
 
-  const screenSchedule = await findOneScreenScheduleById(id);
-  if (!screenSchedule) {
-    throw new NotFoundException("Screen schedule tidak ditemukan!");
-  }
-
   await updateScreenScheduleAndGenres(id, {
     screeningTime: new Date(value.screeningTime),
     price: value.price,
@@ -72,11 +67,6 @@ export const updateScreenScheduleAction = async ({
 export const deleteScreenScheduleAction = async (id: string) => {
   // Permission authorization
   await serverCheckPermission([PERMISSIONS.SCREEN_SCHEDULE_DELETE]);
-
-  const screenSchedule = await findOneScreenScheduleById(id);
-  if (!screenSchedule) {
-    throw new NotFoundException("Screen schedule tidak ditemukan!");
-  }
 
   await deleteScreenScheduleById(id);
 };

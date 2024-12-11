@@ -1,3 +1,4 @@
+import { REGEX_ENUM } from "@/common/enums/regex-enum";
 import { z } from "zod";
 
 export const createOrUpdateMovieSchema = z.object({
@@ -10,7 +11,7 @@ export const createOrUpdateMovieSchema = z.object({
     .string({
       message: "Release date harus berupa string",
     })
-    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Format release date harus YYYY-MM-DD" }),
+    .regex(REGEX_ENUM.DATE_FORMAT_YYYY_MM_DD, { message: "Format release date harus YYYY-MM-DD" }),
 
   duration: z
     .number()
